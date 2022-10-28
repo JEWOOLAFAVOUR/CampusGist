@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PropTypes from 'prop-types'
 
 // SCREENS
 import SplashScreen from './SplashScreen';
@@ -8,11 +9,13 @@ import Login from './Login';
 import Register from './Register';
 import Onboarding from './Onboarding';
 import BottomTab from '../../navigator/BottomTab';
+import { connect } from 'react-redux';
 
-const AuthStack = () => {
+const AuthStack = ({ ...props }) => {
+    const { isOnboardingDisabled } = props;
     const Stack = createNativeStackNavigator();
     return (
-        <Stack.Navigator initialRouteName='Bottom' screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName={isOnboardingDisabled ? 'Splash' : 'Onboarding'} screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Splash' component={SplashScreen} />
             <Stack.Screen name='Bottom' component={BottomTab} />
             <Stack.Screen name='Login' component={Login} />
@@ -22,6 +25,16 @@ const AuthStack = () => {
     )
 }
 
-export default AuthStack
+AuthStack.propTypes = {
+    isOnboardingDisabled: PropTypes.bool.isRequired
+}
+
+const mapStateToProps = (state) => {
+    return {
+        isOnboardingDisabled: state.auth.isOnboardingDisabled
+    }
+}
+
+export default connect(mapStateToProps)(AuthStack)
 
 const styles = StyleSheet.create({})

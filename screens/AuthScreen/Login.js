@@ -1,10 +1,43 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { useTheme } from '@react-navigation/native';
+import { SIZES, COLORS, FONTS, icons } from '../../constants';
 
 const Login = () => {
+    const { colors: { background } } = useTheme();
+
     return (
-        <View>
-            <Text>Login</Text>
+        <View style={{ flex: 1, backgroundColor: background }}>
+            <ScrollView>
+                <View>
+                    <Text>Welcome</Text>
+                    <Text>Sign in to access more features.</Text>
+                </View>
+
+                <View>
+                    <View>
+                        <View>
+                            <TextInput
+                                placeholder="Enter Email"
+                                keyboardType='email-address'
+                            />
+                        </View>
+                    </View>
+
+                    <View>
+                        <View>
+                            <TextInput
+                                placeholder="Enter Password"
+                                secureTextEntry={true}
+                            />
+                        </View>
+                        <TouchableOpacity>
+
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+            </ScrollView>
         </View>
     )
 }

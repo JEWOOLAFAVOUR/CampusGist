@@ -6,6 +6,9 @@ import { Provider } from 'react-redux'
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import reduxStore from './redux/store';
+import constants from './redux/constants';
+
+const { MyDarkTheme, MyLightTheme } = constants;
 
 export const reduxPersistStore = persistStore(reduxStore);
 
@@ -13,7 +16,7 @@ const App = () => {
   return (
     <Provider store={reduxStore}>
       <PersistGate persistor={reduxPersistStore}>
-        <NavigationContainer>
+        <NavigationContainer theme={MyLightTheme}>
           <AuthStack />
         </NavigationContainer>
       </PersistGate>
