@@ -10,7 +10,7 @@ export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export const COLORS = {
     blue: '#1e4079',
-    primary: '#1e4079',
+    primary: '#182952',
     orange: '#e93d25',
     brown: '#26262d',
     white: '#ffffff',
@@ -31,12 +31,13 @@ export const SIZES = {
     h2a: screenHeight * 0.0340,
     h2c: screenHeight * 0.0245,
     h3: screenHeight * 0.0225,
-    h3a: screenHeight * 0.0225,
+    h3a: screenHeight * 0.0235,
     h4: screenHeight * 0.0175,
     h5: screenHeight * 0.015,
-    body1: screenHeight * 0.0375,
+    body1: screenHeight * 0.0355,
     body2: screenHeight * 0.025,
     body3: screenHeight * 0.02,
+    body3a: screenHeight * 0.021,
     body4: screenHeight * 0.0175,
     body5: screenHeight * 0.015,
     intro: screenHeight * 0.04,
@@ -102,10 +103,18 @@ export const FONTS = {
         fontFamily: 'Roboto-Regular',
         fontSize: SIZES.body2 * 0.95,
         lineHeight: 30,
+    }, body2c: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: SIZES.body2 * 1.3,
+        lineHeight: 30,
     },
     body3: {
         fontFamily: 'Roboto-Regular',
         fontSize: SIZES.body3,
+        lineHeight: 22,
+    }, body3a: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: SIZES.body3a,
         lineHeight: 22,
     },
     body4: {

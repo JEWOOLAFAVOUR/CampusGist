@@ -13,6 +13,10 @@ const { MyDarkTheme, MyLightTheme } = constants;
 export const reduxPersistStore = persistStore(reduxStore);
 
 const App = () => {
+  // const setUrlConfig = () => {
+  //   console.log('called setUrlConfig');
+  //   axios.defaults.baseURL = BASE_PATH;
+  // }
   return (
     <Provider store={reduxStore}>
       <PersistGate persistor={reduxPersistStore}>

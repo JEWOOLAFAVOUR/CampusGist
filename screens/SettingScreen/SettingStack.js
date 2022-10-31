@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Setting from './Setting';
+import EditProfile from './EditProfile';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,6 +23,10 @@ const SettingStack = () => {
                 <Stack.Screen
                     name='Setting'
                     component={Setting}
+                />
+                <Stack.Screen
+                    name='EditProfile'
+                    component={EditProfile}
                 />
             </Stack.Navigator>
         </View>

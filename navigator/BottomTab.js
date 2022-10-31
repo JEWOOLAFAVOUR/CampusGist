@@ -1,6 +1,7 @@
 import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 import React from 'react';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+// import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, FONTS, icons, SIZES } from '../constants';
 
 // Stack Screens
@@ -11,7 +12,7 @@ import SettingStack from '../screens/SettingScreen/SettingStack';
 
 const { width, height } = Dimensions.get('window');
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
     return (
