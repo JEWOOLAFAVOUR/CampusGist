@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './Home';
-import PostClick from './PostClick';
+import PostDetail from './PostDetail';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,10 +24,10 @@ const HomeStack = () => {
                     name='Home'
                     component={Home}
                 />
-                {/* <Stack.Screen
-                    name='PostClick'
-                    component={PostClick}
-                /> */}
+                <Stack.Screen
+                    name='PostDetail'
+                    component={PostDetail}
+                />
             </Stack.Navigator>
         </View>
     );

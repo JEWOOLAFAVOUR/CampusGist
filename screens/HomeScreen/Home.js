@@ -1,15 +1,21 @@
 import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import AllGist from './AllGist'
 import World from './World'
 import Magazine from './Magazine'
 import Business from './Business'
+import { connect } from 'react-redux'
 
 const { width, height } = Dimensions.get('window');
 
-const Home = () => {
+const Home = ({ ...props }) => {
+
+    useEffect(() => {
+        // console.log('props ', props)
+    }, [])
+
     const Tab = createMaterialTopTabNavigator();
     return (
         <View
@@ -44,11 +50,21 @@ const Home = () => {
                 <Tab.Screen name="Business" component={Business} />
                 <Tab.Screen name="Magazine" component={Magazine} />
                 <Tab.Screen name="World" component={World} />
-            </Tab.Navigator >
+            </Tab.Navigator>
         </View>
     )
 }
 
-export default Home
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
 
 const styles = StyleSheet.create({})

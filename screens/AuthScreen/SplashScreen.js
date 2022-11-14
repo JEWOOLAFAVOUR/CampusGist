@@ -3,7 +3,15 @@ import React, { useState, useEffect } from 'react'
 import { FONTS } from '../../constants'
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { COLORS, images } from '../../constants';
-const SplashScreen = () => {
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { setTokenInterceptor } from '../../utils/setTokenInterceptor';
+
+const SplashScreen = ({ ...props }) => {
+
+    const { isLoggedIn, user } = props;
+    // console.log('real props', props)
+
     const [isVisible, setIsVisible] = useState(true);
     const navigation = useNavigation();
 
@@ -15,9 +23,13 @@ const SplashScreen = () => {
     }
 
     useEffect(() => {
+        // console.log('access token inside splashscreen ', accessToken);
         setTimeout(() => {
+            if (isLoggedIn) {
+                setTokenInterceptor(user)
+            }
             hideSplashScreen()
-            navigation.navigate('Login');
+            navigation.navigate(isLoggedIn ? 'Bottom' : 'Login');
         }, 1000);
     }, []);
 
@@ -25,7 +37,7 @@ const SplashScreen = () => {
         return (
             <View style={styles.splash}>
                 <View style={styles.childView}>
-                    <Image source={dark ? images.image2 : images.image1} style={{ height: 150, width: 150, resizeMode: 'contain' }} />
+                    <Image source={dark ? images.image1 : images.image2} style={{ height: 150, width: 150, resizeMode: 'contain' }} />
                 </View>
             </View>
         )
@@ -40,7 +52,23 @@ const SplashScreen = () => {
     )
 }
 
-export default SplashScreen
+SplashScreen.propTypes = {
+    user: PropTypes.object.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+
+};
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);
 
 const styles = StyleSheet.create({
     mainContainer: {

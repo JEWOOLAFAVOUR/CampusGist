@@ -30,7 +30,7 @@ const BottomTab = () => {
                     },
                     tabBarStyle: {
                         height: 55,
-                        backgroundColor: 'red',
+                        backgroundColor: COLORS.white,
                         borderTopWidth: 1,
                     },
                     tabBarIcon: ({ focused, size, colour }) => {

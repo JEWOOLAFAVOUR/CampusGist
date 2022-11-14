@@ -1,5 +1,5 @@
 import { images } from "../../constants";
-import PostClick from "./PostClick";
+import PostDetail from "./PostDetail";
 
 export const homeData = [
     {
@@ -10,7 +10,7 @@ export const homeData = [
         postContent: "Nigeria React As Clip Showing What Peter Obi's Son Does For A Living in AMerica Surfaces",
         postCommentNum: '160',
         postReaction: '602',
-        onPress: PostClick,
+        onPress: PostDetail,
     }, {
         id: 2,
         postImage: images.profile2,
@@ -19,7 +19,7 @@ export const homeData = [
         postContent: "JUST IN: 'I won't govern Nigeria from Dubai' - Tinibu hits Atiku again",
         postCommentNum: '200',
         postReaction: '400',
-        onPress: PostClick,
+        onPress: PostDetail,
     }, {
         id: 3,
         postImage: images.profile3,
@@ -28,7 +28,7 @@ export const homeData = [
         postContent: "One million student, farmers to get scholarship, agric loans under Prof. Imumolean's",
         postCommentNum: '80',
         postReaction: '1.5k',
-        onPress: PostClick,
+        onPress: PostDetail,
     }, {
         id: 4,
         postImage: images.profile4,
@@ -37,7 +37,7 @@ export const homeData = [
         postContent: "Photos As President Buhari Arrives in South Korean For First World Bio Summit",
         postCommentNum: '500',
         postReaction: '200',
-        onPress: PostClick,
+        onPress: PostDetail,
     }, {
         id: 5,
         postImage: images.image2,
@@ -46,7 +46,7 @@ export const homeData = [
         postContent: "We are English but also Nigerian - Tammy Abraham and Tomori discuss heritage",
         postCommentNum: '300',
         postReaction: '120',
-        onPress: PostClick,
+        onPress: PostDetail,
     },
 ];
 
