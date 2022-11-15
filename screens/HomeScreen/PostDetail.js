@@ -1,8 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { COLORS, FONTS, icons, images, SIZES } from '../../constants';
 import RelatedPost from './RelatedPost';
+
+const copy = `# h1 Heading 8-)
+ 
+**This is some bold text!**
+ 
+This is normal text
+`;
 
 const PostDetail = ({ route }) => {
     const navigation = useNavigation();
@@ -18,6 +26,10 @@ const PostDetail = ({ route }) => {
 
         return images.profile6
     }
+
+    // const rules = {
+    //     paragraph
+    // }
 
     if (!post) return null;
 
@@ -37,37 +49,45 @@ const PostDetail = ({ route }) => {
                 </View>
                 {/* <View style={{ height: 1.5, elevation: 2, backgroundColor: '#cdcdcd' }} /> */}
             </View>
-            <View style={{}}>
-                <Image source={getImage(thumbnail)} style={{ height: SIZES.height / 2.4, width: SIZES.width }} />
-                {/* <TouchableOpacity onPress={() => navigation.goBack()} style={styles.roundIconCtn}>
+
+            {/* ScrollView */}
+            <ScrollView>
+                <View style={{}}>
+                    <Image source={getImage(thumbnail)} style={{ height: SIZES.height / 2.4, width: SIZES.width }} />
+                    {/* <TouchableOpacity onPress={() => navigation.goBack()} style={styles.roundIconCtn}>
                     <Image source={icons.arrowleft} style={{ height: SIZES.h2, width: SIZES.h2 }} />
                 </TouchableOpacity> */}
-            </View>
-
-            {/* BODY  */}
-            <View style={{ paddingHorizontal: SIZES.width * 0.02, marginTop: SIZES.base }}>
-                <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>Desire that they cannot foresee the pain and trouble</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity>
-                            <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black, fontWeight: 'bold' }}>{author}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {
-                            tags.map((tag, index) => (
-                                <Text key={tag + index} style={{ ...FONTS.body3b, color: COLORS.black }}>#{tag}</Text>
-                            ))
-                        }
-                    </View>
                 </View>
 
-                {/* RELATED POST  */}
-                <RelatedPost postId={post.id} />
-            </View>
+                {/* BODY  */}
+                <View style={{ paddingHorizontal: SIZES.width * 0.02, marginTop: SIZES.base }}>
+                    <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>Desire that they cannot foresee the pain and trouble</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <TouchableOpacity>
+                                <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black, fontWeight: 'bold' }}>{author}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            {
+                                tags.map((tag, index) => (
+                                    <Text key={tag + index} style={{ ...FONTS.body3b, color: COLORS.black }}>#{tag}</Text>
+                                ))
+                            }
+                        </View>
+
+                    </View>
+                    <Markdown>
+                        {content}
+                    </Markdown>
+
+                    {/* RELATED POST  */}
+                    {/* <RelatedPost postId={post.id} /> */}
+                </View>
+            </ScrollView>
         </View>
     )
 }
