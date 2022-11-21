@@ -5,11 +5,15 @@ import Slider from './Slider'
 import { homeData } from './homeData'
 import { useNavigation } from '@react-navigation/native'
 import { getLatestPosts, getSinglePost } from '../../api/post'
+import dateFormat from 'dateformat'
+import { connect } from 'react-redux'
+
 
 let pageNo = 0;
 const limit = 5;
 
-const AllGist = () => {
+const AllGist = ({ ...props }) => {
+    const { accessToken, user } = props;
     const [featuredPosts, setFeaturedPosts] = useState([])
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
@@ -19,7 +23,7 @@ const AllGist = () => {
         const { error, posts } = await getLatestPosts(limit, pageNo);
         if (error) return console.log(error)
 
-        console.log('post', posts)
+        // console.log('post', posts)
 
         setLatestPost(posts)
     }
@@ -46,7 +50,7 @@ const AllGist = () => {
         console.log('first jv', post)
 
         if (error) console.log('singlepost error', error)
-        navigation.navigate('PostDetail', { post })
+        navigation.navigate('PostDetail', { post, accessToken })
 
     }
 
@@ -78,7 +82,7 @@ const AllGist = () => {
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 3 }}>
                                 <Text style={{ ...FONTS.body4, color: COLORS.black }}>{data.author}</Text>
                                 <Text style={{ ...FONTS.body4, color: COLORS.black, marginLeft: SIZES.base * 0.7 }}>&#8226;</Text>
-                                <Text style={{ ...FONTS.body4, color: COLORS.black, marginLeft: SIZES.base * 0.7 }}>{data.createdAt}</Text>
+                                <Text style={{ ...FONTS.body4, color: COLORS.black, marginLeft: SIZES.base * 0.7 }}>{dateFormat(data.createdAt, 'mediumDate')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ marginRight: SIZES.base, padding: SIZES.base * 0.9 }}>
                                 <Image source={icons.horizontalmenu} style={{ height: SIZES.radius * 1, width: SIZES.h2 * 1 }} />
@@ -131,7 +135,17 @@ const AllGist = () => {
     )
 }
 
-export default AllGist
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllGist)
 
 const styles = StyleSheet.create({
     gistCtn: {

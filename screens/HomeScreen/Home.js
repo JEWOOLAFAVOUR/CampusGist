@@ -11,9 +11,10 @@ import { connect } from 'react-redux'
 const { width, height } = Dimensions.get('window');
 
 const Home = ({ ...props }) => {
-
+    const { accessToken } = props
+    console.log('accessToken Home', accessToken)
     useEffect(() => {
-        // console.log('props ', props)
+        console.log('props at home', props)
     }, [])
 
     const Tab = createMaterialTopTabNavigator();
@@ -46,7 +47,7 @@ const Home = ({ ...props }) => {
                     },
                 })}
             >
-                <Tab.Screen name="AllGist" component={AllGist} />
+                <Tab.Screen name="AllGist" hello={accessToken} component={AllGist} />
                 <Tab.Screen name="Business" component={Business} />
                 <Tab.Screen name="Magazine" component={Magazine} />
                 <Tab.Screen name="World" component={World} />

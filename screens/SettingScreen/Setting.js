@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch, ScrollView } from 'react-native'
 import React from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
@@ -45,10 +45,10 @@ const Setting = () => {
     ];
     const RenderHeader = () => {
         return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base }}>
+            <View style={styles.headerCtn}>
                 <Image source={images.profile4} style={styles.profileImage} />
                 <View style={{ marginLeft: SIZES.h5, flex: 1 }}>
-                    <Text style={{ fontSize: SIZES.h3, fontWeight: 'bold', color: COLORS.blue }}>Oluwasegun Boluwatife</Text>
+                    <Text numberOfLines={1} style={{ fontSize: SIZES.h3, fontWeight: 'bold', color: COLORS.blue }}>Oluwasegun Boluwatife</Text>
                     <Text style={{ fontSize: SIZES.h4 * 1.2, color: COLORS.blue }}>oluwasegun123</Text>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('EditProfile')} style={styles.editCtn}>
@@ -59,12 +59,12 @@ const Setting = () => {
     }
     const RenderFooter = () => {
         return (
-            <View>
+            <View style={{ paddingHorizontal: SIZES.width * 0.055, }}>
                 <Text style={{ ...FONTS.body2a, color: COLORS.blue, marginBottom: SIZES.h3 }}>Summary</Text>
                 {
                     settingData2.map((data, index) => {
                         return (
-                            <TouchableOpacity activeOpacity={0.6} key={index} style={styles.container}>
+                            <TouchableOpacity activeOpacity={0.3} key={index} style={[styles.container, { marginHorizontal: 0 }]}>
                                 <View style={styles.iconCtn}>
                                     <Image source={data.iconName} style={{ height: SIZES.h2, width: SIZES.h2 }} />
                                 </View>
@@ -79,7 +79,9 @@ const Setting = () => {
     }
     return (
         <View style={styles.page}>
-            <Text style={{ ...FONTS.body2c, alignSelf: 'center', color: COLORS.blue }}>Settings</Text>
+            <Text style={{ ...FONTS.body2c, fontWeight: 'bold', alignSelf: 'center', color: COLORS.blue }}>Settings</Text>
+            <View style={{ height: 2, backgroundColor: COLORS.chocolateBackground, marginTop: SIZES.base, marginBottom: SIZES.h4 }} />
+            {/* <View style={{ paddingHorizontal: SIZES.width * 0.055 }}> */}
             <FlatList
                 ListHeaderComponent={RenderHeader}
                 ListFooterComponent={RenderFooter}
@@ -87,7 +89,7 @@ const Setting = () => {
                 data={settingData1}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity activeOpacity={0.6} style={styles.container}>
+                        <TouchableOpacity activeOpacity={0.2} style={styles.container}>
                             <View style={styles.iconCtn}>
                                 <Image source={item.iconName} style={{ height: SIZES.h2, width: SIZES.h2 }} />
                             </View>
@@ -98,6 +100,8 @@ const Setting = () => {
                     )
                 }}
             />
+            {/* </View> */}
+            <View style={{ marginBottom: SIZES.h1 * 2 }} />
         </View>
     )
 }
@@ -108,8 +112,18 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: COLORS.white,
-        paddingHorizontal: SIZES.width * 0.06,
         paddingTop: SIZES.h5
+    },
+    headerCtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: SIZES.width * 0.055,
+        marginTop: SIZES.base,
+        height: SIZES.h1 * 3,
+        borderWidth: 2,
+        borderColor: COLORS.chocolateBackground,
+        paddingHorizontal: SIZES.width * 0.03,
+        borderRadius: SIZES.base,
     },
     editCtn: {
         height: SIZES.h1,
@@ -127,10 +141,16 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SIZES.h2
+        marginHorizontal: SIZES.width * 0.055,
+        marginBottom: SIZES.h5,
+        height: SIZES.h1 * 1.8,
+        borderWidth: 2,
+        borderColor: COLORS.chocolateBackground,
+        paddingHorizontal: SIZES.width * 0.03,
+        borderRadius: SIZES.base,
     },
     iconCtn: {
-        height: SIZES.h1 * 1.1,
+        height: SIZES.h1 * 1.2,
         width: SIZES.h1 * 1.1,
         borderRadius: SIZES.radius,
         justifyContent: 'center',

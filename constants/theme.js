@@ -15,6 +15,10 @@ export const COLORS = {
     brown: '#26262d',
     white: '#ffffff',
     black: '#000000',
+    grey: '#161615',
+    // chocolate: '#9fa09e',
+    chocolate: '#5d5c6c',
+    chocolateBackground: '#CECFCD',
 };
 
 export const SIZES = {
@@ -104,6 +108,10 @@ export const FONTS = {
         fontFamily: 'Roboto-Regular',
         fontSize: SIZES.body2 * 0.95,
         lineHeight: 30,
+    }, body2b: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: SIZES.body2 * 0.935,
+        lineHeight: 30,
     }, body2c: {
         fontFamily: 'Roboto-Regular',
         fontSize: SIZES.body2 * 1.3,
@@ -111,7 +119,7 @@ export const FONTS = {
     },
     body3: {
         fontFamily: 'Roboto-Regular',
-        fontSize: SIZES.body3,
+        fontSize: SIZES.body3 * 1.05,
         lineHeight: 22,
     }, body3a: {
         fontFamily: 'Roboto-Regular',

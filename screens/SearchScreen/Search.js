@@ -1,39 +1,68 @@
 import { StyleSheet, Text, View, Image, FlatList, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
+import { useState } from 'react';
+import { searchPost } from '../../api/post';
+import { useNavigation } from '@react-navigation/native';
+
+const trendData = [
+    {
+        id: 1,
+        trendHashtag: '#dropbox',
+        numOfTrend: '3,059',
+    }, {
+        id: 2,
+        trendHashtag: 'Tems',
+        numOfTrend: '1,908',
+    }, {
+        id: 3,
+        trendHashtag: 'Abuja',
+        numOfTrend: '700',
+    }, {
+        id: 4,
+        trendHashtag: '#PayCMPayPM',
+        numOfTrend: '240',
+    }, {
+        id: 5,
+        trendHashtag: 'Rust',
+        numOfTrend: '78',
+    },
+];
 
 const Search = () => {
-    const trendData = [
-        {
-            id: 1,
-            trendHashtag: '#dropbox',
-            numOfTrend: '3,059',
-        }, {
-            id: 2,
-            trendHashtag: 'Tems',
-            numOfTrend: '1,908',
-        }, {
-            id: 3,
-            trendHashtag: 'Abuja',
-            numOfTrend: '700',
-        }, {
-            id: 4,
-            trendHashtag: '#PayCMPayPM',
-            numOfTrend: '240',
-        }, {
-            id: 5,
-            trendHashtag: 'Rust',
-            numOfTrend: '78',
-        },
-    ];
+    const navigation = useNavigation()
+    const [query, setQuery] = useState("")
+    const [results, setResults] = useState([])
+    const [notFound, setNotFound] = useState(false)
     const RenderHeader = () => {
+
+        const handleOnSubmit = async () => {
+            if (!query.trim()) return;
+            // submit the form
+            const { error, posts } = await searchPost(query)
+            if (error) return console.log('search error', error)
+            console.log('search result', posts)
+            if (!posts) return setNotFound(true)
+            navigation.push('SearchResult', posts, error)
+
+            setResults([...posts])
+        }
         return (
             <View style={styles.searchCtn}>
                 <Image source={images.profile4} style={{ height: SIZES.h1 * 1.2, width: SIZES.h1 * 1.2, borderRadius: 100 }} />
                 <View style={styles.searchInputCtn}>
-                    <TextInput placeholder='Search CampusGist' placeholderTextColor={COLORS.black} style={{ ...FONTS.body3a, color: COLORS.black }} />
+                    <TextInput
+                        value={query}
+                        onChangeText={(text) => setQuery(text)}
+                        placeholder="search"
+                        // placeholderTextColor={COLORS.black}
+                        style={{ ...FONTS.body3a, color: COLORS.black }}
+                    // onSubmitEditing={handleOnSubmit}
+                    />
                 </View>
-                <Image source={icons.setting} style={{ height: SIZES.h2 * 1.2, width: SIZES.h2 * 1.2 }} />
+                <TouchableOpacity onPress={() => handleOnSubmit()}>
+                    <Image source={icons.send} style={{ height: SIZES.h2 * 1.2, width: SIZES.h2 * 1.2 }} />
+                </TouchableOpacity>
             </View>
         )
     }

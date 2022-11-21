@@ -9,8 +9,8 @@ import { setTokenInterceptor } from '../../utils/setTokenInterceptor';
 
 const SplashScreen = ({ ...props }) => {
 
-    const { isLoggedIn, user } = props;
-    // console.log('real props', props)
+    const { isLoggedIn, user, accessToken } = props;
+
 
     const [isVisible, setIsVisible] = useState(true);
     const navigation = useNavigation();
@@ -23,7 +23,7 @@ const SplashScreen = ({ ...props }) => {
     }
 
     useEffect(() => {
-        // console.log('access token inside splashscreen ', accessToken);
+        console.log('access token inside splashscreen ', accessToken);
         setTimeout(() => {
             if (isLoggedIn) {
                 setTokenInterceptor(user)

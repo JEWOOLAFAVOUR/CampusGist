@@ -18,6 +18,6 @@ export const updateUserLogin = (user, isLoggedIn) => {
 export const updateUserAccessToken = (accessToken) => {
     return {
         type: UPDATE_USER_ACCESS_TOKEN,
-        accessToken  // === accessToken: accessToken
+        accessToken
     }
 }

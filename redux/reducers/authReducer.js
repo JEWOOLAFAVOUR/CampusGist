@@ -14,17 +14,17 @@ const authReducer = (state = initialState, action) => {
         case UPDATE_ONBOARDING_STATUS:
             return {
                 ...state, isOnboardingDisabled: status
-            }
+            };
 
         case UPDATE_USER_LOGIN:
             return {
                 ...state, user, isLoggedIn
-            }
+            };
 
         case UPDATE_USER_ACCESS_TOKEN:
             return {
                 ...state, accessToken
-            }
+            };
         default:
             return state;
     }

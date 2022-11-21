@@ -7,7 +7,7 @@ import { COLORS, FONTS, icons, SIZES } from '../constants';
 // Stack Screens
 import HomeStack from '../screens/HomeScreen/HomeStack';
 import SearchStack from '../screens/SearchScreen/SearchStack';
-import NotificationStack from '../screens/NotificationScreen/NotificationStack';
+// import NotificationStack from '../screens/NotificationScreen/NotificationStack';
 import SettingStack from '../screens/SettingScreen/SettingStack';
 
 const { width, height } = Dimensions.get('window');
@@ -43,11 +43,13 @@ const BottomTab = () => {
                             iconName = focused ? icons.search : icons.search
                             size = focused ? SIZES.h2 : SIZES.h2,
                                 colour = focused ? COLORS.primary : COLORS.brown
-                        } else if (route.name === 'Notification') {
-                            iconName = focused ? icons.notification : icons.notification
-                            size = focused ? SIZES.h2 : SIZES.h2,
-                                colour = focused ? COLORS.primary : COLORS.brown
-                        } else if (route.name === 'Setting') {
+                        }
+                        // else if (route.name === 'Notification') {
+                        //     iconName = focused ? icons.notification : icons.notification
+                        //     size = focused ? SIZES.h2 : SIZES.h2,
+                        //         colour = focused ? COLORS.primary : COLORS.brown
+                        // } 
+                        else if (route.name === 'Setting') {
                             iconName = focused ? icons.setting : icons.setting
                             size = focused ? SIZES.h2 : SIZES.h2,
                                 colour = focused ? COLORS.primary : COLORS.brown
@@ -59,7 +61,7 @@ const BottomTab = () => {
             >
                 <Tab.Screen name='Home' component={HomeStack} />
                 <Tab.Screen name='Search' component={SearchStack} />
-                <Tab.Screen name='Notification' component={NotificationStack} />
+                {/* <Tab.Screen name='Notification' component={NotificationStack} /> */}
                 <Tab.Screen name='Setting' component={SettingStack} />
             </Tab.Navigator>
         </View>

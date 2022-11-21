@@ -11,6 +11,7 @@ import * as authActions from '../../redux/actions/authAction'
 import PropTypes from 'prop-types'
 import { setTokenInterceptor } from '../../utils/setTokenInterceptor';
 
+
 const signInValidationSchema = yup.object().shape({
     email: yup.string()
         .email('Please enter a valid email')
@@ -53,9 +54,8 @@ const Login = ({ ...props }) => {
                                 setShowSpinner(false);
                                 navigation.navigate('Bottom')
                                 updateUserLogin(res, true)
-                                updateUserAccessToken(res.accessToken)
+                                updateUserAccessToken(res.user.accessToken)
                                 setTokenInterceptor(res)
-
                                 console.log('User coming from state', user)
                                 console.log('isLoggedIn coming from state', isLoggedIn)
                                 // showSnackBar('Successfully LoggedIn')
@@ -149,7 +149,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     updateUserLogin: (user, isLoggedIn) => dispatch(authActions.updateUserLogin(user, isLoggedIn)),
-    updateUserAccessToken: (accessToken) => dispatch(authActions.updateUserAccessToken(accessToken))
+    updateUserAccessToken: (token) => dispatch(authActions.updateUserAccessToken(token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
