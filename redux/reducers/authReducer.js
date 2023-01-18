@@ -7,6 +7,7 @@ const initialState = {
     accessToken: ""
 }
 
+
 const authReducer = (state = initialState, action) => {
     const { status, type, isLoggedIn, user, accessToken } = action;
 
