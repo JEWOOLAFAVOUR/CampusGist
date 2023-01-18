@@ -3,6 +3,10 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Setting from './Setting';
 import EditProfile from './EditProfile';
+import ContactUs from './ContactUs';
+import Saved from './Saved';
+import AboutUs from './AboutUs';
+import Notification from './Notification';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,6 +31,22 @@ const SettingStack = () => {
                 <Stack.Screen
                     name='EditProfile'
                     component={EditProfile}
+                />
+                <Stack.Screen
+                    name='ContactUs'
+                    component={ContactUs}
+                />
+                <Stack.Screen
+                    name='Saved'
+                    component={Saved}
+                />
+                <Stack.Screen
+                    name='AboutUs'
+                    component={AboutUs}
+                />
+                <Stack.Screen
+                    name='Notification'
+                    component={Notification}
                 />
             </Stack.Navigator>
         </View>

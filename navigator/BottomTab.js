@@ -37,22 +37,22 @@ const BottomTab = () => {
                         let iconName;
                         if (route.name === 'Home') {
                             iconName = focused ? icons.home : icons.home
-                            size = focused ? SIZES.h2 : SIZES.h2,
-                                colour = focused ? COLORS.primary : COLORS.brown
+                            size = focused ? SIZES.h1 : SIZES.h1,
+                                colour = focused ? COLORS.orange : COLORS.brown
                         } else if (route.name === 'Search') {
                             iconName = focused ? icons.search : icons.search
-                            size = focused ? SIZES.h2 : SIZES.h2,
-                                colour = focused ? COLORS.primary : COLORS.brown
+                            size = focused ? SIZES.h1 : SIZES.h1,
+                                colour = focused ? COLORS.orange : COLORS.brown
                         }
                         // else if (route.name === 'Notification') {
                         //     iconName = focused ? icons.notification : icons.notification
                         //     size = focused ? SIZES.h2 : SIZES.h2,
                         //         colour = focused ? COLORS.primary : COLORS.brown
                         // } 
-                        else if (route.name === 'Setting') {
-                            iconName = focused ? icons.setting : icons.setting
-                            size = focused ? SIZES.h2 : SIZES.h2,
-                                colour = focused ? COLORS.primary : COLORS.brown
+                        else if (route.name === 'Account') {
+                            iconName = focused ? icons.person : icons.person
+                            size = focused ? SIZES.h1 : SIZES.h1,
+                                colour = focused ? COLORS.orange : COLORS.brown
                         }
                         return <Image source={iconName} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9, tintColor: colour }} />
                     },
@@ -62,7 +62,7 @@ const BottomTab = () => {
                 <Tab.Screen name='Home' component={HomeStack} />
                 <Tab.Screen name='Search' component={SearchStack} />
                 {/* <Tab.Screen name='Notification' component={NotificationStack} /> */}
-                <Tab.Screen name='Setting' component={SettingStack} />
+                <Tab.Screen name='Account' component={SettingStack} />
             </Tab.Navigator>
         </View>
     )

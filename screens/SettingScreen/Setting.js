@@ -2,6 +2,10 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch, Scro
 import React from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
+import Saved from './Saved'
+import ContactUs from './ContactUs'
+import AboutUs from './AboutUs'
+import Notification from './Notification'
 
 const Setting = () => {
     const navigation = useNavigation();
@@ -10,37 +14,37 @@ const Setting = () => {
             id: 1,
             title: 'Dark mode',
             iconName: icons.moon,
-        }, {
-            id: 2,
-            title: 'Notification',
-            iconName: icons.notification,
         },
     ];
     const settingData2 = [
         {
             id: 1,
-            title: 'News by location',
-            iconName: icons.location,
+            title: 'Notification',
+            iconName: icons.bell,
+            onPress: Notification,
         }, {
             id: 2,
-            title: 'Offline reading',
-            iconName: icons.clock,
-        }, {
+            title: 'Saved',
+            iconName: icons.bookmark,
+            onPress: Saved,
+        }, /*{
             id: 3,
-            title: 'Language',
-            iconName: icons.notification,
-        }, {
+            title: 'Setting',
+            iconName: icons.setting,
+        }, */{
             id: 4,
-            title: 'Block content and sources',
-            iconName: icons.block,
+            title: 'Contact Us',
+            iconName: icons.contact,
+            onPress: ContactUs,
         }, {
             id: 5,
-            title: 'Help',
-            iconName: icons.question,
+            title: 'About Us',
+            iconName: icons.about,
+            onPress: AboutUs,
         }, {
             id: 6,
-            title: 'SIgnout',
-            iconName: icons.notification,
+            title: 'Signout',
+            iconName: icons.logout,
         },
     ];
     const RenderHeader = () => {
@@ -64,7 +68,7 @@ const Setting = () => {
                 {
                     settingData2.map((data, index) => {
                         return (
-                            <TouchableOpacity activeOpacity={0.3} key={index} style={[styles.container, { marginHorizontal: 0 }]}>
+                            <TouchableOpacity onPress={() => navigation.navigate(data.onPress)} activeOpacity={0.3} key={index} style={[styles.container, { marginHorizontal: 0 }]}>
                                 <View style={styles.iconCtn}>
                                     <Image source={data.iconName} style={{ height: SIZES.h2, width: SIZES.h2 }} />
                                 </View>
@@ -120,8 +124,8 @@ const styles = StyleSheet.create({
         marginHorizontal: SIZES.width * 0.055,
         marginTop: SIZES.base,
         height: SIZES.h1 * 3,
-        borderWidth: 2,
-        borderColor: COLORS.chocolateBackground,
+        borderWidth: 0.5,
+        borderColor: COLORS.blue,
         paddingHorizontal: SIZES.width * 0.03,
         borderRadius: SIZES.base,
     },
@@ -144,8 +148,8 @@ const styles = StyleSheet.create({
         marginHorizontal: SIZES.width * 0.055,
         marginBottom: SIZES.h5,
         height: SIZES.h1 * 1.8,
-        borderWidth: 2,
-        borderColor: COLORS.chocolateBackground,
+        borderWidth: 0.5,
+        borderColor: COLORS.blue,
         paddingHorizontal: SIZES.width * 0.03,
         borderRadius: SIZES.base,
     },
@@ -156,6 +160,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1.5,
-        borderColor: COLORS.blue,
+        borderColor: COLORS.chocolate,
     },
 })

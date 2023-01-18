@@ -25,6 +25,7 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state, accessToken
             };
+
         default:
             return state;
     }

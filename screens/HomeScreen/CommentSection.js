@@ -21,7 +21,7 @@ const CommentSection = ({ item, index }) => {
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ ...FONTS.body3, color: COLORS.black, marginRight: SIZES.base * 0.9, fontWeight: 'bold' }}>{item.numOfReaction}</Text>
-                    <Image source={icons.notification} style={{ height: SIZES.h2, width: SIZES.h2 }} />
+                    <Image source={icons.thumb} style={{ height: SIZES.h2, width: SIZES.h2 }} />
                 </View>
             </View>
         </View>

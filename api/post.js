@@ -65,10 +65,11 @@ export const getSinglePost = async (slug) => {
 export const addComment = async (postId, values, token) => {
     // console.log('post Id', postId, token, values)
     console.log('post Id', token)
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNzU4ZTUzMGI3YWJmZjRlZmI2MGZhZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NzI2MzMzODcsImV4cCI6MTY3MzQ5NzM4N30.az52ewehIKsheRyMsbhfaY1p181EmY10lgnCrwjTTM4"
     try {
         const { data } = await client.post(`/post/${postId}/comments/create`, values, {
             headers: {
-                "Authorization": `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         })
         // console.log('data', data)

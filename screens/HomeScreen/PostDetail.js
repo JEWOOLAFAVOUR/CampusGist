@@ -40,10 +40,6 @@ const PostDetail = ({ route }) => {
         return images.profile6
     }
 
-    // const rules = {
-    //     paragraph
-    // }
-
     if (!post) return null;
 
     const { title, thumbnail, tags, createdAt, author, content, id } = post;
@@ -114,7 +110,7 @@ const PostDetail = ({ route }) => {
 
                     {/* TOGGLE LIKE */}
                     <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
-                        <Image source={icons.notification} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                        <Image source={icons.thumb} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
                         <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>41</Text>
                     </TouchableOpacity>
                     {/* RELATED POST  */}
