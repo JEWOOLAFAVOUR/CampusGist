@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import dateFormat from 'dateformat'
 import { getSinglePost } from '../../api/post';
@@ -20,11 +20,13 @@ const PostList = ({ data }) => {
     const fetchSinglePost = async (slug) => {
         const { error, post } = await getSinglePost(slug)
         console.log('first jv', post)
-
-        if (error) console.log('singlepost error', error)
         navigation.navigate('PostDetail', { post })
+        if (error) console.log('singlepost error', error)
 
     }
+    // useEffect(() => {
+    //     fetchSinglePost()
+    // }, [])
     return (
         <View style={styles.gistCtn}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

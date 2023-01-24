@@ -22,6 +22,7 @@ export const question = require('../assets/icons/question.png')
 export const search = require('../assets/icons/search.png')
 export const setting = require('../assets/icons/setting.png')
 export const send = require('../assets/icons/send.png')
+export const star = require('../assets/icons/star.png')
 export const thumb = require('../assets/icons/thumb.png')
 export const verticalmenu = require('../assets/icons/verticalmenu.png')
 
@@ -51,6 +52,7 @@ export default {
     search,
     setting,
     send,
+    star,
     thumb,
     verticalmenu,
 }

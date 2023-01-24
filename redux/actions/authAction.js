@@ -11,7 +11,7 @@ export const updateUserLogin = (user, isLoggedIn) => {
     return {
         type: UPDATE_USER_LOGIN,
         user,
-        isLoggedIn
+        isLoggedIn,
     }
 }
 

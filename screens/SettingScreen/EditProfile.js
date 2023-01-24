@@ -3,7 +3,8 @@ import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS, SIZES, icons, images } from '../../constants';
 
-const EditProfile = () => {
+const EditProfile = ({ route }) => {
+    const data = route.params?.data
     const ToastMessage = () => {
         ToastAndroid.show("Edited successfully!", ToastAndroid.SHORT);
     }
@@ -17,12 +18,12 @@ const EditProfile = () => {
         {
             id: 1,
             title: 'Name',
-            defaultValue: 'Oluwasegun Boluwatife',
+            defaultValue: data.fullname,
             placeholder: 'Oluwasegun Boluwatife'
         }, {
             id: 2,
             title: 'Username',
-            defaultValue: 'oluwasegun123',
+            defaultValue: data.username,
             placeholder: 'oluwasegun123'
         }, {
             id: 3,
@@ -31,9 +32,9 @@ const EditProfile = () => {
             placeholder: 'Website'
         }, {
             id: 4,
-            title: 'Bio',
+            title: 'Level',
             defaultValue: '',
-            placeholder: 'Bio'
+            placeholder: 'Level'
         },
     ];
     return (

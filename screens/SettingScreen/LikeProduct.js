@@ -1,0 +1,67 @@
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import React from 'react'
+import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+
+const { width, height } = Dimensions.get('window');
+
+const LikeProduct = () => {
+    const Tab = createMaterialTopTabNavigator();
+    const Post = () => {
+        return (
+            <View style={styles.page}>
+                <Text style={{ fontSize: SIZES.h1 * 3, color: COLORS.black }}>Post</Text>
+            </View>
+        )
+    }
+    const Media = () => {
+        return (
+            <View style={styles.page}>
+                <Text style={{ fontSize: SIZES.h1 * 3, color: COLORS.black }}>Media</Text>
+            </View>
+        )
+    }
+    const Saved = () => {
+        return (
+            <View style={styles.page}>
+                <Text style={{ fontSize: SIZES.h1 * 3, color: COLORS.black }}>Saved</Text>
+            </View>
+        )
+    }
+    return (
+        <View
+            style={{
+                // paddingHorizontal: SIZES.width * 1,
+                width,
+                height,
+                backgroundColor: COLORS.white,
+            }}>
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
+                    // tabBarShowLabel: true,
+                    tabBarIndicatorStyle: {
+                        backgroundColor: COLORS.orange,
+                        height: 3.0,
+                        borderRadius: SIZES.radius,
+                    },
+                })}
+            >
+                <Tab.Screen name="Post" component={Post} />
+                <Tab.Screen name="Media" component={Media} />
+                <Tab.Screen name="Saved" component={Saved} />
+            </Tab.Navigator>
+        </View>
+    )
+}
+
+export default LikeProduct
+
+const styles = StyleSheet.create({
+    page: {
+        flex: 1,
+        backgroundColor: COLORS.white,
+        alignItems: 'center',
+        // justifyContent: 'center',
+        paddingTop: SIZES.h1 * 2
+    },
+})

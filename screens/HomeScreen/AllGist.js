@@ -8,13 +8,24 @@ import { getLatestPosts, getSinglePost } from '../../api/post'
 import dateFormat from 'dateformat'
 import { connect } from 'react-redux'
 import PostList from './PostList'
+import PropTypes from 'prop-types'
+import * as newActions from '../../redux/actions/newsAction'
 
 
 let pageNo = 0;
-const limit = 5;
+const limit = 50;
 
 const AllGist = ({ ...props }) => {
-    const { accessToken, user } = props;
+    // console.log('first', props)
+    const { accessToken, user, updatePostDetails, posts } = props;
+    // const loadingPost = 
+    console.log('news', posts)
+    const homePostData = posts;
+
+    const kaka = () => {
+        homePostData
+    }
+    console.log('data cool', homePostData)
     const [featuredPosts, setFeaturedPosts] = useState([])
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
@@ -28,7 +39,11 @@ const AllGist = ({ ...props }) => {
         // console.log('post', posts)
 
         setLatestPost(posts)
+        updatePostDetails(latestPost)
+        // console.log('updatePostNew', posts)
+
     }
+
 
     const fetchMorePosts = async () => {
         console.log('runnings')
@@ -61,7 +76,9 @@ const AllGist = ({ ...props }) => {
     }
 
     useEffect(() => {
-        fetchLatestPosts()
+        fetchLatestPosts();
+        kaka();
+        homePostData;
     }, [])
 
     const navigation = useNavigation();
@@ -123,10 +140,10 @@ const AllGist = ({ ...props }) => {
                     keyExtractor={(item) => item.id}
                     ListHeaderComponentStyle={{ marginBottom: SIZES.h5 }}
                     showsVerticalScrollIndicator={false}
-                    data={latestPost}
+                    data={homePostData}
                     // renderItem={({ item }) => <RenderItem data={item} />}
                     renderItem={({ item }) => <PostList data={item} />}
-                    onEndReached={async () => await fetchMorePosts()}
+                    // onEndReached={async () => await fetchMorePosts()}
                     onEndReachedThreshold={1}
                     ListFooterComponent={() => {
                         return reachedEnd ? <Text style={{ color: COLORS.orange, textAlign: 'center', paddingVertical: 50 }}>You reached to end!</Text> : null
@@ -137,15 +154,23 @@ const AllGist = ({ ...props }) => {
     )
 }
 
+AllGist.prototype = {
+    post: PropTypes.array.isRequired,
+    updatePostDetails: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = (state) => {
     return {
         user: state.auth.user,
         isLoggedIn: state.auth.isLoggedIn,
         accessToken: state.auth.accessToken,
+        posts: state.news.posts
     }
 }
 
-const mapDispatchToProps = (dispatch) => { return {} }
+const mapDispatchToProps = (dispatch) => ({
+    updatePostDetails: (posts) => dispatch(newActions.updatePostDetails(posts))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllGist)
 

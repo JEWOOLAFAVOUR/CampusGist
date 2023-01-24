@@ -30,6 +30,7 @@ export const getLatestPosts = async (limit, pageNo) => {
 
 export const getSinglePost = async (slug) => {
     try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2M3M2NhMGZmNDNiNGIwNTk0ZWQ0MyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NzQzNDM0MjgsImV4cCI6MTY3NDQyOTgyOH0.n67C0CH0u0v-_tS9FDGQ5v215eZ-3DqMHfkKqCLnejM"
         const { data } = await client(`/post/single/${slug}`)
         // console.log(data)
         return data
@@ -115,6 +116,20 @@ export const getSimilerPost = async (id) => {
 export const searchPost = async (query) => {
     try {
         const { data } = await client(`/post/search?title=${query}`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}
+
+export const getUser = async (userId) => {
+    try {
+        const { data } = await client(`/user/find/${userId}`)
         // console.log(data)
         return data
     } catch (error) {

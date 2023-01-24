@@ -24,6 +24,6 @@ export default ContactUs
 const styles = StyleSheet.create({
     page: {
         flex: 1,
-        backgroundColor: COLORS.white
+        backgroundColor: COLORS.white,
     }
 })

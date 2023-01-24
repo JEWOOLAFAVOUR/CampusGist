@@ -3,6 +3,8 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './Home';
 import PostDetail from './PostDetail';
+import ProfilePage from './ProfilePage';
+import Notification from './Notification';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,6 +29,14 @@ const HomeStack = () => {
                 <Stack.Screen
                     name='PostDetail'
                     component={PostDetail}
+                />
+                <Stack.Screen
+                    name='ProfilePage'
+                    component={ProfilePage}
+                />
+                <Stack.Screen
+                    name='Notification'
+                    component={Notification}
                 />
             </Stack.Navigator>
         </View>

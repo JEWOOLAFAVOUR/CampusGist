@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Account from './Account';
 import Setting from './Setting';
 import EditProfile from './EditProfile';
 import ContactUs from './ContactUs';
 import Saved from './Saved';
 import AboutUs from './AboutUs';
-import Notification from './Notification';
+// import Notification from './Notification';
+import ChangeBio from './ChangeBio';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,10 +22,14 @@ const SettingStack = () => {
                 height,
             }}>
             <Stack.Navigator
-                // initialRouteName="Profile"
+                initialRouteName="Account"
                 screenOptions={{
                     headerShown: false
                 }}>
+                <Stack.Screen
+                    name='Account'
+                    component={Account}
+                />
                 <Stack.Screen
                     name='Setting'
                     component={Setting}
@@ -44,9 +50,13 @@ const SettingStack = () => {
                     name='AboutUs'
                     component={AboutUs}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='Notification'
                     component={Notification}
+                /> */}
+                <Stack.Screen
+                    name='ChangeBio'
+                    component={ChangeBio}
                 />
             </Stack.Navigator>
         </View>

@@ -1,6 +1,9 @@
 import axios from "axios";
+import constants from "../redux/constants";
 
-const client = axios.create({ baseURL: 'http://192.168.43.192:4000/api/v1/' })
+const { BASE_URL } = constants;
+
+const client = axios.create({ baseURL: BASE_URL })
 
 // console.log('ddddd', client);
 export default client

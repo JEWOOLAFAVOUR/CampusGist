@@ -30,6 +30,8 @@ const PostDetail = ({ route }) => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
+
+    // useEffect(() => { route }, [])
     // console.log('this is route', route)
     const post = route.params?.post;
     const token = route.params?.accessToken;
@@ -43,6 +45,7 @@ const PostDetail = ({ route }) => {
     if (!post) return null;
 
     const { title, thumbnail, tags, createdAt, author, content, id } = post;
+    console.log('post details', post)
 
     const postId = id;
     // console.log('first', postId)
@@ -57,21 +60,21 @@ const PostDetail = ({ route }) => {
         <View style={{ flex: 1 }}>
             <StatusBar />
             {/* HEADER SECTION */}
-            <View>
+            <View style={{ backgroundColor: COLORS.primary }}>
                 <View style={styles.headerCtn}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: 10, paddingVertical: 4 }}>
-                        <Image source={icons.arrowleft} style={{ height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
+                        <Image source={icons.arrowleft} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ paddingLeft: 10, paddingVertical: 4 }}>
-                        <Image source={icons.verticalmenu} style={{ height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
+                        <Image source={icons.verticalmenu} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
                     </TouchableOpacity>
                 </View>
-                <View style={{ height: 1.5, elevation: 1, backgroundColor: '#cdcdcd' }} />
+                {/* <View style={{ height: 1.5, elevation: 1, backgroundColor: '#cdcdcd' }} /> */}
             </View>
 
             {/* ScrollView */}
             {/* <View> */}
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView key={id} style={{ flex: 1 }}>
 
 
                 {/* BODY  */}
@@ -80,11 +83,13 @@ const PostDetail = ({ route }) => {
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.h4 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <TouchableOpacity>
-                                <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black }}>{author}</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View>
+                                    <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
+                                </View>
+                                <View onPress={() => navigation.navigate('ProfilePage')}>
+                                    <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black }}>{author}</Text>
+                                </View>
                             </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>

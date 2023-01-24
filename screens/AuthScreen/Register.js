@@ -9,6 +9,9 @@ import { registerUser } from '../../api/auth';
 
 
 const signUpValidationSchema = yup.object().shape({
+    fullname: yup
+        .string()
+        .required('Fullname is missing'),
     username: yup
         .string()
         .required('Username is missing'),
@@ -36,13 +39,14 @@ const Register = () => {
     return (
         <View style={{ flex: 1, backgroundColor: background, paddingHorizontal: SIZES.width * 0.05 }}>
             <ScrollView>
-                <View style={{ marginTop: SIZES.h1 * 1.5, marginBottom: SIZES.h1 * 2 }}>
+                <View style={{ marginTop: SIZES.h1 * 1, marginBottom: SIZES.h1 * 1 }}>
                     <Text style={{ ...FONTS.navTitle, color: COLORS.black }}>Register</Text>
                     <Text style={{ ...FONTS.body3, }}>Sign in to access more features.</Text>
                 </View>
                 <Formik
                     validationSchema={signUpValidationSchema}
                     initialValues={{
+                        fullname: '',
                         username: '',
                         email: '',
                         password: '',
@@ -75,6 +79,18 @@ const Register = () => {
                 >
                     {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
                         <>
+                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>FullName</Text>
+                            <View style={styles.inputCtn}>
+                                <TextInput
+                                    placeholder='Enter Fullname'
+                                    name='fullname'
+                                    onChangeText={handleChange('fullname')}
+                                    style={{ ...FONTS.body3 }}
+                                />
+                                {(errors.fullname && touched.fullname) &&
+                                    <Text style={styles.errorText}>{errors.fullname}</Text>}
+                            </View>
+                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Username</Text>
                             <View style={styles.inputCtn}>
                                 <TextInput
                                     placeholder='Enter Username'
@@ -82,9 +98,10 @@ const Register = () => {
                                     onChangeText={handleChange('username')}
                                     style={{ ...FONTS.body3 }}
                                 />
-                                {(errors.name && touched.name) &&
-                                    <Text>{errors.name}</Text>}
+                                {(errors.username && touched.username) &&
+                                    <Text style={styles.errorText}>{errors.username}</Text>}
                             </View>
+                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Email</Text>
                             <View style={styles.inputCtn}>
                                 <TextInput
                                     placeholder='Enter Email'
@@ -94,8 +111,9 @@ const Register = () => {
                                     style={{ ...FONTS.body3 }}
                                 />
                                 {(errors.email && touched.email) &&
-                                    <Text>{errors.email}</Text>}
+                                    <Text style={styles.errorText}>{errors.email}</Text>}
                             </View>
+                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text>
                             <View>
                                 <View style={[styles.inputCtn, { marginBottom: 0, flexDirection: 'row', alignItems: 'center' }]}>
                                     <TextInput
@@ -109,7 +127,7 @@ const Register = () => {
                                     </TouchableOpacity>
                                 </View>
                                 {(errors.password && touched.password) &&
-                                    <Text>{errors.password}</Text>}
+                                    <Text style={styles.errorText}>{errors.password}</Text>}
                             </View>
                             {/* BUTTON  */}
                             <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 1.2, flexDirection: 'row', alignItems: 'center' }]}>
@@ -159,5 +177,10 @@ const styles = StyleSheet.create({
         borderRadius: SIZES.base,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    errorText: {
+        color: 'red',
+        ...FONTS.body4,
+        marginVertical: SIZES.base * 0.3,
     },
 })

@@ -4,7 +4,7 @@ const initialState = {
     isOnboardingDisabled: false,
     isLoggedIn: false,
     user: {},
-    accessToken: ""
+    accessToken: "",
 }
 
 
@@ -26,7 +26,6 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state, accessToken
             };
-
         default:
             return state;
     }

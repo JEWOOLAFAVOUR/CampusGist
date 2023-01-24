@@ -38,7 +38,7 @@ const Login = ({ ...props }) => {
     return (
         <View style={{ flex: 1, backgroundColor: background, paddingHorizontal: SIZES.width * 0.05 }}>
             <ScrollView>
-                <View style={{ marginTop: SIZES.h1 * 1.5, marginBottom: SIZES.h1 * 2 }}>
+                <View style={{ marginTop: SIZES.h1 * 1.5, marginBottom: SIZES.h1 * 1.5 }}>
                     <Text style={{ ...FONTS.navTitle, color: COLORS.black }}>Welcome</Text>
                     <Text style={{ ...FONTS.body3, }}>Sign in to access more features.</Text>
                 </View>
@@ -69,6 +69,7 @@ const Login = ({ ...props }) => {
                         {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
 
                             <>
+                                <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Email</Text>
                                 <View style={styles.inputCtn}>
                                     <TextInput
                                         name="email"
@@ -78,8 +79,9 @@ const Login = ({ ...props }) => {
                                         onChangeText={handleChange('email')}
                                     />
                                     {(errors.email && touched.email) &&
-                                        <Text>{errors.email}</Text>}
+                                        <Text style={{ ...FONTS.body4, color: 'red', marginVertical: SIZES.base * 0.3, }}>{errors.email}</Text>}
                                 </View>
+                                <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text>
                                 <View>
                                     <View style={[styles.inputCtn, { marginBottom: 0, flexDirection: 'row', alignItems: 'center' }]}>
                                         <TextInput
@@ -95,7 +97,7 @@ const Login = ({ ...props }) => {
                                         </TouchableOpacity>
                                     </View>
                                     {(errors.password && touched.password) &&
-                                        <Text>{errors.password}</Text>}
+                                        <Text style={{ ...FONTS.body4, color: 'red', marginVertical: SIZES.base * 0.3, }}>{errors.password}</Text>}
                                     <TouchableOpacity style={{ marginTop: SIZES.base }}>
                                         <Text style={{ textAlign: 'right', color: COLORS.primary, ...FONTS.h4 }}>Forget Password</Text>
                                     </TouchableOpacity>

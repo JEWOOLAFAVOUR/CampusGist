@@ -1,14 +1,18 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 import Saved from './Saved'
 import ContactUs from './ContactUs'
 import AboutUs from './AboutUs'
-import Notification from './Notification'
+// import Notification from './Notification'
 
 const Setting = () => {
     const navigation = useNavigation();
+    useEffect(() => {
+        navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
+        return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
+    }, [navigation]);
     const settingData1 = [
         {
             id: 1,
@@ -17,17 +21,17 @@ const Setting = () => {
         },
     ];
     const settingData2 = [
-        {
+       /* {
             id: 1,
             title: 'Notification',
             iconName: icons.bell,
-            onPress: Notification,
+            // onPress: Notification,
         }, {
             id: 2,
             title: 'Saved',
             iconName: icons.bookmark,
             onPress: Saved,
-        }, /*{
+        }, {
             id: 3,
             title: 'Setting',
             iconName: icons.setting,
@@ -86,8 +90,9 @@ const Setting = () => {
             <Text style={{ ...FONTS.body2c, fontWeight: 'bold', alignSelf: 'center', color: COLORS.blue }}>Settings</Text>
             <View style={{ height: 2, backgroundColor: COLORS.chocolateBackground, marginTop: SIZES.base, marginBottom: SIZES.h4 }} />
             {/* <View style={{ paddingHorizontal: SIZES.width * 0.055 }}> */}
+            <View style={{ marginTop: SIZES.h1 }} />
             <FlatList
-                ListHeaderComponent={RenderHeader}
+                // ListHeaderComponent={RenderHeader}
                 ListFooterComponent={RenderFooter}
                 ListHeaderComponentStyle={{ marginBottom: SIZES.h1 }}
                 data={settingData1}

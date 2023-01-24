@@ -8,6 +8,7 @@ import { COLORS, FONTS, icons, SIZES } from '../constants';
 import HomeStack from '../screens/HomeScreen/HomeStack';
 import SearchStack from '../screens/SearchScreen/SearchStack';
 // import NotificationStack from '../screens/NotificationScreen/NotificationStack';
+import CampusCircleStack from '../screens/CampusCircle/CampusCircleStack';
 import SettingStack from '../screens/SettingScreen/SettingStack';
 
 const { width, height } = Dimensions.get('window');
@@ -35,21 +36,21 @@ const BottomTab = () => {
                     },
                     tabBarIcon: ({ focused, size, colour }) => {
                         let iconName;
-                        if (route.name === 'Home') {
+                        if (route.name === 'HomeP') {
                             iconName = focused ? icons.home : icons.home
                             size = focused ? SIZES.h1 : SIZES.h1,
                                 colour = focused ? COLORS.orange : COLORS.brown
-                        } else if (route.name === 'Search') {
+                        } else if (route.name === 'SearchP') {
                             iconName = focused ? icons.search : icons.search
                             size = focused ? SIZES.h1 : SIZES.h1,
                                 colour = focused ? COLORS.orange : COLORS.brown
                         }
-                        // else if (route.name === 'Notification') {
-                        //     iconName = focused ? icons.notification : icons.notification
-                        //     size = focused ? SIZES.h2 : SIZES.h2,
-                        //         colour = focused ? COLORS.primary : COLORS.brown
-                        // } 
-                        else if (route.name === 'Account') {
+                        else if (route.name === 'CampusCircleP') {
+                            iconName = focused ? icons.about : icons.about
+                            size = focused ? SIZES.h1 : SIZES.h1,
+                                colour = focused ? COLORS.orange : COLORS.brown
+                        }
+                        else if (route.name === 'AccountP') {
                             iconName = focused ? icons.person : icons.person
                             size = focused ? SIZES.h1 : SIZES.h1,
                                 colour = focused ? COLORS.orange : COLORS.brown
@@ -59,10 +60,11 @@ const BottomTab = () => {
                     headerShown: false
                 })}
             >
-                <Tab.Screen name='Home' component={HomeStack} />
-                <Tab.Screen name='Search' component={SearchStack} />
+                <Tab.Screen name='HomeP' component={HomeStack} />
+                <Tab.Screen name='SearchP' component={SearchStack} />
+                <Tab.Screen name='CampusCircleP' component={CampusCircleStack} />
                 {/* <Tab.Screen name='Notification' component={NotificationStack} /> */}
-                <Tab.Screen name='Account' component={SettingStack} />
+                <Tab.Screen name='AccountP' component={SettingStack} />
             </Tab.Navigator>
         </View>
     )

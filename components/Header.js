@@ -7,7 +7,7 @@ const Header = ({ title }) => {
     const navigation = useNavigation()
     return (
         <View style={styles.container}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: SIZES.base }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: SIZES.base, marginTop: SIZES.base * 1.5 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: SIZES.h4 }}>
                     <Image source={icons.arrowleft} style={{ height: SIZES.h2 * 1.2, width: SIZES.h2 * 1.2 }} />
                 </TouchableOpacity>
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
         marginVertical: SIZES.base * 0.5,
     },
     ruler: {
-        height: 2,
-        backgroundColor: COLORS.orange,
+        height: 1.7,
+        backgroundColor: COLORS.chocolateBackground,
         marginTop: SIZES.base * 0.9,
     }
 })
