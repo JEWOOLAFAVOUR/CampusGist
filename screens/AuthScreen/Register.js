@@ -9,9 +9,12 @@ import { registerUser } from '../../api/auth';
 
 
 const signUpValidationSchema = yup.object().shape({
-    fullname: yup
+    firstname: yup
         .string()
-        .required('Fullname is missing'),
+        .required('Firstname is missing'),
+    lastname: yup
+        .string()
+        .required('Lastname is missing'),
     username: yup
         .string()
         .required('Username is missing'),
@@ -37,16 +40,18 @@ const Register = () => {
     const { colors: { background } } = useTheme();
 
     return (
-        <View style={{ flex: 1, backgroundColor: background, paddingHorizontal: SIZES.width * 0.05 }}>
+        <View style={{ flex: 1, backgroundColor: COLORS.white, paddingHorizontal: SIZES.width * 0.05 }}>
             <ScrollView>
-                <View style={{ marginTop: SIZES.h1 * 1, marginBottom: SIZES.h1 * 1 }}>
-                    <Text style={{ ...FONTS.navTitle, color: COLORS.black }}>Register</Text>
-                    <Text style={{ ...FONTS.body3, }}>Sign in to access more features.</Text>
+                <View style={{ marginTop: SIZES.h1 * 1, marginBottom: SIZES.h1 * 1.5 }}>
+                    <Text style={{ fontSize: SIZES.navTitle * 1.3, fontWeight: 'bold', color: COLORS.blue }}>Create</Text>
+                    <Text style={{ fontSize: SIZES.navTitle * 1.3, fontWeight: 'bold', color: COLORS.blue }}>an account</Text>
+                    {/* <Text style={{ ...FONTS.body3, }}>Sign in to access more features.</Text> */}
                 </View>
                 <Formik
                     validationSchema={signUpValidationSchema}
                     initialValues={{
-                        fullname: '',
+                        firstname: '',
+                        lastname: '',
                         username: '',
                         email: '',
                         password: '',
@@ -79,18 +84,31 @@ const Register = () => {
                 >
                     {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
                         <>
-                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>FullName</Text>
-                            <View style={styles.inputCtn}>
-                                <TextInput
-                                    placeholder='Enter Fullname'
-                                    name='fullname'
-                                    onChangeText={handleChange('fullname')}
-                                    style={{ ...FONTS.body3 }}
-                                />
-                                {(errors.fullname && touched.fullname) &&
-                                    <Text style={styles.errorText}>{errors.fullname}</Text>}
+                            {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>FullName</Text> */}
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
+                                    <TextInput
+                                        placeholder='Enter Firstname'
+                                        name='firstname'
+                                        onChangeText={handleChange('firstname')}
+                                        style={{ ...FONTS.body3 }}
+                                    />
+                                    {(errors.firstname && touched.firstname) &&
+                                        <Text style={styles.errorText}>{errors.firstname}</Text>}
+                                </View>
+                                <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
+                                    <TextInput
+                                        placeholder='Enter Lastname'
+                                        name='lastname'
+                                        onChangeText={handleChange('lastname')}
+                                        style={{ ...FONTS.body3 }}
+                                    />
+                                    {(errors.lastname && touched.lastname) &&
+                                        <Text style={styles.errorText}>{errors.lastname}</Text>}
+                                </View>
                             </View>
-                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Username</Text>
+
+                            {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Username</Text> */}
                             <View style={styles.inputCtn}>
                                 <TextInput
                                     placeholder='Enter Username'
@@ -101,36 +119,43 @@ const Register = () => {
                                 {(errors.username && touched.username) &&
                                     <Text style={styles.errorText}>{errors.username}</Text>}
                             </View>
-                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Email</Text>
+                            {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Email</Text> */}
                             <View style={styles.inputCtn}>
-                                <TextInput
-                                    placeholder='Enter Email'
-                                    name='email'
-                                    onChangeText={handleChange('email')}
-                                    keyboardType='email-address'
-                                    style={{ ...FONTS.body3 }}
-                                />
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+                                    <TextInput
+                                        placeholder='Enter Email'
+                                        name='email'
+                                        onChangeText={handleChange('email')}
+                                        keyboardType='email-address'
+                                        style={{ ...FONTS.body3, flex: 1 }}
+                                    />
+                                    <Image source={icons.mail} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
+                                </View>
                                 {(errors.email && touched.email) &&
                                     <Text style={styles.errorText}>{errors.email}</Text>}
                             </View>
-                            <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text>
+                            {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text> */}
                             <View>
                                 <View style={[styles.inputCtn, { marginBottom: 0, flexDirection: 'row', alignItems: 'center' }]}>
                                     <TextInput
                                         placeholder='Enter Password'
                                         name='password'
                                         onChangeText={handleChange('password')}
+                                        secureTextEntry={showPassword}
                                         style={{ ...FONTS.body3, flex: 1 }}
                                     />
                                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                        <Image source={icons.key} style={{ height: SIZES.h3, width: SIZES.h3 }} />
+                                        <Image source={icons.key} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.chocolate }} />
                                     </TouchableOpacity>
                                 </View>
                                 {(errors.password && touched.password) &&
                                     <Text style={styles.errorText}>{errors.password}</Text>}
                             </View>
+                            {
+                                // <Text>{err.response.data?.error}</Text>
+                            }
                             {/* BUTTON  */}
-                            <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 1.2, flexDirection: 'row', alignItems: 'center' }]}>
+                            <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 2, flexDirection: 'row', alignItems: 'center' }]}>
                                 <Text style={{ ...FONTS.body2a, color: COLORS.white, marginRight: SIZES.h4 }}>Login</Text>
                                 {
                                     showSpinner && (<ActivityIndicator color={COLORS.white} />)
@@ -145,14 +170,14 @@ const Register = () => {
                 <View style={{}}>
                     <View style={{ marginTop: SIZES.h1 * 1.3 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={{ ...FONTS.body3, color: COLORS.primary }}>I am already a member,</Text>
+                            <Text style={{ ...FONTS.body3b, color: COLORS.primary }}>I am already a member,</Text>
                             <TouchableOpacity onPress={() => navigation.navigate('Login')} >
-                                <Text style={{ ...FONTS.h3a, color: COLORS.primary }}>  Sign In</Text>
+                                <Text style={{ ...FONTS.h2, color: COLORS.primary }}>  Sign In</Text>
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.body3, color: COLORS.primary }}>Skip</Text>
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={{ alignItems: 'center' }}>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary }}>Skip</Text>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
             </ScrollView>
@@ -165,11 +190,13 @@ export default Register
 const styles = StyleSheet.create({
     inputCtn: {
         height: SIZES.h1 * 1.9,
-        borderWidth: 1.5,
+        // borderWidth: 1.5,
         borderRadius: SIZES.radius,
         paddingHorizontal: SIZES.base,
         marginBottom: SIZES.h1,
-        borderColor: COLORS.brown
+        borderColor: COLORS.brown,
+        backgroundColor: COLORS.grey2,
+        borderRadius: SIZES.h4,
     },
     btnCtn: {
         height: SIZES.h1 * 1.8,

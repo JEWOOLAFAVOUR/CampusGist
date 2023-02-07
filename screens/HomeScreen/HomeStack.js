@@ -5,6 +5,8 @@ import Home from './Home';
 import PostDetail from './PostDetail';
 import ProfilePage from './ProfilePage';
 import Notification from './Notification';
+import Story from './Story';
+import ViewAllComment from './ViewAllComment';
 
 const { width, height } = Dimensions.get('window');
 
@@ -37,6 +39,14 @@ const HomeStack = () => {
                 <Stack.Screen
                     name='Notification'
                     component={Notification}
+                />
+                <Stack.Screen
+                    name='Story'
+                    component={Story}
+                />
+                <Stack.Screen
+                    name='ViewAllComment'
+                    component={ViewAllComment}
                 />
             </Stack.Navigator>
         </View>

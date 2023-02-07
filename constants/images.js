@@ -8,6 +8,11 @@ export const restaurant1 = require('../assets/images/restaurant1.jpeg');
 export const restaurant2 = require('../assets/images/restaurant2.jpeg');
 export const restaurant3 = require('../assets/images/restaurant3.jpeg');
 export const restaurant4 = require('../assets/images/restaurant4.jpeg');
+export const slide1 = require('../assets/images/slide1.jpg');
+export const slide2 = require('../assets/images/slide2.jpg');
+export const slide3 = require('../assets/images/slide3.jpg');
+export const slide4 = require('../assets/images/slide4.jpg');
+
 
 export default {
     image1,
@@ -20,4 +25,8 @@ export default {
     restaurant2,
     restaurant3,
     restaurant4,
+    slide1,
+    slide2,
+    slide3,
+    slide4,
 }

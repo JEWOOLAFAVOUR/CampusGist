@@ -71,12 +71,12 @@ export const oldMarketData = [
     }, {
         id: 2,
         marketImage: images.profile4,
-        marketTitle: 'iPhone 7plus',
+        marketTitle: 'Nacoa Apartment',
         marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
     }, {
         id: 3,
         marketImage: images.profile3,
-        marketTitle: 'Ninety Percent new bicycles',
+        marketTitle: 'Goious Hostel',
         marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
     },
 ];

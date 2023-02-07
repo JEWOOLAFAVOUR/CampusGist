@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { COLORS, FONTS, icons, images, SIZES } from '../../constants';
@@ -26,6 +26,7 @@ const commentValidationSchema = yup.object().shape({
 
 const PostDetail = ({ route }) => {
     const navigation = useNavigation();
+    const [clicked, setClicked] = useState(false)
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
@@ -93,8 +94,14 @@ const PostDetail = ({ route }) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.body3a, color: COLORS.black, marginRight: SIZES.base / 2 }}>{dateFormat(createdAt, 'shortTime')}</Text>
-                            <Text style={{ ...FONTS.body3a, color: COLORS.black }}>{dateFormat(createdAt, 'mediumDate')}</Text>
+                            {/* <Text style={{ ...FONTS.body3a, color: COLORS.black, marginRight: SIZES.base / 2 }}>{dateFormat(createdAt, 'shortTime')}</Text>
+                            <Text style={{ ...FONTS.body3a, color: COLORS.black }}>{dateFormat(createdAt, 'mediumDate')}</Text> */}
+                            <TouchableOpacity onPress={() => setClicked(!clicked)} style={styles.followCtn}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={{ color: COLORS.white, ...FONTS.body3a, marginRight: SIZES.base * 0.7 }}>+</Text>
+                                    <Text style={{ color: COLORS.white, ...FONTS.body3a }}>{clicked ? 'Following' : 'Follow'}</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                         {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {
@@ -124,9 +131,16 @@ const PostDetail = ({ route }) => {
 
                 {/* COMMENT SECTION */}
                 <View style={{ marginBottom: SIZES.h2 }}>
-                    <View style={{ paddingHorizontal: SIZES.width * 0.03, flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.h4 }}>
-                        <View style={{ height: SIZES.h3 * 0.95, width: 3, backgroundColor: COLORS.orange, marginRight: SIZES.h5 }} />
-                        <Text style={{ ...FONTS.h2, color: COLORS.black, fontWeight: 'bold' }}>All comments</Text>
+                    <View style={{ paddingHorizontal: SIZES.width * 0.05, flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.h4 * 1.3 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                                <View style={{ height: SIZES.h3 * 0.95, width: 3, backgroundColor: COLORS.orange, marginRight: SIZES.h5 }} />
+                                <Text style={{ ...FONTS.h2, color: COLORS.blue, fontWeight: 'bold' }}>Comments</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => navigation.navigate('ViewAllComment')}>
+                                <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>view all(26)</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     {
                         commentData.map((data, index) => <CommentSection item={data} index />)
@@ -235,7 +249,15 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flexDirection: 'row',
         marginVertical: SIZES.h5
-    }
+    },
+    followCtn: {
+        height: SIZES.h1 * 1.1,
+        width: SIZES.h1 * 3.2,
+        backgroundColor: COLORS.orange,
+        borderRadius: SIZES.h1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
 
 // import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, TextInput } from 'react-native'

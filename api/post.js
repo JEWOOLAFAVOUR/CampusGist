@@ -140,3 +140,60 @@ export const getUser = async (userId) => {
         return { error: error.message || error };
     }
 }
+
+// NEW FEATURES 
+export const getStories = async (limit1, pageNo1) => {
+    try {
+        const { data } = await client(`/post/get-stories?limit=${limit1}&pageNo=${pageNo1}/`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}
+
+export const getFood = async (limit, pageNo) => {
+    try {
+        const { data } = await client(`/post/get-food?limit=${limit}&pageNo=${pageNo}/`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}
+
+export const getMarket = async (limit, pageNo) => {
+    try {
+        const { data } = await client(`/post/get-market?limit=${limit}&pageNo=${pageNo}/`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}
+
+export const getBanner = async (limit, pageNo) => {
+    try {
+        const { data } = await client(`/post/get-banner?limit=${limit}&pageNo=${pageNo}/`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}

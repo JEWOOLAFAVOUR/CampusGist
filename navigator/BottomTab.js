@@ -40,11 +40,11 @@ const BottomTab = () => {
                             iconName = focused ? icons.home : icons.home
                             size = focused ? SIZES.h1 : SIZES.h1,
                                 colour = focused ? COLORS.orange : COLORS.brown
-                        } else if (route.name === 'SearchP') {
+                        }/* else if (route.name === 'SearchP') {
                             iconName = focused ? icons.search : icons.search
                             size = focused ? SIZES.h1 : SIZES.h1,
                                 colour = focused ? COLORS.orange : COLORS.brown
-                        }
+                        }*/
                         else if (route.name === 'CampusCircleP') {
                             iconName = focused ? icons.about : icons.about
                             size = focused ? SIZES.h1 : SIZES.h1,
@@ -61,7 +61,7 @@ const BottomTab = () => {
                 })}
             >
                 <Tab.Screen name='HomeP' component={HomeStack} />
-                <Tab.Screen name='SearchP' component={SearchStack} />
+                {/* <Tab.Screen name='SearchP' component={SearchStack} /> */}
                 <Tab.Screen name='CampusCircleP' component={CampusCircleStack} />
                 {/* <Tab.Screen name='Notification' component={NotificationStack} /> */}
                 <Tab.Screen name='AccountP' component={SettingStack} />

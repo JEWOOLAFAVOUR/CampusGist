@@ -1,11 +1,51 @@
 import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { circleData, hotFoodData, oldMarketData } from './CampusCircleData'
 import { useNavigation } from '@react-navigation/native'
+import { getFood, getMarket, getBanner } from '../../api/post'
+
+let pageNo = 0;
+const limit = 10;
+
 
 const CampusCircle = () => {
     const navigation = useNavigation()
+
+    const [banner, setBanner] = useState([])
+    const [food, setFood] = useState([])
+    const [market, setMarket] = useState([])
+
+    const fetchFood = async () => {
+        const { error, foods } = await getFood(limit, pageNo);
+        console.log('this is the food data', foods)
+        if (error) return console.log('sta-err', error)
+
+        setFood(foods)
+    }
+
+    const fetchMarket = async () => {
+        const { error, markets } = await getMarket(limit, pageNo);
+        console.log('this is the market data', markets)
+        if (error) return console.log('sta-err', error)
+
+        setMarket(markets)
+    }
+
+    const fetchBanner = async () => {
+        const { error, banners } = await getBanner(limit, pageNo);
+        console.log('this is the banner data', banners)
+        if (error) return console.log('sta-err', error)
+
+        setBanner(banners)
+    }
+
+    useEffect(() => {
+        fetchFood();
+        fetchMarket();
+        fetchBanner();
+    }, [])
+
     const CampusHeader = () => {
         return (
             <View>
@@ -30,27 +70,28 @@ const CampusCircle = () => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold' }}>Hot Food</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('HotMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.body3a }}>more</Text>
+                            <Text style={{ ...FONTS.body3a }}>more foods</Text>
                             <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{ marginLeft: SIZES.h5 * 1.2 }}>
                     <FlatList
-                        data={hotFoodData}
+                        // data={hotFoodData}
+                        data={food}
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         renderItem={({ item }) => {
                             return (
-                                <View key={item.id} style={styles.hotCtn}>
-                                    <Image source={item.foodImage}
+                                <TouchableOpacity onPress={() => navigation.navigate('FoodDetail')} key={item.id} style={styles.hotCtn}>
+                                    <Image source={images.restaurant1}
                                         style={{
                                             height: SIZES.h1 * 3.5, width: SIZES.h1 * 4.9, borderTopRightRadius: SIZES.base,
                                             borderTopLeftRadius: SIZES.base, alignSelf: 'center'
                                         }} />
                                     <View style={{ paddingHorizontal: SIZES.base }}>
                                         <Text style={{ ...FONTS.body3, marginTop: SIZES.base * 0.8, color: COLORS.black, fontWeight: 'bold' }}>{item.title}</Text>
-                                        <Text style={{ ...FONTS.body4, color: COLORS.grey }}>{item.review}</Text>
+                                        <Text style={{ ...FONTS.body4, color: COLORS.grey }}>Highly recommended</Text>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: COLORS.orange }} />
@@ -58,10 +99,10 @@ const CampusCircle = () => {
                                                 <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: COLORS.orange }} />
                                                 <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: COLORS.orange }} />
                                             </View>
-                                            <Text style={{ color: COLORS.black, ...FONTS.body4, marginLeft: SIZES.base }}>{item.reviewsNumber} Reviews</Text>
+                                            <Text style={{ color: COLORS.black, ...FONTS.body4, marginLeft: SIZES.base }}>32 Reviews</Text>
                                         </View>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                         }}
                     />
@@ -69,7 +110,7 @@ const CampusCircle = () => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h3 * 0.9 }}>
                     <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold' }}>Old Market</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('OldMarket')} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.body3a }}>more</Text>
+                        <Text style={{ ...FONTS.body3a }}>visit market</Text>
                         <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
                     </TouchableOpacity>
                 </View>
@@ -82,16 +123,17 @@ const CampusCircle = () => {
                 ListHeaderComponent={CampusHeader}
                 // ListFooterComponentStyle={{ marginTop: 200 }}
                 data={oldMarketData}
+                // data={market}
                 renderItem={({ item }) => {
                     return (
-                        <View style={styles.mainCtn}>
-                            <Image source={item.marketImage}
+                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail')} style={styles.mainCtn}>
+                            <Image source={images.profile2}
                                 style={{ height: SIZES.h1 * 5.05, width: SIZES.h1 * 4, borderTopLeftRadius: SIZES.base, borderBottomLeftRadius: SIZES.base }} />
                             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.h4 }}>
-                                <Text style={{ marginTop: SIZES.h4, ...FONTS.h3, color: COLORS.black }}>{item.marketTitle}</Text>
+                                <Text style={{ marginTop: SIZES.base, ...FONTS.body1, fontFamily: 'Roboto-Regular', color: COLORS.black }}>{item.marketTitle}</Text>
                                 <Text numberOfLines={2} style={{ ...FONTS.body3, color: COLORS.black }}>{item.marketDetails}</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )
                 }}
             />

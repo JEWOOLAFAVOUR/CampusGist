@@ -36,13 +36,14 @@ const Login = ({ ...props }) => {
     }, [])
 
     return (
-        <View style={{ flex: 1, backgroundColor: background, paddingHorizontal: SIZES.width * 0.05 }}>
+        <View style={{ flex: 1, backgroundColor: COLORS.white, paddingHorizontal: SIZES.width * 0.05 }}>
             <ScrollView>
                 <View style={{ marginTop: SIZES.h1 * 1.5, marginBottom: SIZES.h1 * 1.5 }}>
-                    <Text style={{ ...FONTS.navTitle, color: COLORS.black }}>Welcome</Text>
-                    <Text style={{ ...FONTS.body3, }}>Sign in to access more features.</Text>
+                    <Text style={{ fontSize: SIZES.navTitle * 1.3, fontWeight: 'bold', color: COLORS.blue }}>Let's Sign</Text>
+                    <Text style={{ fontSize: SIZES.navTitle * 1.3, fontWeight: 'bold', color: COLORS.blue }}>You In</Text>
+                    {/* <Text style={{ ...FONTS.body3, }}>Sign in to access more features.</Text> */}
                 </View>
-                <View>
+                <View style={{ flex: 1 }}>
                     <Formik
                         validationSchema={signInValidationSchema}
                         initialValues={{ email: '', password: '' }}
@@ -69,19 +70,22 @@ const Login = ({ ...props }) => {
                         {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
 
                             <>
-                                <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Email</Text>
+                                {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Email</Text> */}
                                 <View style={styles.inputCtn}>
-                                    <TextInput
-                                        name="email"
-                                        placeholder='Enter Email'
-                                        keyboardType='email-address'
-                                        style={{ ...FONTS.body3 }}
-                                        onChangeText={handleChange('email')}
-                                    />
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                                        <TextInput
+                                            name="email"
+                                            placeholder='Enter Email'
+                                            keyboardType='email-address'
+                                            style={{ ...FONTS.body3, flex: 1 }}
+                                            onChangeText={handleChange('email')}
+                                        />
+                                        <Image source={icons.mail} style={{ height: SIZES.h2, width: SIZES.h2 }} />
+                                    </View>
                                     {(errors.email && touched.email) &&
                                         <Text style={{ ...FONTS.body4, color: 'red', marginVertical: SIZES.base * 0.3, }}>{errors.email}</Text>}
                                 </View>
-                                <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text>
+                                {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text> */}
                                 <View>
                                     <View style={[styles.inputCtn, { marginBottom: 0, flexDirection: 'row', alignItems: 'center' }]}>
                                         <TextInput
@@ -98,12 +102,12 @@ const Login = ({ ...props }) => {
                                     </View>
                                     {(errors.password && touched.password) &&
                                         <Text style={{ ...FONTS.body4, color: 'red', marginVertical: SIZES.base * 0.3, }}>{errors.password}</Text>}
-                                    <TouchableOpacity style={{ marginTop: SIZES.base }}>
-                                        <Text style={{ textAlign: 'right', color: COLORS.primary, ...FONTS.h4 }}>Forget Password</Text>
+                                    <TouchableOpacity style={{ marginTop: SIZES.base * 1.6 }}>
+                                        <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Forget Password?</Text>
                                     </TouchableOpacity>
                                 </View>
 
-                                <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 1.2, flexDirection: 'row', alignItems: 'center' }]}>
+                                <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 5, flexDirection: 'row', alignItems: 'center' }]}>
                                     <Text style={{ ...FONTS.body2a, color: COLORS.white, marginRight: SIZES.h4 }}>Login</Text>
                                     {
                                         showSpinner && (<ActivityIndicator color={COLORS.white} />)
@@ -119,14 +123,14 @@ const Login = ({ ...props }) => {
 
                     <View style={{ marginTop: SIZES.h1 * 1.3 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={{ ...FONTS.body3, color: COLORS.primary }}>I am new user,</Text>
+                            <Text style={{ ...FONTS.body3b, color: COLORS.primary }}>I am new user,</Text>
                             <TouchableOpacity onPress={() => navigation.navigate('Register')} >
-                                <Text style={{ ...FONTS.h3a, color: COLORS.primary }}>  Sign Up</Text>
+                                <Text style={{ ...FONTS.h2, color: COLORS.primary }}>  Sign Up</Text>
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={() => navigation.navigate('Bottom')} style={{ alignItems: 'center' }}>
+                        {/* <TouchableOpacity onPress={() => navigation.navigate('Bottom')} style={{ alignItems: 'center' }}>
                             <Text style={{ ...FONTS.body3, color: COLORS.primary }}>Skip</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
             </ScrollView>
@@ -159,11 +163,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login)
 const styles = StyleSheet.create({
     inputCtn: {
         height: SIZES.h1 * 1.9,
-        borderWidth: 1.5,
+        // borderWidth: 1.5,
         borderRadius: SIZES.radius,
         paddingHorizontal: SIZES.base,
         marginBottom: SIZES.h1,
-        borderColor: COLORS.brown
+        // borderColor: COLORS.brown,
+        backgroundColor: COLORS.grey2,
+        borderRadius: SIZES.h4,
     },
     btnCtn: {
         height: SIZES.h1 * 1.8,

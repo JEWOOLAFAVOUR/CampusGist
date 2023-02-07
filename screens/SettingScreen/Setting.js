@@ -2,10 +2,6 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch, Scro
 import React, { useEffect } from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
-import Saved from './Saved'
-import ContactUs from './ContactUs'
-import AboutUs from './AboutUs'
-// import Notification from './Notification'
 
 const Setting = () => {
     const navigation = useNavigation();
@@ -13,104 +9,73 @@ const Setting = () => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
-    const settingData1 = [
+    const settingData = [
         {
             id: 1,
-            title: 'Dark mode',
-            iconName: icons.moon,
-        },
-    ];
-    const settingData2 = [
-       /* {
-            id: 1,
+            title: 'Edit Profile',
+            iconName: icons.bell,
+            onPress: () => navigation.navigate('EditProfile'),
+        }, {
+            id: 2,
+            title: 'Edit Bio',
+            iconName: icons.bell,
+            onPress: () => navigation.navigate('ChangeBio'),
+
+        }, {
+            id: 3,
             title: 'Notification',
             iconName: icons.bell,
             // onPress: Notification,
         }, {
-            id: 2,
-            title: 'Saved',
-            iconName: icons.bookmark,
-            onPress: Saved,
-        }, {
-            id: 3,
-            title: 'Setting',
-            iconName: icons.setting,
-        }, */{
             id: 4,
-            title: 'Contact Us',
-            iconName: icons.contact,
-            onPress: ContactUs,
+            title: 'FAQ',
+            iconName: icons.bell,
+            // onPress: Notification,
         }, {
             id: 5,
-            title: 'About Us',
-            iconName: icons.about,
-            onPress: AboutUs,
+            title: 'Dark Mode',
+            iconName: icons.bell,
+            // onPress: Notification,
         }, {
             id: 6,
-            title: 'Signout',
-            iconName: icons.logout,
+            title: 'Logout',
+            iconName: icons.bell,
+            // onPress: Notification,
         },
     ];
-    const RenderHeader = () => {
+    const _renderHeader = () => {
         return (
-            <View style={styles.headerCtn}>
-                <Image source={images.profile4} style={styles.profileImage} />
-                <View style={{ marginLeft: SIZES.h5, flex: 1 }}>
-                    <Text numberOfLines={1} style={{ fontSize: SIZES.h3, fontWeight: 'bold', color: COLORS.blue }}>Oluwasegun Boluwatife</Text>
-                    <Text style={{ fontSize: SIZES.h4 * 1.2, color: COLORS.blue }}>oluwasegun123</Text>
+            <View style={styles.container}>
+                <View style={styles.imageRadius}>
+                    <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('EditProfile')} style={styles.editCtn}>
-                    <Text style={{ ...FONTS.body3, color: COLORS.white }}>Edit</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-    const RenderFooter = () => {
-        return (
-            <View style={{ paddingHorizontal: SIZES.width * 0.055, }}>
-                <Text style={{ ...FONTS.body2a, color: COLORS.blue, marginBottom: SIZES.h3 }}>Summary</Text>
-                {
-                    settingData2.map((data, index) => {
-                        return (
-                            <TouchableOpacity onPress={() => navigation.navigate(data.onPress)} activeOpacity={0.3} key={index} style={[styles.container, { marginHorizontal: 0 }]}>
-                                <View style={styles.iconCtn}>
-                                    <Image source={data.iconName} style={{ height: SIZES.h2, width: SIZES.h2 }} />
-                                </View>
-                                <Text style={{ flex: 1, marginLeft: SIZES.h1, ...FONTS.h3, color: COLORS.blue }}>{data.title}</Text>
-                                <Image source={icons.arrowright} style={{ height: SIZES.h2, width: SIZES.h2 }} />
-                            </TouchableOpacity>
-                        )
-                    })
-                }
+                <View style={{ marginLeft: SIZES.h3 }}>
+                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>Jewoola Favour Gbemi</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@favour28</Text>
+                </View>
             </View>
         )
     }
     return (
         <View style={styles.page}>
-            <Text style={{ ...FONTS.body2c, fontWeight: 'bold', alignSelf: 'center', color: COLORS.blue }}>Settings</Text>
-            <View style={{ height: 2, backgroundColor: COLORS.chocolateBackground, marginTop: SIZES.base, marginBottom: SIZES.h4 }} />
-            {/* <View style={{ paddingHorizontal: SIZES.width * 0.055 }}> */}
-            <View style={{ marginTop: SIZES.h1 }} />
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: SIZES.h2 * 1.5 }}>
+                <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, }} />
+            </TouchableOpacity>
+            <_renderHeader />
             <FlatList
-                // ListHeaderComponent={RenderHeader}
-                ListFooterComponent={RenderFooter}
-                ListHeaderComponentStyle={{ marginBottom: SIZES.h1 }}
-                data={settingData1}
+                // ListHeaderComponent={_renderHeader}
+                data={settingData}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity activeOpacity={0.2} style={styles.container}>
-                            <View style={styles.iconCtn}>
-                                <Image source={item.iconName} style={{ height: SIZES.h2, width: SIZES.h2 }} />
-                            </View>
-                            <Text style={{ flex: 1, marginLeft: SIZES.h1, ...FONTS.h3, color: COLORS.blue }}>{item.title}</Text>
-                            <Switch />
-                            {/* <Image source={icons.arrowright} style={{ height: SIZES.h2, width: SIZES.h2 }} /> */}
+                        <TouchableOpacity onPress={item.onPress} style={styles.boxCtn}>
+                            <Image source={item.iconName} style={{ height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8, }} />
+                            <Text style={{ ...FONTS.body3, color: COLORS.black, marginTop: SIZES.base * 0.8 }}>{item.title}</Text>
                         </TouchableOpacity>
                     )
                 }}
             />
-            {/* </View> */}
-            <View style={{ marginBottom: SIZES.h1 * 2 }} />
         </View>
     )
 }
@@ -121,50 +86,31 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: COLORS.white,
-        paddingTop: SIZES.h5
+        paddingTop: SIZES.h4,
+        paddingHorizontal: SIZES.width * 0.07,
     },
-    headerCtn: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginHorizontal: SIZES.width * 0.055,
-        marginTop: SIZES.base,
-        height: SIZES.h1 * 3,
-        borderWidth: 0.5,
-        borderColor: COLORS.blue,
-        paddingHorizontal: SIZES.width * 0.03,
-        borderRadius: SIZES.base,
-    },
-    editCtn: {
-        height: SIZES.h1,
-        width: SIZES.h1 * 2.1,
-        backgroundColor: COLORS.blue,
-        borderRadius: SIZES.radius,
+    boxCtn: {
+        height: SIZES.h1 * 4.3,
+        width: SIZES.width * 0.415,
+        // borderWidth: 1,
+        marginBottom: SIZES.h5,
+        borderRadius: SIZES.h3,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    profileImage: {
-        height: SIZES.h1 * 2.1,
-        width: SIZES.h1 * 2.1,
-        borderRadius: 100,
+        backgroundColor: COLORS.grey2,
     },
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: SIZES.width * 0.055,
-        marginBottom: SIZES.h5,
-        height: SIZES.h1 * 1.8,
-        borderWidth: 0.5,
-        borderColor: COLORS.blue,
-        paddingHorizontal: SIZES.width * 0.03,
-        borderRadius: SIZES.base,
+        marginBottom: SIZES.h2,
     },
-    iconCtn: {
-        height: SIZES.h1 * 1.2,
-        width: SIZES.h1 * 1.1,
-        borderRadius: SIZES.radius,
+    imageRadius: {
+        height: SIZES.h1 * 3.15,
+        width: SIZES.h1 * 3.15,
+        borderRadius: 100,
+        borderWidth: 4,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1.5,
-        borderColor: COLORS.chocolate,
+        borderColor: COLORS.primary
     },
 })

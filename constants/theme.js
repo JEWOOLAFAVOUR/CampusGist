@@ -19,6 +19,7 @@ export const COLORS = {
     // chocolate: '#9fa09e',
     chocolate: '#5d5c6c',
     chocolateBackground: '#CECFCD',
+    grey2: '#f6f5fa',
 };
 
 export const SIZES = {

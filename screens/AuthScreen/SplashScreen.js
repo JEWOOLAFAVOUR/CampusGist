@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Platform } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { FONTS } from '../../constants'
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { COLORS, images } from '../../constants';
+import { COLORS, images, SIZES } from '../../constants';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { setTokenInterceptor } from '../../utils/setTokenInterceptor';
@@ -37,7 +37,7 @@ const SplashScreen = ({ ...props }) => {
         return (
             <View style={styles.splash}>
                 <View style={styles.childView}>
-                    <Image source={dark ? images.image1 : images.image2} style={{ height: 150, width: 150, resizeMode: 'contain' }} />
+                    <Image source={dark ? images.image1 : images.image2} style={{ height: SIZES.height, width: SIZES.width, resizeMode: 'contain' }} />
                 </View>
             </View>
         )

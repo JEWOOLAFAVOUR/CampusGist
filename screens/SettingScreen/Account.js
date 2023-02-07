@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
-import Header from '../../components/Header'
+// import Header from '../../components/Header'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LikeProduct from './LikeProduct'
@@ -23,32 +23,44 @@ const Account = ({ ...props }) => {
                     <View style={styles.imageRadius}>
                         <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                     </View>
-                    <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('EditProfile', { data })}>
+                    <View style={{ marginLeft: SIZES.h3 }}>
+                        <Text style={{ ...FONTS.h2, color: COLORS.black }}>{data.fullname}</Text>
+                        <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text>
+                    </View>
+                    {/* <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('EditProfile', { data })}>
                         <Text style={{ color: COLORS.white, ...FONTS.body4 }}>Edit Profile</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
-                <View style={{ marginTop: SIZES.h3 }}>
-                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>{data.fullname}</Text>
-                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text>
+                <View style={{ marginTop: SIZES.h3, }}>
+                    {/* <Text style={{ ...FONTS.h2, color: COLORS.black }}>{data.fullname}</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text> */}
                     <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ ...FONTS.body4, color: COLORS.black }}>Eyinjueledumare🤡</Text>
-                        <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('ChangeBio')}>
+                        <Text numberOfLines={3} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text>
+                        {/* <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('ChangeBio')}>
                             <Text style={{ ...FONTS.body4, color: COLORS.black }}>Change Bio</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.h4 }}>
+                    <View style={styles.highlightCtn}>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.black, }}>191</Text>
-                            <Text style={{ color: COLORS.black, ...FONTS.body3 }}> Follower</Text>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary, }}>6</Text>
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}> Posts</Text>
                         </View>
-                        <View style={{ alignItems: 'center', marginLeft: SIZES.h1, }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.black }}>191</Text>
-                            <Text style={{ color: COLORS.black, ...FONTS.body3 }}> Follower</Text>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary, }}>191</Text>
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Follower</Text>
                         </View>
-                        <View style={{ position: 'absolute', right: 0 }}>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary }}>150</Text>
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Following</Text>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
                             <Image source={icons.star} style={{ height: SIZES.h2 * 0.95, width: SIZES.h2 * 0.95 }} />
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Novice</Text>
                         </View>
+                        {/* <View style={{ position: 'absolute', right: 0 }}>
+                            <Image source={icons.star} style={{ height: SIZES.h2 * 0.95, width: SIZES.h2 * 0.95 }} />
+                        </View> */}
                     </View>
                 </View>
                 {/* NEW IMPLEMENTATION  */}
@@ -81,7 +93,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
     },
     editProfileBtn: {
         height: SIZES.h1 * 1,
@@ -114,5 +126,15 @@ const styles = StyleSheet.create({
         height: SIZES.h2 * 1,
         width: SIZES.h2 * 1,
         alignSelf: 'flex-end'
+    },
+    highlightCtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: SIZES.h4,
+        height: SIZES.h1 * 3.0,
+        backgroundColor: COLORS.grey2,
+        borderRadius: SIZES.h2,
+        justifyContent: 'space-between',
+        paddingHorizontal: SIZES.h4 * 1.4,
     },
 })

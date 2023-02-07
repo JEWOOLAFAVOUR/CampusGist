@@ -1,68 +1,79 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
-import Header from '../../components/Header'
+// import Header from '../../components/Header'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
+import LikeProduct from '../SettingScreen/LikeProduct';
 
 
 
-const ProfilePage = () => {
-    // console.log('This is the account props', props.user)
-    // const data = props.user.user
+const ProfilePage = ({ ...props }) => {
+    console.log('This is the account props', props.user)
+    const data = props.user.user
     const navigation = useNavigation()
+    const [clicked, setClicked] = useState(false)
+
     return (
         <View style={styles.page}>
-            <View>
-                <View style={styles.headerCtn}>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: 10, paddingVertical: 4 }}>
-                        <Image source={icons.arrowleft} style={{ height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingLeft: 10, paddingVertical: 4 }}>
-                        <Image source={icons.verticalmenu} style={{ height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
-                    </TouchableOpacity>
-                </View>
-                <View style={{ height: 1.5, elevation: 1, backgroundColor: '#cdcdcd' }} />
-            </View>
-            <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h3 }}>
-                {/* <TouchableOpacity onPress={() => navigation.goBack()}
-                    style={{ marginBottom: SIZES.h3, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Image source={icons.arrowleft} style={styles.settingBtn} />
-                    <Image source={icons.verticalmenu} style={styles.settingBtn} />
-                </TouchableOpacity> */}
-
+            <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h5 }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: SIZES.h2, height: SIZES.h1 * 1.2, width: SIZES.h1 * 1.2, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1 }} />
+                </TouchableOpacity>
                 <View style={styles.container}>
                     <View style={styles.imageRadius}>
-                        <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
+                        <Image source={images.profile2} style={{ height: SIZES.h1 * 2.5, width: SIZES.h1 * 2.5, borderRadius: 100 }} />
                     </View>
-                    {/* <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('EditProfile', { data })}>
-                        <Text style={{ color: COLORS.white, ...FONTS.body4 }}>Edit Profile</Text>
-                    </TouchableOpacity> */}
+                    <View style={{ marginLeft: SIZES.h3 }}>
+                        <Text style={{ ...FONTS.h2, color: COLORS.black }}>BBC News</Text>
+                        <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@bbc</Text>
+                        <TouchableOpacity onPress={() => setClicked(!clicked)} style={styles.followCtn}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ color: COLORS.white, ...FONTS.body3a, marginRight: SIZES.base * 0.7 }}>+</Text>
+                                <Text style={{ color: COLORS.white, ...FONTS.body3a }}>{clicked ? 'Following' : 'Follow'}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-                <View style={{ marginTop: SIZES.h3 }}>
-                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>Jewoola Favour </Text>
-                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@admin</Text>
+                <View style={{ marginTop: SIZES.h3, }}>
+                    {/* <Text style={{ ...FONTS.h2, color: COLORS.black }}>{data.fullname}</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text> */}
+                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ ...FONTS.body4, color: COLORS.black }}>Mobile App Dev🤡</Text>
+                        <Text numberOfLines={3} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text>
                         {/* <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('ChangeBio')}>
                             <Text style={{ ...FONTS.body4, color: COLORS.black }}>Change Bio</Text>
                         </TouchableOpacity> */}
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.h3 }}>
+                    <View style={styles.highlightCtn}>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.black, }}>191</Text>
-                            <Text style={{ color: COLORS.black, ...FONTS.body3 }}> Follower</Text>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary, }}>230</Text>
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}> Posts</Text>
                         </View>
-                        <View style={{ alignItems: 'center', marginLeft: SIZES.h1, }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.black }}>191</Text>
-                            <Text style={{ color: COLORS.black, ...FONTS.body3 }}> Follower</Text>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary, }}>25K</Text>
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Follower</Text>
                         </View>
-                        <View style={{ position: 'absolute', right: 0 }}>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{ ...FONTS.h2, color: COLORS.primary }}>120</Text>
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Following</Text>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
                             <Image source={icons.star} style={{ height: SIZES.h2 * 0.95, width: SIZES.h2 * 0.95 }} />
+                            <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Novice</Text>
                         </View>
+                        {/* <View style={{ position: 'absolute', right: 0 }}>
+                            <Image source={icons.star} style={{ height: SIZES.h2 * 0.95, width: SIZES.h2 * 0.95 }} />
+                        </View> */}
                     </View>
                 </View>
+                {/* NEW IMPLEMENTATION  */}
+
+            </View>
+            <View>
+                <LikeProduct />
             </View>
         </View >
     )
@@ -88,8 +99,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: SIZES.h4,
+        // justifyContent: 'space-between',
     },
     editProfileBtn: {
         height: SIZES.h1 * 1,
@@ -100,8 +110,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     imageRadius: {
-        height: SIZES.h1 * 3.15,
-        width: SIZES.h1 * 3.15,
+        height: SIZES.h1 * 2.7,
+        width: SIZES.h1 * 2.7,
         borderRadius: 100,
         borderWidth: 4,
         justifyContent: 'center',
@@ -121,12 +131,24 @@ const styles = StyleSheet.create({
     settingBtn: {
         height: SIZES.h2 * 1,
         width: SIZES.h2 * 1,
+        alignSelf: 'flex-end'
     },
-    headerCtn: {
-        paddingHorizontal: SIZES.width * 0.03,
+    highlightCtn: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: SIZES.base,
-        justifyContent: 'space-between'
+        marginTop: SIZES.h4,
+        height: SIZES.h1 * 3.0,
+        backgroundColor: COLORS.grey2,
+        borderRadius: SIZES.h2,
+        justifyContent: 'space-between',
+        paddingHorizontal: SIZES.h4 * 1.4,
+    },
+    followCtn: {
+        height: SIZES.h1 * 1.1,
+        width: SIZES.h1 * 3.8,
+        backgroundColor: COLORS.orange,
+        borderRadius: SIZES.h1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

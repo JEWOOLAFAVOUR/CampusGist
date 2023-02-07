@@ -18,12 +18,14 @@ const EditProfile = ({ route }) => {
         {
             id: 1,
             title: 'Name',
-            defaultValue: data.fullname,
+            // defaultValue: data.fullname,
+            defaultValue: "Oluwasegun Boluwatife",
             placeholder: 'Oluwasegun Boluwatife'
         }, {
             id: 2,
             title: 'Username',
-            defaultValue: data.username,
+            // defaultValue: data.username,
+            defaultValue: "oluwasegun123",
             placeholder: 'oluwasegun123'
         }, {
             id: 3,
