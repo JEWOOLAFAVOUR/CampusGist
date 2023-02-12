@@ -63,7 +63,7 @@ const PostDetail = ({ route }) => {
             {/* HEADER SECTION */}
             <View style={{ backgroundColor: COLORS.primary }}>
                 <View style={styles.headerCtn}>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: 10, paddingVertical: 4 }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: SIZES.h2, paddingVertical: SIZES.h5 }}>
                         <Image source={icons.arrowleft} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ paddingLeft: 10, paddingVertical: 4 }}>
@@ -112,7 +112,7 @@ const PostDetail = ({ route }) => {
                         </View> */}
 
                     </View>
-                    <View style={{ marginTop: SIZES.h4 }}>
+                    <View style={{ marginTop: SIZES.h4, marginBottom: SIZES.h4, }}>
                         <Image source={getImage(thumbnail)} style={{ height: SIZES.height / 2.9, width: SIZES.width * 0.94 }} />
                     </View>
 

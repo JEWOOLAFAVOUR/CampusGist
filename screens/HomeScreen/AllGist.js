@@ -93,7 +93,7 @@ const AllGist = ({ ...props }) => {
 
     const fetchStories = async () => {
         const { error, stories } = await getStories(limit1, pageNo1);
-        console.log('this is the story data', stories.story)
+        console.log('this is the story data', stories)
         if (error) return console.log('sta-err', error)
 
         setStories(stories)
@@ -129,6 +129,11 @@ const AllGist = ({ ...props }) => {
         navigation.navigate('PostDetail', {})
     }
 
+       // const getThumbnail = (uri) => {
+        //     if (uri) return { uri }
+
+        //     return images.profile2
+        // }
     useEffect(() => {
         fetchLatestPosts();
         fetchStories();
@@ -138,37 +143,125 @@ const AllGist = ({ ...props }) => {
 
     const navigation = useNavigation();
 
-    const renderHeader = () => {
-        // const getThumbnail = (uri) => {
-        //     if (uri) return { uri }
+    const NewsToday =({data})=>{
+        const newsTodayData = [
+            {
+                id: 1,
+                title: 'Research Shows Americans Cautions but Ready To Travel',
+                category: 'Travel',
+                time: '4 mins ago',
+                thumbnail: images.restaurant1,
+            },{
+                id: 2,
+                title: 'Peter Obi Worried Over Fuel Shortages, Scarcity Of New Naira Notes',
+                category: 'Tecnnology',
+                time: '30 mins ago',
+                thumbnail: images.restaurant2,
+            },{
+                id: 3,
+                title: 'Nigeria Should Leave This Road To Venezuela',
+                category: 'Lifestyle',
+                time: '1 hours ago',
+                thumbnail: images.restaurant3,
+            },{
+                id: 4,
+                title: 'Nigeria Should Leave This Road To Venezuela',
+                category: 'Lifestyle',
+                time: '3 hours ago',
+                thumbnail: images.slide1,
+            },{
+                id: 5,
+                title: 'Nigeria Should Leave This Road To Venezuela',
+                category: 'Lifestyle',
+                time: '12 hours ago',
+                thumbnail: images.restaurant3,
+            },
+        ];
+        return(
+            <View>
+                <Text style={{...FONTS.body1, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5}}>Gists Today</Text>
+                <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={newsTodayData}
+                    renderItem={({item})=>{
+                        return(
+                            <TouchableOpacity activeOpacity={0.7} style={styles.latestCtn}>
+                                <View>
+                                    <Image source={item.thumbnail} style={{height: SIZES.height * 0.24, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
+                                    <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
+                                        <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
+                                            <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
+                                            <Text style={{...FONTS.body3a, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>{item.category}</Text>
+                                        </View>
+                                        <Text style={{...FONTS.body3a, fontWeight: 'bold', color: COLORS.white}}>{item.time}</Text>
+                                    </View>
+                                </View>
+                                <Text numberOfLines={2} style={{...FONTS.body2, fontWeight: 'bold', color: COLORS.black, marginHorizontal: SIZES.base,}}>{item.title}</Text>
+                            </TouchableOpacity>
+                        )
+                    }}
+                />
+                <Text style={{...FONTS.body1, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.h5, marginBottom: SIZES.base}}>Latest Gists</Text>
+            </View>
+        )
+    } 
 
-        //     return images.profile2
-        // }
+    const renderHeader = () => {
+        const categoryData = [
+            {
+                id: 1,
+                title: 'Technology',
+                iconName: icons.contact,
+                onPress: () =>navigation.navigate('Technology'),
+            },{
+                id: 2,
+                title: 'Entertainment',
+                iconName: icons.moon,
+                onPress: () =>navigation.navigate('Entertainment'),
+            },{
+                id: 3,
+                title: 'Sport',
+                iconName: icons.bookmark,
+                test: true,
+                onPress: () =>navigation.navigate('Sport'),
+            },{
+                id: 4,
+                title: 'LifeStyle',
+                iconName: icons.mail,
+                onPress: () =>navigation.navigate('Lifestyle'),
+            },{
+                id: 5,
+                title: 'Religion',
+                iconName: icons.thumb,
+                onPress: () =>navigation.navigate('Religion'),
+            },
+        ];
         return (
             <View style={{}}>
-                <Text style={{ fontSize: SIZES.h2 * 1.3, fontFamily: 'Roboto-Medium', color: COLORS.black }}>Trending</Text>
-                <Text style={{ ...FONTS.body3a, color: COLORS.chocolate }}>Some of the top trending news on stories from arround the campuses.</Text>
-                {/* STORIES  */}
-                <View style={{ marginVertical: SIZES.h4 }}>
-                    <FlatList
-                        horizontal={true}
-                        data={trendingData}
-                        // data={stories}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => {
-                            return (
-                                <TouchableOpacity onPress={() => navigation.navigate('Story', { name: item.name, image: item.image })} style={{ marginRight: SIZES.base }}>
-                                    {/* <Image source={{ uri: `"${item.story?.url}"` }} style={{ height: SIZES.h1 * 2.2, width: SIZES.h1 * 2.2, borderRadius: 100, }} /> */}
-                                    <Image source={images.profile3} style={{ height: SIZES.h1 * 2.2, width: SIZES.h1 * 2.2, borderRadius: 100, }} />
-                                    {/* <Text>{item.story?.url}</Text> */}
-                                </TouchableOpacity>
-                            )
-                        }}
+                <FlatList 
+                     showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    // contentContainerStyle={{backgroundColor: 'red', alignItems: 'center', justifyContent: 'center'}}
+                data={categoryData}
+                renderItem={({item})=>{
+                        return(
+                            <TouchableOpacity onPress={item.onPress} style={{marginRight: SIZES.h2, marginVertical:SIZES.h4,}}>
+                                <View style={[styles.categoryCtn, {backgroundColor: item.test ? COLORS.semiblue : COLORS.grey3}]}>
+                                    <Image source={item.iconName} style={{height: SIZES.h2 * 1.1, width: SIZES.h2 * 1.1, tintColor: item.test ? COLORS.white : COLORS.chocolate}}/>
+                                </View>
+                                <Text style={{textAlign: 'center',...FONTS.body5, color: COLORS.black}}>{item.title}</Text>
+                            </TouchableOpacity>
+                        )
+                    }}
                     />
-                </View>
+                <NewsToday/>
             </View>
         )
     }
+
+   
+
     return (
         <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
             {/* <Slider /> */}
@@ -181,6 +274,7 @@ const AllGist = ({ ...props }) => {
                     showsVerticalScrollIndicator={false}
                     data={homePostData}
                     // renderItem={({ item }) => <RenderItem data={item} />}
+                        // renderItem={({item})=> <NewsToday data={item}/>}
                     renderItem={({ item }) => <PostList data={item} />}
                     // onEndReached={async () => await fetchMorePosts()}
                     onEndReachedThreshold={1}
@@ -225,8 +319,23 @@ const styles = StyleSheet.create({
         marginBottom: SIZES.h5,
         // justifyContent: 'center'
         // alignItems: 'center',
-
-    }
+    },
+    categoryCtn:{
+        height: SIZES.h1 * 1.7,
+        width: SIZES.h1 * 1.7,
+        borderRadius: SIZES.base,
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: COLORS.grey3,
+    },
+    latestCtn:{
+        height: SIZES.height * 0.32,
+        width: SIZES.width * 0.65,
+        borderRadius: SIZES.h4, 
+        marginRight: SIZES.h4,
+        // borderWidth: 1,
+        backgroundColor: COLORS.grey2,
+    },
 })
 
 
@@ -290,3 +399,28 @@ const styles = StyleSheet.create({
     //         </View >
     //     );
     // };
+
+
+
+
+    // OLD RENDER ITEM 
+    // <Text style={{ fontSize: SIZES.h2 * 1.3, fontFamily: 'Roboto-Medium', color: COLORS.black }}>Trending</Text>
+    //             <Text style={{ ...FONTS.body3a, color: COLORS.chocolate }}>Some of the top trending news on stories from arround the campuses.</Text>
+    //             {/* STORIES  */}
+    //             <View style={{ marginVertical: SIZES.h4 }}>
+    //                 <FlatList
+    //                     horizontal={true}
+    //                     data={trendingData}
+    //                     // data={stories}
+    //                     showsHorizontalScrollIndicator={false}
+    //                     renderItem={({ item }) => {
+    //                         return (
+    //                             <TouchableOpacity onPress={() => navigation.navigate('Story', { name: item.name, image: item.image })} style={{ marginRight: SIZES.base }}>
+    //                                 {/* <Image source={{ uri: `"${item.story?.url}"` }} style={{ height: SIZES.h1 * 2.2, width: SIZES.h1 * 2.2, borderRadius: 100, }} /> */}
+    //                                 <Image source={images.profile3} style={{ height: SIZES.h1 * 2.2, width: SIZES.h1 * 2.2, borderRadius: 100, }} />
+    //                                 {/* <Text>{item.story?.url}</Text> */}
+    //                             </TouchableOpacity>
+    //                         )
+    //                     }}
+    //                 />
+    //             </View>

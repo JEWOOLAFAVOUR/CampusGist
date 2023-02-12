@@ -23,7 +23,7 @@ export const circleData = [
         description: "Technology that evolves in the universe, didn't know what am typing. Lord I need your help.",
     }, {
         id: 5,
-        title: 'Love',
+        title: 'Religion',
         iconName: icons.location,
         description: "Technology that evolves in the universe, didn't know what am typing. Lord I need your help.",
     }, {
@@ -66,17 +66,51 @@ export const oldMarketData = [
     {
         id: 1,
         marketImage: images.profile2,
-        marketTitle: 'New Wazo',
+        marketTitle: 'Mercy Hostel',
         marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '80,000',
+        status: 'Agent',
     }, {
         id: 2,
         marketImage: images.profile4,
-        marketTitle: 'Nacoa Apartment',
+        marketTitle: 'New York Hostel',
         marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '120,000',
+        status: 'Owner',
     }, {
         id: 3,
         marketImage: images.profile3,
         marketTitle: 'Goious Hostel',
         marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '130,000',
+        status: 'Agent',
+    }, {
+        id: 4,
+        marketImage: images.restaurant1,
+        marketTitle: 'Hozzana Hostel',
+        marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '70,000',
+        status: 'Owner',
+    }, {
+        id: 5,
+        marketImage: images.restaurant2,
+        marketTitle: 'Hozzana Hostel',
+        marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '70,000',
+        status: 'Agent',
+    }, {
+        id: 6,
+        marketImage: images.restaurant3,
+        marketTitle: 'Hozzana Hostel',
+        marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '70,000',
+        status: 'Owner',
+    }, {
+        id: 7,
+        marketImage: images.restaurant4,
+        marketTitle: 'Hozzana Hostel',
+        marketDetails: 'It a 100% compatible CommonMark renderer, a react-native markdown renderer done right. This is not a web-view',
+        price: '70,000',
+        status: 'Agent',
     },
 ];

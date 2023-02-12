@@ -7,6 +7,7 @@ import OldMarket from './OldMarket';
 import CircleListDetails from './CircleListDetails';
 import FoodDetail from './FoodDetail';
 import MarketDetail from './MarketDetail';
+import MarketMore from './MarketMore';
 
 
 const { width, height } = Dimensions.get('window');
@@ -48,6 +49,10 @@ const CampusCircleStack = () => {
                 <Stack.Screen
                     name='MarketDetail'
                     component={MarketDetail}
+                />
+                <Stack.Screen
+                    name='MarketMore'
+                    component={MarketMore}
                 />
             </Stack.Navigator>
         </View>

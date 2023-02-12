@@ -7,6 +7,11 @@ import ProfilePage from './ProfilePage';
 import Notification from './Notification';
 import Story from './Story';
 import ViewAllComment from './ViewAllComment';
+import Technology from './Technology';
+import Entertainment from './Entertainment';
+import Sport from './Sport';
+import Lifestyle from './Lifestyle';
+import Religion from './Religion';
 
 const { width, height } = Dimensions.get('window');
 
@@ -47,6 +52,27 @@ const HomeStack = () => {
                 <Stack.Screen
                     name='ViewAllComment'
                     component={ViewAllComment}
+                />
+                {/* NEW FEATURES  */}
+                <Stack.Screen
+                    name='Technology'
+                    component={Technology}
+                />
+                <Stack.Screen
+                    name='Entertainment'
+                    component={Entertainment}
+                />
+                <Stack.Screen
+                    name='Sport'
+                    component={Sport}
+                />
+                <Stack.Screen
+                    name='Lifestyle'
+                    component={Lifestyle}
+                />
+                <Stack.Screen
+                    name='Religion'
+                    component={Religion}
                 />
             </Stack.Navigator>
         </View>

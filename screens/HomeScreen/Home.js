@@ -31,16 +31,21 @@ const Home = ({ ...props }) => {
             <StatusBar backgroundColor={COLORS.primary} />
             <View style={{ marginBottom: -1, flexDirection: 'row', alignItems: 'center', marginTop: SIZES.h5, justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.05 }}>
                 <Text style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
-                <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Notification')} style={{ marginTop: SIZES.base * 0.6, marginRight: SIZES.base * 0.8 }}>
-                        <Image source={icons.bell} style={{ height: SIZES.h1 * 0.95, width: SIZES.h1 * 0.95, tintColor: COLORS.black }} />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ marginRight: SIZES.h3 }}>
+                        <Image source={icons.search} style={{ height: SIZES.h2 * 1.1, width: SIZES.h2 * 1.1 }} />
                     </TouchableOpacity>
-                    <View style={styles.notificationBell}>
-                        <Text style={{ color: COLORS.white, ...FONTS.h5 }}>6</Text>
-                    </View>
-                    {/* <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Notification')} style={{ flexDirection: 'row' }}>
+                        <View style={{ marginTop: SIZES.base * 0.6, marginRight: SIZES.base * 0.8 }}>
+                            <Image source={icons.bell} style={{ height: SIZES.h1 * 0.95, width: SIZES.h1 * 0.95, tintColor: COLORS.black }} />
+                        </View>
+                        <View style={styles.notificationBell}>
+                            <Text style={{ color: COLORS.white, ...FONTS.h5 }}>6</Text>
+                        </View>
+                        {/* <TouchableOpacity>
                         <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
                     </TouchableOpacity> */}
+                    </TouchableOpacity>
                 </View>
             </View>
             <AllGist />

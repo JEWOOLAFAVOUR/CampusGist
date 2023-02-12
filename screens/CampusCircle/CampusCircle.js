@@ -53,7 +53,7 @@ const CampusCircle = () => {
                     <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2 }}>Campus Circle</Text>
                     <Image source={images.image2} style={{ height: SIZES.width / 2.1, width: SIZES.width }} />
                     <View style={{ marginTop: SIZES.base, marginBottom: SIZES.h5 }}>
-                        <FlatList
+                        {/* <FlatList
                             numColumns={3}
                             columnWrapperStyle={{ justifyContent: 'space-between' }}
                             data={circleData}
@@ -65,7 +65,7 @@ const CampusCircle = () => {
                                     </TouchableOpacity>
                                 )
                             }}
-                        />
+                        /> */}
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold' }}>Hot Food</Text>
@@ -109,7 +109,7 @@ const CampusCircle = () => {
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h3 * 0.9 }}>
                     <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold' }}>Old Market</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('OldMarket')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('MarketMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ ...FONTS.body3a }}>visit market</Text>
                         <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
                     </TouchableOpacity>
@@ -126,12 +126,25 @@ const CampusCircle = () => {
                 // data={market}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail')} style={styles.mainCtn}>
+                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail', { data: item })} style={styles.mainCtn}>
                             <Image source={images.profile2}
-                                style={{ height: SIZES.h1 * 5.05, width: SIZES.h1 * 4, borderTopLeftRadius: SIZES.base, borderBottomLeftRadius: SIZES.base }} />
-                            <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.h4 }}>
-                                <Text style={{ marginTop: SIZES.base, ...FONTS.body1, fontFamily: 'Roboto-Regular', color: COLORS.black }}>{item.marketTitle}</Text>
-                                <Text numberOfLines={2} style={{ ...FONTS.body3, color: COLORS.black }}>{item.marketDetails}</Text>
+                                style={{ marginTop: SIZES.h5 * 0.9, height: SIZES.h1 * 4.0, width: SIZES.h1 * 4.0, borderRadius: SIZES.h4, /* borderTopLeftRadius: SIZES.base, borderBottomLeftRadius: SIZES.base */ }} />
+                            <View style={{ flex: 1, marginLeft: SIZES.h4, marginTop: SIZES.h5 }}>
+                                <Text numberOfLines={1} style={{ fontSize: SIZES.body1 * 0.75, fontWeight: '700', fontFamily: 'Roboto-Regular', color: COLORS.black }}>{item.marketTitle}</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base * 0.3 }}>
+                                    <Image source={icons.location} style={{ height: SIZES.h4, width: SIZES.h4, marginRight: SIZES.base * 0.5 }} />
+                                    <Text numberOfLines={1} style={{ ...FONTS.body4, color: COLORS.black }}>Alexandra Cty, Alabama</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: SIZES.h5 }}>
+                                        <Image source={icons.star} style={{ height: SIZES.h5 * 1, width: SIZES.h5 * 1, tintColor: COLORS.orange, marginLeft: 3 }} />
+                                        <Image source={icons.star} style={{ height: SIZES.h5 * 1, width: SIZES.h5 * 1, tintColor: COLORS.orange, marginLeft: 3 }} />
+                                        <Image source={icons.star} style={{ height: SIZES.h5 * 1, width: SIZES.h5 * 1, tintColor: COLORS.orange, marginLeft: 3 }} />
+                                        <Image source={icons.star} style={{ height: SIZES.h5 * 1, width: SIZES.h5 * 1, tintColor: COLORS.orange, marginLeft: 3 }} />
+                                    </View>
+                                    <Text style={{ ...FONTS.body5, color: COLORS.black, marginLeft: SIZES.base }}>High Recommended</Text>
+                                </View>
+                                <Text style={{ ...FONTS.h2, color: COLORS.indigo }}>{item.price}</Text>
                             </View>
                         </TouchableOpacity>
                     )
@@ -169,15 +182,13 @@ const styles = StyleSheet.create({
         borderRadius: SIZES.base,
     },
     mainCtn: {
-        height: SIZES.h1 * 5.1,
-        // width: SIZES.h1 * 4,
-        borderWidth: 1,
+        height: SIZES.h1 * 4.7,
+        paddingHorizontal: SIZES.h4,
         marginHorizontal: SIZES.width * 0.055,
-        borderRadius: SIZES.base,
+        borderRadius: SIZES.h4,
         flexDirection: 'row',
-        // alignItems: 'center',
         flex: 1,
-        borderColor: COLORS.chocolateBackground,
+        backgroundColor: COLORS.grey2,
         marginTop: SIZES.h5,
     },
 })

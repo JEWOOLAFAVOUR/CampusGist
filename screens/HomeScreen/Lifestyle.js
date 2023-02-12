@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
-const Technology = () => {
+const Lifestyle = () => {
     const navigation = useNavigation();
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
@@ -10,11 +10,11 @@ const Technology = () => {
     }, [navigation]);
     return (
         <View>
-            <Text>Technology</Text>
+            <Text>Lifestyle</Text>
         </View>
     )
 }
 
-export default Technology
+export default Lifestyle
 
 const styles = StyleSheet.create({})
