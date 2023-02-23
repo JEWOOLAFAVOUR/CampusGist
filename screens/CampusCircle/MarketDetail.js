@@ -23,18 +23,7 @@ const MarketDetail = ({ route }) => {
         <View style={{ flex: 1 }}>
             <ScrollView>
                 <View style={{}}>
-                    <SliderBox
-                        images={cool}
-                        sliderBoxHeight={300}
-                        onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-                        dotColor={COLORS.white}
-                        inactiveDotColor={COLORS.orange}
-                        dotStyle={{ height: 10, width: 10, borderRadius: 2 }}
-                        autoplay={true}
-                        circleLoop
-                        autoplayInterval={5000}
-                        ImageComponentStyle={{ height: 280, borderBottomLeftRadius: 30, borderBottomRightRadius: 30 }}
-                    />
+                    {/* SLIDER HERE  */}
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
                         <Image source={icons.arrowleft} style={{ height: SIZES.h1 * 0.7, width: SIZES.h1 * 0.7, tintColor: COLORS.white }} />
                     </TouchableOpacity>

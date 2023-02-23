@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
@@ -10,7 +10,11 @@ const LikeProduct = () => {
     const Post = () => {
         return (
             <View style={styles.page}>
-                <Text style={{ fontSize: SIZES.h1 * 3, color: COLORS.black }}>Post</Text>
+                <Text style={{ fontSize: SIZES.h1 * 1.5, color: COLORS.black, fontFamily: 'Roboto-Medium' }}>You haven't Posted yet</Text>
+                <Text style={{ ...FONTS.body2 }}>When you post, it'll show up here</Text>
+                <TouchableOpacity>
+                    <Text>Posts now</Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -60,8 +64,9 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: COLORS.white,
-        alignItems: 'center',
+        // alignItems: 'center',
         // justifyContent: 'center',
-        paddingTop: SIZES.h1 * 2
+        paddingTop: SIZES.h1 * 1.5,
+        paddingHorizontal: SIZES.h2,
     },
 })

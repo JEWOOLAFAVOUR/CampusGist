@@ -5,17 +5,19 @@ const Home = ({ navigation }) => {
     // const name = 'Favour';
     const [name, setName] = useState('Favour');
 
+    const [firstName, setFirstName] = useState('Moses');
+
     const studentData = []
 
-    const [people, setPeople] = useState([
-        { id: 1, name: 'Dolapo' },
+    const people = [
+        { id: 1, name: 'Dolapo', dept: 'CSC' },
         { id: 2, name: 'David' },
         { id: 3, name: 'Damola' },
         { id: 4, name: 'Favour' },
         { id: 5, name: 'Samuel' },
         { id: 6, name: 'Akin' },
         { id: 7, name: 'Angel' },
-    ])
+    ]
 
     const handleOnpress = (id) => {
         console.log(id)
@@ -28,7 +30,9 @@ const Home = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <StatusBar backgroundColor={'red'} barStyle='light-content' />
-            <Text style={{ fontSize: 30, color: 'blue' }}>My name is {name}</Text>
+            <TouchableOpacity onPress={() => setFirstName('Akin')}>
+                <Text style={{ fontSize: 30, color: 'blue' }}>My name is {firstName}</Text>
+            </TouchableOpacity>
 
             {/* EXAMPLE USING FLATLIST  */}
             <View style={{ marginTop: 50 }}>
@@ -38,12 +42,19 @@ const Home = ({ navigation }) => {
                     data={people}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.container}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Accountl', { item })}
+                                style={styles.container}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>{item.name}</Text>
                                 <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>{item.name}</Text>
                             </TouchableOpacity>
                         )
                     }}
                 />
+
+                <TouchableOpacity onPress={() => navigation.navigate('Accountl', { people })} style={{ height: 50, backgroundColor: 'red' }}>
+                    <Text style={{ fontSize: 30, color: 'white', textAlign: 'center' }}>PRESS ME</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )

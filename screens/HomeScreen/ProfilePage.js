@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: SIZES.h4,
-        height: SIZES.h1 * 3.0,
+        height: SIZES.h1 * 2.3,
         backgroundColor: COLORS.grey2,
         borderRadius: SIZES.h2,
         justifyContent: 'space-between',

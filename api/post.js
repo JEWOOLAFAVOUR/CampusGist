@@ -170,9 +170,37 @@ export const getFood = async (limit, pageNo) => {
     }
 }
 
+export const getEachFood = async (slug) => {
+    try {
+        const { data } = await client(`/post/get-food-slug/${slug}`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}
+
 export const getMarket = async (limit, pageNo) => {
     try {
         const { data } = await client(`/post/get-market?limit=${limit}&pageNo=${pageNo}/`)
+        // console.log(data)
+        return data
+    } catch (error) {
+        const { response } = error
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+}
+
+export const getEacMarket = async (slug) => {
+    try {
+        const { data } = await client(`/post/get-market-slug/${slug}`)
         // console.log(data)
         return data
     } catch (error) {

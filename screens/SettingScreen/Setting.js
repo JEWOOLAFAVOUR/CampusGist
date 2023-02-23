@@ -25,6 +25,7 @@ const Setting = () => {
             id: 3,
             title: 'Notification',
             iconName: icons.bell,
+            onPress: () => navigation.navigate('SNotification'),
             // onPress: Notification,
         }, {
             id: 4,

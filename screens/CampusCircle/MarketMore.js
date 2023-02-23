@@ -15,14 +15,14 @@ const MarketMore = () => {
 
     return (
         <View style={styles.page}>
-            <Text style={{ ...FONTS.body1, color: COLORS.primary, fontWeight: 'bold', marginBottom: SIZES.h5, }}>Market</Text>
+            <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5, }}>Market</Text>
             <FlatList
                 data={oldMarketData}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity style={styles.container}>
+                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail', { data: item })} style={styles.container}>
                             <View>
                                 <Image source={item.marketImage}
                                     style={{ height: SIZES.height * 0.24, width: SIZES.width * 0.47, borderRadius: SIZES.h4, }} />

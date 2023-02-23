@@ -18,45 +18,6 @@ const limit = 50;
 let pageNo1 = 0;
 const limit1 = 10;
 
-const trendingData = [
-    {
-        id: 1,
-        image: images.profile3,
-        name: 'EYINJUdddhddhdhdhdh',
-    }, {
-        id: 2,
-        image: images.profile2,
-        name: 'BBC NEWS',
-    }, {
-        id: 3,
-        image: images.slide3,
-        name: 'impact_tv',
-    }, {
-        id: 4,
-        image: images.slide4,
-        name: 'bleedingpen',
-    }, {
-        id: 5,
-        image: images.image1,
-        name: 'JSON_TV',
-    }, {
-        id: 6,
-        image: images.image2,
-        name: 'LACADEMON',
-    }, {
-        id: 7,
-        image: images.profile2,
-        name: 'ADE_TV',
-    }, {
-        id: 8,
-        image: images.profile3,
-        name: 'TOP-WORRLD',
-    }, {
-        id: 9,
-        image: images.slide2,
-        name: 'Don Mike',
-    },
-];
 const AllGist = ({ ...props }) => {
     // console.log('first', props)
     const { accessToken, user, updatePostDetails, posts } = props;
@@ -179,30 +140,30 @@ const AllGist = ({ ...props }) => {
         ];
         return(
             <View>
-                <Text style={{...FONTS.body1, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5}}>Gists Today</Text>
+                <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.base}}>Gists Today</Text>
                 <FlatList
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={newsTodayData}
-                    renderItem={({item})=>{
+                     renderItem={({item})=>{
                         return(
                             <TouchableOpacity activeOpacity={0.7} style={styles.latestCtn}>
                                 <View>
-                                    <Image source={item.thumbnail} style={{height: SIZES.height * 0.24, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
+                                    <Image source={item.thumbnail} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
                                     <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
                                         <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
                                             <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
-                                            <Text style={{...FONTS.body3a, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>{item.category}</Text>
+                                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>{item.category}</Text>
                                         </View>
-                                        <Text style={{...FONTS.body3a, fontWeight: 'bold', color: COLORS.white}}>{item.time}</Text>
+                                        <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>{item.time}</Text>
                                     </View>
                                 </View>
-                                <Text numberOfLines={2} style={{...FONTS.body2, fontWeight: 'bold', color: COLORS.black, marginHorizontal: SIZES.base,}}>{item.title}</Text>
+                                <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>
                             </TouchableOpacity>
                         )
                     }}
                 />
-                <Text style={{...FONTS.body1, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.h5, marginBottom: SIZES.base}}>Latest Gists</Text>
+                <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.base * 0.8, marginBottom: SIZES.base * 0.1}}>Latest Gists</Text>
             </View>
         )
     } 
@@ -246,7 +207,7 @@ const AllGist = ({ ...props }) => {
                 data={categoryData}
                 renderItem={({item})=>{
                         return(
-                            <TouchableOpacity onPress={item.onPress} style={{marginRight: SIZES.h2, marginVertical:SIZES.h4,}}>
+                            <TouchableOpacity onPress={item.onPress} style={{marginRight: SIZES.h2, marginTop:SIZES.base * 0.5, marginBottom:SIZES.base * 0.5}}>
                                 <View style={[styles.categoryCtn, {backgroundColor: item.test ? COLORS.semiblue : COLORS.grey3}]}>
                                     <Image source={item.iconName} style={{height: SIZES.h2 * 1.1, width: SIZES.h2 * 1.1, tintColor: item.test ? COLORS.white : COLORS.chocolate}}/>
                                 </View>
@@ -321,15 +282,15 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     categoryCtn:{
-        height: SIZES.h1 * 1.7,
-        width: SIZES.h1 * 1.7,
+        height: SIZES.h1 * 1.5,
+        width: SIZES.h1 * 1.65,
         borderRadius: SIZES.base,
         justifyContent: 'center',
         alignItems:'center',
         backgroundColor: COLORS.grey3,
     },
     latestCtn:{
-        height: SIZES.height * 0.32,
+        height: SIZES.height * 0.293,
         width: SIZES.width * 0.65,
         borderRadius: SIZES.h4, 
         marginRight: SIZES.h4,

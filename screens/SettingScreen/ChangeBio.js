@@ -3,8 +3,10 @@ import React, { useEffect } from 'react'
 import { COLORS, FONTS, SIZES, icons, images } from '../../constants';
 import Header from '../../components/Header'
 import FormButton from '../../components/FormButton';
+import { useNavigation } from '@react-navigation/native';
 
-const ChangeBio = ({ navigation }) => {
+const ChangeBio = ({ }) => {
+    const navigation = useNavigation();
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });

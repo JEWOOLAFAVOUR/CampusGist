@@ -31,24 +31,26 @@ const PostList = ({ data }) => {
     //     fetchSinglePost()
     // }, [])
     return (
-        <View style={styles.listCtn}>
-            <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1 }}>
-                <Image source={images.profile2} style={{ height: SIZES.h1 * 3.7, width: SIZES.h1 * 3.7, borderRadius: SIZES.h4 * 0.9 }} />
-            </View>
-            <View style={{ flex: 1, marginHorizontal: SIZES.h4, marginTop: SIZES.base, }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text style={{ color: COLORS.grey, fontSize: SIZES.body3, fontFamily: 'Roboto-Regular', marginBottom: 2 }}>Life_Updates</Text>
-                    <Image source={images.profile2} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
+        <TouchableOpacity activeOpacity={0.7} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
+
+            <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image source={images.slide1} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9, borderRadius: 100 }} />
+                        <Text style={{ color: COLORS.grey, fontSize: SIZES.body4, fontFamily: 'Roboto-Regular', marginBottom: 2, marginLeft: SIZES.base }}>Olosolo02</Text>
+                    </View>
+
                 </View>
-                <TouchableOpacity onPress={() => fetchSinglePost(data.slug)}>
-                    <Text numberOfLines={2} style={{ color: COLORS.black, fontSize: SIZES.body3 * 1.2, fontFamily: 'Roboto-Medium', fontWeight: '700' }}>{data.title}</Text>
-                </TouchableOpacity>
+                <View>
+                    {/* <TouchableOpacity onPress={() => navigation.navigate('PostDetail', { slug: data.slug })}> */}
+                    <Text numberOfLines={3} style={{ color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600' }}>{data.title}</Text>
+                </View>
                 {/* REACTION  */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: SIZES.base * 0.9 }}>
                     <Text>4 hours ago</Text>
                     <Text style={{ marginHorizontal: SIZES.base }}>-</Text>
                     <TouchableOpacity onPress={() => setCommentRec(commentRec + 1)} style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.base * 1.5 }}>
-                        <Image source={icons.comment2} style={{ height: SIZES.h3 * 1.1, width: SIZES.h3 * 1.1, }} />
+                        <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{commentRec}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setLoveRec(loveRec + 1) & setClick(!click)} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.base * 1.5 }}>
@@ -57,7 +59,15 @@ const PostList = ({ data }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+            <View style={{ marginRight: SIZES.base }}>
+                <TouchableOpacity style={styles.followCtn}>
+                    <Text style={{ ...FONTS.body5, color: COLORS.orange }}>Follow</Text>
+                </TouchableOpacity>
+                <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1 }}>
+                    <Image source={images.profile2} style={{ height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
+                </View>
+            </View>
+        </TouchableOpacity>
     )
     // return (
     //     <View style={styles.gistCtn}>
@@ -104,7 +114,7 @@ export default PostList
 const styles = StyleSheet.create({
     listCtn: {
         flex: 1,
-        height: SIZES.h1 * 4.3,
+        height: SIZES.h1 * 4.1,
         borderWidth: 2,
         backgroundColor: COLORS.grey2,
         borderColor: COLORS.grey2,
@@ -113,13 +123,6 @@ const styles = StyleSheet.create({
         borderRadius: SIZES.h5,
         // alignItems: 'center',
     },
-
-
-
-
-
-
-
     gistCtn: {
         height: SIZES.h1 * 4.7,
         // borderWidth: 1,
@@ -129,8 +132,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#f3f3f3',
         marginHorizontal: 0,
         marginBottom: SIZES.h5,
-        // justifyContent: 'center'
-        // alignItems: 'center',
-
-    }
+    },
+    followCtn: {
+        borderWidth: 1,
+        height: SIZES.h2 * 1.1,
+        width: SIZES.h1 * 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: SIZES.h5,
+        borderColor: COLORS.orange,
+        alignSelf: 'flex-end',
+        marginBottom: SIZES.base * 0.9,
+        marginTop: SIZES.base * 0.2,
+    },
 })

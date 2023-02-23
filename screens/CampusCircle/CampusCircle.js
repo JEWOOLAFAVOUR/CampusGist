@@ -1,9 +1,11 @@
-import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { circleData, hotFoodData, oldMarketData } from './CampusCircleData'
 import { useNavigation } from '@react-navigation/native'
 import { getFood, getMarket, getBanner } from '../../api/post'
+import { SliderBox } from 'react-native-image-slider-box';
+import Slide from './Slide'
 
 let pageNo = 0;
 const limit = 10;
@@ -15,6 +17,11 @@ const CampusCircle = () => {
     const [banner, setBanner] = useState([])
     const [food, setFood] = useState([])
     const [market, setMarket] = useState([])
+    const [showSpinner, setShowSpinner] = useState(false);
+    const [cool, setCool] = React.useState([
+        images.restaurant1, images.restaurant2, images.restaurant3
+    ])
+
 
     const fetchFood = async () => {
         const { error, foods } = await getFood(limit, pageNo);
@@ -46,12 +53,22 @@ const CampusCircle = () => {
         fetchBanner();
     }, [])
 
+    const _renderEmpty = () => {
+        return (
+            <View style={{}}>
+                <ActivityIndicator color={COLORS.orange} size={40} />
+                <Text style={{ ...FONTS.body3a, }}>Loading foods</Text>
+            </View>
+        )
+    }
     const CampusHeader = () => {
         return (
             <View>
                 <View style={{ paddingHorizontal: SIZES.width * 0.03, paddingTop: SIZES.base * 0.9 }}>
                     <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2 }}>Campus Circle</Text>
+                    {/* BANNER  */}
                     <Image source={images.image2} style={{ height: SIZES.width / 2.1, width: SIZES.width }} />
+
                     <View style={{ marginTop: SIZES.base, marginBottom: SIZES.h5 }}>
                         {/* <FlatList
                             numColumns={3}
@@ -68,29 +85,32 @@ const CampusCircle = () => {
                         /> */}
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold' }}>Hot Food</Text>
+                        <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Hot Food</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('HotMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ ...FONTS.body3a }}>more foods</Text>
                             <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                {/* FOOD CODE  */}
                 <View style={{ marginLeft: SIZES.h5 * 1.2 }}>
                     <FlatList
                         // data={hotFoodData}
                         data={food}
                         showsHorizontalScrollIndicator={false}
                         horizontal
+                        ListEmptyComponent={_renderEmpty}
                         renderItem={({ item }) => {
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('FoodDetail')} key={item.id} style={styles.hotCtn}>
+                                <TouchableOpacity onPress={() => navigation.navigate('FoodDetail', { slug: item.slug })} key={item.id} style={styles.hotCtn}>
                                     <Image source={images.restaurant1}
                                         style={{
                                             height: SIZES.h1 * 3.5, width: SIZES.h1 * 4.9, borderTopRightRadius: SIZES.base,
                                             borderTopLeftRadius: SIZES.base, alignSelf: 'center'
                                         }} />
                                     <View style={{ paddingHorizontal: SIZES.base }}>
-                                        <Text style={{ ...FONTS.body3, marginTop: SIZES.base * 0.8, color: COLORS.black, fontWeight: 'bold' }}>{item.title}</Text>
+                                        <Text numberOfLines={1} style={{ ...FONTS.body3, marginTop: SIZES.base * 0.8, color: COLORS.black, fontWeight: 'bold' }}>{item.title}</Text>
                                         <Text style={{ ...FONTS.body4, color: COLORS.grey }}>Highly recommended</Text>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -108,7 +128,7 @@ const CampusCircle = () => {
                     />
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h3 * 0.9 }}>
-                    <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold' }}>Old Market</Text>
+                    <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Old Market</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('MarketMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ ...FONTS.body3a }}>visit market</Text>
                         <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
@@ -130,7 +150,7 @@ const CampusCircle = () => {
                             <Image source={images.profile2}
                                 style={{ marginTop: SIZES.h5 * 0.9, height: SIZES.h1 * 4.0, width: SIZES.h1 * 4.0, borderRadius: SIZES.h4, /* borderTopLeftRadius: SIZES.base, borderBottomLeftRadius: SIZES.base */ }} />
                             <View style={{ flex: 1, marginLeft: SIZES.h4, marginTop: SIZES.h5 }}>
-                                <Text numberOfLines={1} style={{ fontSize: SIZES.body1 * 0.75, fontWeight: '700', fontFamily: 'Roboto-Regular', color: COLORS.black }}>{item.marketTitle}</Text>
+                                <Text numberOfLines={1} style={{ fontSize: SIZES.body1 * 0.6, fontWeight: '700', fontFamily: 'Roboto-Regular', color: COLORS.black }}>{item.marketTitle}</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base * 0.3 }}>
                                     <Image source={icons.location} style={{ height: SIZES.h4, width: SIZES.h4, marginRight: SIZES.base * 0.5 }} />
                                     <Text numberOfLines={1} style={{ ...FONTS.body4, color: COLORS.black }}>Alexandra Cty, Alabama</Text>

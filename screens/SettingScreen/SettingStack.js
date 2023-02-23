@@ -7,7 +7,7 @@ import EditProfile from './EditProfile';
 import ContactUs from './ContactUs';
 import Saved from './Saved';
 import AboutUs from './AboutUs';
-// import Notification from './Notification';
+import Notification from './Notification';
 import ChangeBio from './ChangeBio';
 
 const { width, height } = Dimensions.get('window');
@@ -50,10 +50,10 @@ const SettingStack = () => {
                     name='AboutUs'
                     component={AboutUs}
                 />
-                {/* <Stack.Screen
-                    name='Notification'
+                <Stack.Screen
+                    name='SNotification'
                     component={Notification}
-                /> */}
+                />
                 <Stack.Screen
                     name='ChangeBio'
                     component={ChangeBio}

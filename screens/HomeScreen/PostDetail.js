@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList } from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { COLORS, FONTS, icons, images, SIZES } from '../../constants';
 import RelatedPost from './RelatedPost';
@@ -9,7 +9,7 @@ import commentData from './commentData';
 import CommentSection from './CommentSection';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { addComment, toggleLike } from '../../api/post';
+import { addComment, getSinglePost, toggleLike } from '../../api/post';
 
 const copy = `# h1 Heading 8-)
  
@@ -35,6 +35,7 @@ const PostDetail = ({ route }) => {
     // useEffect(() => { route }, [])
     // console.log('this is route', route)
     const post = route.params?.post;
+    // const [post, setPost] = useState({})
     const token = route.params?.accessToken;
 
     const getImage = (uri) => {
@@ -57,53 +58,66 @@ const PostDetail = ({ route }) => {
         console.log('data', message)
     }
 
+    // const fetchSinglePost = async (slug = route.params.slug) => {
+    //     const { error, post } = await getSinglePost(slug)
+    //     setPost(post)
+    //     console.log('post each', post)
+    //     if (error) console.log('singlepost error', error)
+
+    // }
+
+    // useEffect(() => {
+    //     fetchSinglePost()
+    // }, [])
+    const [test, setTest] = React.useState(false)
     return (
-        <View style={{ flex: 1 }}>
-            <StatusBar />
-            {/* HEADER SECTION */}
-            <View style={{ backgroundColor: COLORS.primary }}>
-                <View style={styles.headerCtn}>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: SIZES.h2, paddingVertical: SIZES.h5 }}>
-                        <Image source={icons.arrowleft} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ paddingLeft: 10, paddingVertical: 4 }}>
-                        <Image source={icons.verticalmenu} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
-                    </TouchableOpacity>
+        <KeyboardAvoidingView enabled={true} behavior='height' style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+                <StatusBar />
+                {/* HEADER SECTION */}
+                <View style={{ backgroundColor: COLORS.primary }}>
+                    <View style={styles.headerCtn}>
+                        <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: SIZES.h2, paddingVertical: SIZES.h5 }}>
+                            <Image source={icons.arrowleft} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ paddingLeft: 10, paddingVertical: 4 }}>
+                            <Image source={icons.verticalmenu} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
+                        </TouchableOpacity>
+                    </View>
+                    {/* <View style={{ height: 1.5, elevation: 1, backgroundColor: '#cdcdcd' }} /> */}
                 </View>
-                {/* <View style={{ height: 1.5, elevation: 1, backgroundColor: '#cdcdcd' }} /> */}
-            </View>
 
-            {/* ScrollView */}
-            {/* <View> */}
-            <ScrollView key={id} style={{ flex: 1 }}>
+                {/* ScrollView */}
+                {/* <View> */}
+                <ScrollView key={id} style={{ flex: 1 }}>
 
 
-                {/* BODY  */}
-                <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.base }}>
-                    <Text numberOfLines={3} style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>{title}</Text>
+                    {/* BODY  */}
+                    <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.base }}>
+                        <Text numberOfLines={3} style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>{title}</Text>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.h4 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <View>
-                                    <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
-                                </View>
-                                <View onPress={() => navigation.navigate('ProfilePage')}>
-                                    <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black }}>{author}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {/* <Text style={{ ...FONTS.body3a, color: COLORS.black, marginRight: SIZES.base / 2 }}>{dateFormat(createdAt, 'shortTime')}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.h4 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <View>
+                                        <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
+                                    </View>
+                                    <View onPress={() => navigation.navigate('ProfilePage')}>
+                                        <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black }}>{author}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                {/* <Text style={{ ...FONTS.body3a, color: COLORS.black, marginRight: SIZES.base / 2 }}>{dateFormat(createdAt, 'shortTime')}</Text>
                             <Text style={{ ...FONTS.body3a, color: COLORS.black }}>{dateFormat(createdAt, 'mediumDate')}</Text> */}
-                            <TouchableOpacity onPress={() => setClicked(!clicked)} style={styles.followCtn}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={{ color: COLORS.white, ...FONTS.body3a, marginRight: SIZES.base * 0.7 }}>+</Text>
-                                    <Text style={{ color: COLORS.white, ...FONTS.body3a }}>{clicked ? 'Following' : 'Follow'}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <TouchableOpacity onPress={() => setClicked(!clicked)} style={styles.followCtn}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={{ color: COLORS.white, ...FONTS.body3a, marginRight: SIZES.base * 0.7 }}>+</Text>
+                                        <Text style={{ color: COLORS.white, ...FONTS.body3a }}>{clicked ? 'Following' : 'Follow'}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {
                                 tags.map((tag, index) => (
                                     <Text key={tag + index} style={{ ...FONTS.body3b, color: COLORS.black }}>#{tag}</Text>
@@ -111,81 +125,86 @@ const PostDetail = ({ route }) => {
                             }
                         </View> */}
 
-                    </View>
-                    <View style={{ marginTop: SIZES.h4, marginBottom: SIZES.h4, }}>
-                        <Image source={getImage(thumbnail)} style={{ height: SIZES.height / 2.9, width: SIZES.width * 0.94 }} />
-                    </View>
-
-                    <Markdown>
-                        {content}
-                    </Markdown>
-
-                    {/* TOGGLE LIKE */}
-                    <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
-                        <Image source={icons.thumb} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
-                        <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>41</Text>
-                    </TouchableOpacity>
-                    {/* RELATED POST  */}
-                    {/* <RelatedPost postId={post.id} /> */}
-                </View>
-
-                {/* COMMENT SECTION */}
-                <View style={{ marginBottom: SIZES.h2 }}>
-                    <View style={{ paddingHorizontal: SIZES.width * 0.05, flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.h4 * 1.3 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                                <View style={{ height: SIZES.h3 * 0.95, width: 3, backgroundColor: COLORS.orange, marginRight: SIZES.h5 }} />
-                                <Text style={{ ...FONTS.h2, color: COLORS.blue, fontWeight: 'bold' }}>Comments</Text>
-                            </View>
-                            <TouchableOpacity onPress={() => navigation.navigate('ViewAllComment')}>
-                                <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>view all(26)</Text>
-                            </TouchableOpacity>
                         </View>
-                    </View>
-                    {
-                        commentData.map((data, index) => <CommentSection item={data} index />)
-                    }
-                </View>
-            </ScrollView>
-            {/* </View> */}
-            {/* COMMENT BOX SECTION */}
-            <Formik
-                validationSchema={commentValidationSchema}
-                initialValues={{
-                    comment: ''
-                }}
-                onSubmit={async (values) => {
-                    console.log('comment submited', values, token)
-                    addComment(postId, values, token).then(res => {
-                        console.log('response', res)
+                        <View style={{ marginTop: SIZES.h4, marginBottom: SIZES.h4, }}>
+                            <Image source={getImage(thumbnail)} style={{ height: SIZES.height / 2.9, width: SIZES.width * 0.94 }} />
+                        </View>
 
-                    }).catch(err => {
-                        console.log('comment error', err.response.data?.error)
-                        console.log('Error', err.response.data?.error)
-                    })
-                }}
-            >
-                {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
-                    <>
-                        <View style={styles.commentSection}>
-                            <View style={styles.textInputCtn}>
-                                <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
-                                <TextInput
-                                    name='comment'
-                                    onChangeText={handleChange('comment')}
-                                    numberOfLines={3} placeholder='Well, I think...'
-                                    style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }} />
-                                {/* BUTTON */}
-                                <TouchableOpacity onPress={handleSubmit}>
-                                    <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                        <Markdown>
+                            {content}
+                        </Markdown>
+
+                        {/* TOGGLE LIKE */}
+                        <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
+                            <Image source={icons.thumb} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                            <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>41</Text>
+                        </TouchableOpacity>
+                        {/* RELATED POST  */}
+                        {/* <RelatedPost postId={post.id} /> */}
+                    </View>
+
+                    {/* COMMENT SECTION */}
+                    <View style={{ marginBottom: SIZES.h2 }}>
+                        <View style={{ paddingHorizontal: SIZES.width * 0.05, flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.h4 * 1.3 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                                    <View style={{ height: SIZES.h3 * 0.95, width: 3, backgroundColor: COLORS.orange, marginRight: SIZES.h5 }} />
+                                    <Text style={{ ...FONTS.h2, color: COLORS.blue, fontWeight: 'bold' }}>Comments</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => navigation.navigate('ViewAllComment')}>
+                                    <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>view all(26)</Text>
                                 </TouchableOpacity>
                             </View>
-
                         </View>
-                    </>
-                )}
-            </Formik>
-        </View>
+                        {
+                            commentData.map((data, index) => <CommentSection item={data} index />)
+                        }
+                    </View>
+                </ScrollView>
+                {/* </View> */}
+                {/* COMMENT BOX SECTION */}
+                <View style={{ bottom: test ? 20 : 0 }}>
+                    <Formik
+                        validationSchema={commentValidationSchema}
+                        initialValues={{
+                            comment: ''
+                        }}
+                        onSubmit={async (values) => {
+                            console.log('comment submited', values, token)
+                            addComment(postId, values, token).then(res => {
+                                console.log('response', res)
+
+                            }).catch(err => {
+                                console.log('comment error', err.response.data?.error)
+                                console.log('Error', err.response.data?.error)
+                            })
+                        }}
+                    >
+                        {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
+                            <>
+                                {/* {touched && setTest(!test)} */}
+                                <View style={styles.commentSection}>
+                                    <View style={styles.textInputCtn}>
+                                        <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
+                                        {touched.comment && setTest(!test)}
+                                        <TextInput
+                                            name='comment'
+                                            onChangeText={handleChange('comment')}
+                                            numberOfLines={3} placeholder='Well, I think...'
+                                            style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }} />
+                                        {/* BUTTON */}
+                                        <TouchableOpacity onPress={handleSubmit}>
+                                            <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                            </>
+                        )}
+                    </Formik>
+                </View>
+            </View>
+        </KeyboardAvoidingView>
     )
 }
 
