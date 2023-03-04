@@ -4,7 +4,7 @@ import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import Slider from './Slider'
 import { homeData } from './homeData'
 import { useNavigation } from '@react-navigation/native'
-import { getLatestPosts, getSinglePost, getStories } from '../../api/post'
+import { getFeaturedPosts, getLatestPosts, getSinglePost, getStories } from '../../api/post'
 import dateFormat from 'dateformat'
 import { connect } from 'react-redux'
 import PostList from './PostList'
@@ -28,21 +28,25 @@ const AllGist = ({ ...props }) => {
     const kaka = () => {
         homePostData
     }
-    console.log('data cool', homePostData)
+    console.log('data from storage', homePostData)
     const [featuredPosts, setFeaturedPosts] = useState([])
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
     const [busy, setBusy] = useState(false)
-    const [stories, setStories] = useState([])
 
-    console.log('story content', stories[0])
+    console.log('featured 1', featuredPosts)
+
+    const fetchFeaturePost = async () =>{
+        const { error, posts } = await getFeaturedPosts();
+        console.log('this is featured post', posts)
+        if (error) return console.log('feat',error)
+        setFeaturedPosts(posts)
+    }
 
     const fetchLatestPosts = async () => {
         const { error, posts } = await getLatestPosts(limit, pageNo);
         console.log('this is latest post', posts)
         if (error) return console.log(error)
-
-        // console.log('post', posts)
 
         setLatestPost(posts)
 
@@ -52,13 +56,6 @@ const AllGist = ({ ...props }) => {
 
     }
 
-    const fetchStories = async () => {
-        const { error, stories } = await getStories(limit1, pageNo1);
-        console.log('this is the story data', stories)
-        if (error) return console.log('sta-err', error)
-
-        setStories(stories)
-    }
 
     const fetchMorePosts = async () => {
         console.log('runnings')
@@ -77,28 +74,20 @@ const AllGist = ({ ...props }) => {
         setLatestPost([...latestPost, ...posts])
     }
 
-    // const fetchSinglePost = async (slug) => {
-    //     const { error, post } = await getSinglePost(slug)
-    //     console.log('first jv', post)
-
-    //     if (error) console.log('singlepost error', error)
-    //     navigation.navigate('PostDetail', { post, accessToken })
-
-    // }
-
     const handlePostPress = (post) => {
         navigation.navigate('PostDetail', {})
     }
+    const fetchSinglePost = async (slug) => {
+        const { error, post } = await getSinglePost(slug)
+        console.log('first jv', post)
+        navigation.navigate('PostDetail', { post })
+        if (error) console.log('singlepost error', error)
 
-       // const getThumbnail = (uri) => {
-        //     if (uri) return { uri }
-
-        //     return images.profile2
-        // }
+    }
     useEffect(() => {
         fetchLatestPosts();
-        fetchStories();
         kaka();
+        fetchFeaturePost();
         homePostData;
     }, [])
 
@@ -138,24 +127,29 @@ const AllGist = ({ ...props }) => {
                 thumbnail: images.restaurant3,
             },
         ];
+        const getImage = (uri) => {
+            if (uri) return { uri };
+    
+            return images.image2
+        }
         return(
             <View>
                 <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.base}}>Gists Today</Text>
                 <FlatList
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    data={newsTodayData}
+                    data={featuredPosts}
                      renderItem={({item})=>{
                         return(
-                            <TouchableOpacity activeOpacity={0.7} style={styles.latestCtn}>
+                            <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)} activeOpacity={0.7} style={styles.latestCtn}>
                                 <View>
-                                    <Image source={item.thumbnail} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
+                                    <Image source={getImage(item.thumbnail)} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
                                     <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
                                         <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
                                             <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
-                                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>{item.category}</Text>
+                                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>sport</Text>
                                         </View>
-                                        <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>{item.time}</Text>
+                                        <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>4 mins ago</Text>
                                     </View>
                                 </View>
                                 <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>
@@ -233,7 +227,8 @@ const AllGist = ({ ...props }) => {
                     keyExtractor={(item) => item.id}
                     ListHeaderComponentStyle={{ marginBottom: SIZES.h5 }}
                     showsVerticalScrollIndicator={false}
-                    data={homePostData}
+                    // data={homePostData}
+                    data={latestPost}
                     // renderItem={({ item }) => <RenderItem data={item} />}
                         // renderItem={({item})=> <NewsToday data={item}/>}
                     renderItem={({ item }) => <PostList data={item} />}

@@ -1,0 +1,43 @@
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
+import axios from 'axios';
+
+const Post = ({post}) => {
+  const [liked, setLiked] = useState(false);
+  const {_id, title, content, post_likes} = post;
+
+  const handleLike = async () => {
+    try {
+      const response = await axios.post(`/api/posts/${_id}/like`);
+      setLiked(true);
+      console.log(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUnlike = async () => {
+    try {
+      const response = await axios.delete(`/api/posts/${_id}/like`);
+      setLiked(false);
+      console.log(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <View style={{margin: 10}}>
+      <Text style={{fontSize: 20}}>{title}</Text>
+      <Text style={{fontSize: 16}}>{content}</Text>
+      <TouchableOpacity onPress={liked ? handleUnlike : handleLike}>
+        <Text>{liked ? 'Unlike' : 'Like'}</Text>
+      </TouchableOpacity>
+      <Text>{post_likes.length} likes</Text>
+    </View>
+  );
+};
+
+export default Post;
+
+// THE UPPER CODE IS FOR THE TOOGLE-LIKE BUTTON

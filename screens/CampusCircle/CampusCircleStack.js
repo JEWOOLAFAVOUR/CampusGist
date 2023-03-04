@@ -5,7 +5,7 @@ import CampusCircle from './CampusCircle';
 import HotMore from './HotMore';
 import OldMarket from './OldMarket';
 import CircleListDetails from './CircleListDetails';
-import FoodDetail from './FoodDetail';
+import RestaurantDetail from './RestaurantDetail';
 import MarketDetail from './MarketDetail';
 import MarketMore from './MarketMore';
 
@@ -43,8 +43,8 @@ const CampusCircleStack = () => {
                     component={CircleListDetails}
                 />
                 <Stack.Screen
-                    name='FoodDetail'
-                    component={FoodDetail}
+                    name='RestaurantDetail'
+                    component={RestaurantDetail}
                 />
                 <Stack.Screen
                     name='MarketDetail'

@@ -4,14 +4,21 @@ import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import dateFormat from 'dateformat'
 import { getSinglePost } from '../../api/post';
 import { useNavigation } from '@react-navigation/native';
+import { handleLike, handleUnlike } from '../../api/post';
+import { connect } from 'react-redux'
 
 
-const PostList = ({ data }) => {
-    const [commentRec, setCommentRec] = useState(6)
-    const [loveRec, setLoveRec] = useState(6)
+
+const PostList = ({ data, ...props }) => {
+    const [commentRec, setCommentRec] = useState(data.comment)
+    const [loveRec, setLoveRec] = useState(data.like)
     const [click, setClick] = useState(false)
     const navigation = useNavigation()
     const { thumbnail } = data;
+    const [liked, setLiked] = useState(data.like);
+    const [likeCount, setLikeCount] = useState(data.like);
+    // access token
+    const accessToken = props.accessToken
 
     const getThumbnail = (uri) => {
         if (uri) return { uri }
@@ -19,6 +26,20 @@ const PostList = ({ data }) => {
         return images.profile2
     }
 
+    const handleToggle = async (postId, accessToken) => {
+        console.log('access token testing', accessToken)
+        console.log('firstdddddddd', postId)
+
+
+        const data = await handleLike(postId, accessToken)
+        // setLiked(!liked + 1)
+        setLiked(!liked)
+        setLikeCount(liked ? likeCount - 1 : likeCount + 1)
+
+        console.log('erroe for toogle', data)
+        // console.log('data hhhh', message)
+
+    }
 
     const fetchSinglePost = async (slug) => {
         const { error, post } = await getSinglePost(slug)
@@ -31,7 +52,7 @@ const PostList = ({ data }) => {
     //     fetchSinglePost()
     // }, [])
     return (
-        <TouchableOpacity activeOpacity={0.7} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
+        <TouchableOpacity key={data.id} activeOpacity={1} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
 
             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -53,9 +74,9 @@ const PostList = ({ data }) => {
                         <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{commentRec}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setLoveRec(loveRec + 1) & setClick(!click)} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.base * 1.5 }}>
-                        <Image source={click ? icons.love1 : icons.love2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.orange }} />
-                        <Text style={{ marginLeft: SIZES.base * 0.8 }}>{loveRec}</Text>
+                    <TouchableOpacity onPress={() => handleToggle(data.id, accessToken)} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.base * 1.5 }}>
+                        <Image source={liked ? icons.love1 : icons.love2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.orange }} />
+                        <Text style={{ marginLeft: SIZES.base * 0.8 }}>{likeCount}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -109,7 +130,18 @@ const PostList = ({ data }) => {
     // );
 };
 
-export default PostList
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+
 
 const styles = StyleSheet.create({
     listCtn: {

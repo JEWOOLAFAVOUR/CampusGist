@@ -16,6 +16,7 @@ export const COLORS = {
     white: '#ffffff',
     black: '#000000',
     grey: '#161615',
+    yellow: 'yellow',
     // chocolate: '#9fa09e',
     chocolate: '#5d5c6c',
     chocolateBackground: '#CECFCD',

@@ -10,6 +10,10 @@ import CommentSection from './CommentSection';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { addComment, getSinglePost, toggleLike } from '../../api/post';
+import { connect } from 'react-redux'
+
+
+import { handleLike, handleUnlike } from '../../api/post';
 
 const copy = `# h1 Heading 8-)
  
@@ -24,7 +28,7 @@ const commentValidationSchema = yup.object().shape({
         .required('comment is required'),
 })
 
-const PostDetail = ({ route }) => {
+const PostDetail = ({ route, ...props }) => {
     const navigation = useNavigation();
     const [clicked, setClicked] = useState(false)
     useEffect(() => {
@@ -33,42 +37,53 @@ const PostDetail = ({ route }) => {
     }, [navigation]);
 
     // useEffect(() => { route }, [])
-    // console.log('this is route', route)
-    const post = route.params?.post;
+    console.log('this is props', props)
+    // const post = route.params?.post;
+    const { post } = route.params;
+    const accessToken = props.accessToken
+    // console.log('first', accessToken)
+    // console.log('first', token)
+
     // const [post, setPost] = useState({})
-    const token = route.params?.accessToken;
+    // const token = route.params?.accessToken;
+    // const token = route.params.token
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2M3M2NhMGZmNDNiNGIwNTk0ZWQ0MyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NzYzNDAyMjksImV4cCI6MTY3NjQyNjYyOX0.wc_B1hnKRQSVmkr474_yZKT-vvH2gUwiKXEeOuDnMUI";
+    console.log('token', accessToken)
 
     const getImage = (uri) => {
         if (uri) return { uri };
 
-        return images.profile6
+        return images.image2
     }
 
     if (!post) return null;
 
-    const { title, thumbnail, tags, createdAt, author, content, id } = post;
+    const { title, thumbnail, tags, createdAt, author, content, id, like } = post;
+    // const [liked, setLiked] = useState(like);
+    // const [cool, setCool] = useState(false)
+    const [liked, setLiked] = useState(like);
+    const [likeCount, setLikeCount] = useState(like);
+
     console.log('post details', post)
 
     const postId = id;
-    // console.log('first', postId)
+    console.log('first', postId)
 
-    const handleToggle = async (postId) => {
-        const { error, message } = await toggleLike(postId)
-        console.log('good', error)
-        console.log('data', message)
+    const handleToggle = async (postId, accessToken) => {
+        console.log('access token testing', accessToken)
+        console.log('firstdddddddd', postId)
+
+
+        const data = await handleLike(postId, accessToken)
+        // setLiked(!liked + 1)
+        setLiked(!liked)
+        setLikeCount(liked ? likeCount - 1 : likeCount + 1)
+
+        console.log('erroe for toogle', data)
+        // console.log('data hhhh', message)
+
     }
 
-    // const fetchSinglePost = async (slug = route.params.slug) => {
-    //     const { error, post } = await getSinglePost(slug)
-    //     setPost(post)
-    //     console.log('post each', post)
-    //     if (error) console.log('singlepost error', error)
-
-    // }
-
-    // useEffect(() => {
-    //     fetchSinglePost()
-    // }, [])
     const [test, setTest] = React.useState(false)
     return (
         <KeyboardAvoidingView enabled={true} behavior='height' style={{ flex: 1 }}>
@@ -135,9 +150,9 @@ const PostDetail = ({ route }) => {
                         </Markdown>
 
                         {/* TOGGLE LIKE */}
-                        <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
+                        <TouchableOpacity onPress={() => handleToggle(postId, accessToken)} style={styles.tooglelikeCtn}>
                             <Image source={icons.thumb} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
-                            <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>41</Text>
+                            <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>{likeCount}</Text>
                         </TouchableOpacity>
                         {/* RELATED POST  */}
                         {/* <RelatedPost postId={post.id} /> */}
@@ -170,45 +185,64 @@ const PostDetail = ({ route }) => {
                             comment: ''
                         }}
                         onSubmit={async (values) => {
-                            console.log('comment submited', values, token)
-                            addComment(postId, values, token).then(res => {
-                                console.log('response', res)
-
-                            }).catch(err => {
-                                console.log('comment error', err.response.data?.error)
-                                console.log('Error', err.response.data?.error)
-                            })
+                            console.log('comment submitted', values, accessToken)
+                            addComment(postId, values, accessToken)
+                                .then(res => {
+                                    console.log('response', res)
+                                })
+                                .catch(err => {
+                                    console.log('comment error', err.response.data?.error)
+                                    console.log('Error', err.response.data?.error)
+                                })
                         }}
                     >
-                        {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
-                            <>
-                                {/* {touched && setTest(!test)} */}
-                                <View style={styles.commentSection}>
-                                    <View style={styles.textInputCtn}>
-                                        <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
-                                        {touched.comment && setTest(!test)}
-                                        <TextInput
-                                            name='comment'
-                                            onChangeText={handleChange('comment')}
-                                            numberOfLines={3} placeholder='Well, I think...'
-                                            style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }} />
-                                        {/* BUTTON */}
-                                        <TouchableOpacity onPress={handleSubmit}>
-                                            <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
-                                        </TouchableOpacity>
-                                    </View>
+                        {({ handleSubmit, isValid, values, errors, handleChange, touched }) => {
+                            useEffect(() => {
+                                if (touched.comment) {
+                                    setTest(!test)
+                                }
+                            }, [touched])
 
-                                </View>
-                            </>
-                        )}
+                            return (
+                                <>
+                                    <View style={styles.commentSection}>
+                                        <View style={styles.textInputCtn}>
+                                            <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
+                                            <TextInput
+                                                name='comment'
+                                                onChangeText={handleChange('comment')}
+                                                numberOfLines={3}
+                                                placeholder='Well, I think...'
+                                                style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }}
+                                            />
+                                            {/* BUTTON */}
+                                            <TouchableOpacity onPress={handleSubmit}>
+                                                <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                </>
+                            )
+                        }}
                     </Formik>
+
                 </View>
             </View>
         </KeyboardAvoidingView>
     )
 }
 
-export default PostDetail
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)
 
 const styles = StyleSheet.create({
     roundIconCtn: {

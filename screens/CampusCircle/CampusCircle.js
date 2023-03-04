@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { getFood, getMarket, getBanner } from '../../api/post'
 import { SliderBox } from 'react-native-image-slider-box';
 import Slide from './Slide'
+import { getAllRestaurant, getRestaurantById } from '../../api/campuscircle'
 
 let pageNo = 0;
 const limit = 10;
@@ -15,21 +16,19 @@ const CampusCircle = () => {
     const navigation = useNavigation()
 
     const [banner, setBanner] = useState([])
-    const [food, setFood] = useState([])
     const [market, setMarket] = useState([])
+    const [restaurant, setRestaurant] = useState([])
     const [showSpinner, setShowSpinner] = useState(false);
-    const [cool, setCool] = React.useState([
-        images.restaurant1, images.restaurant2, images.restaurant3
-    ])
 
+    const fetchRestaurant = async () => {
+        const { error, restaurants } = await getAllRestaurant()
+        if (error) return console.log('restaurant-error', error)
 
-    const fetchFood = async () => {
-        const { error, foods } = await getFood(limit, pageNo);
-        console.log('this is the food data', foods)
-        if (error) return console.log('sta-err', error)
+        console.log('restaurants-data', restaurants)
+        setRestaurant(restaurants)
 
-        setFood(foods)
     }
+
 
     const fetchMarket = async () => {
         const { error, markets } = await getMarket(limit, pageNo);
@@ -48,10 +47,17 @@ const CampusCircle = () => {
     }
 
     useEffect(() => {
-        fetchFood();
         fetchMarket();
         fetchBanner();
+        fetchRestaurant();
     }, [])
+
+    const fetchRestaurantById = async (postId) => {
+        const { error, restaurant } = await getRestaurantById(postId)
+        console.log('single-restaurant', restaurant)
+        navigation.navigate('RestaurantDetail', { restaurant })
+        if (error) return console.log('single-restaurant error', error)
+    }
 
     const _renderEmpty = () => {
         return (
@@ -68,22 +74,7 @@ const CampusCircle = () => {
                     <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2 }}>Campus Circle</Text>
                     {/* BANNER  */}
                     <Image source={images.image2} style={{ height: SIZES.width / 2.1, width: SIZES.width }} />
-
-                    <View style={{ marginTop: SIZES.base, marginBottom: SIZES.h5 }}>
-                        {/* <FlatList
-                            numColumns={3}
-                            columnWrapperStyle={{ justifyContent: 'space-between' }}
-                            data={circleData}
-                            renderItem={({ item }) => {
-                                return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('CircleListDetails', { item })} key={item.id} style={styles.circleCtn}>
-                                        <Image source={item.iconName} style={{ height: SIZES.h2, width: SIZES.h2, }} />
-                                        <Text style={{ color: COLORS.black, ...FONTS.body3a }}>{item.title}</Text>
-                                    </TouchableOpacity>
-                                )
-                            }}
-                        /> */}
-                    </View>
+                    {/* BANNER CLOSE  */}
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Hot Food</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('HotMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -97,21 +88,21 @@ const CampusCircle = () => {
                 <View style={{ marginLeft: SIZES.h5 * 1.2 }}>
                     <FlatList
                         // data={hotFoodData}
-                        data={food}
+                        data={restaurant}
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         ListEmptyComponent={_renderEmpty}
                         renderItem={({ item }) => {
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('FoodDetail', { slug: item.slug })} key={item.id} style={styles.hotCtn}>
+                                <TouchableOpacity onPress={() => fetchRestaurantById(item.id)} key={item.id} style={styles.hotCtn}>
                                     <Image source={images.restaurant1}
                                         style={{
                                             height: SIZES.h1 * 3.5, width: SIZES.h1 * 4.9, borderTopRightRadius: SIZES.base,
                                             borderTopLeftRadius: SIZES.base, alignSelf: 'center'
                                         }} />
                                     <View style={{ paddingHorizontal: SIZES.base }}>
-                                        <Text numberOfLines={1} style={{ ...FONTS.body3, marginTop: SIZES.base * 0.8, color: COLORS.black, fontWeight: 'bold' }}>{item.title}</Text>
-                                        <Text style={{ ...FONTS.body4, color: COLORS.grey }}>Highly recommended</Text>
+                                        <Text numberOfLines={1} style={{ ...FONTS.body4, marginTop: SIZES.base * 0.8, color: COLORS.black, fontWeight: 'bold' }}>{item.name}</Text>
+                                        <Text style={{ ...FONTS.body5, color: COLORS.grey }}>Highly recommended</Text>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: COLORS.orange }} />
@@ -143,6 +134,7 @@ const CampusCircle = () => {
                 ListHeaderComponent={CampusHeader}
                 // ListFooterComponentStyle={{ marginTop: 200 }}
                 data={oldMarketData}
+                ListEmptyComponent={_renderEmpty}
                 // data={market}
                 renderItem={({ item }) => {
                     return (

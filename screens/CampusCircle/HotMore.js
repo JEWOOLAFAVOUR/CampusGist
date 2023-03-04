@@ -10,7 +10,7 @@ const HotMore = ({ navigation }) => {
     }, [navigation]);
 
 
-    const [select, setSelect] = useState(false)
+    const [select, setSelect] = useState(true)
     const trendingData = [
         {
             id: 1,
@@ -50,6 +50,41 @@ const HotMore = ({ navigation }) => {
         { id: 5, image: images.restaurant1, title: 'Meat', },
         { id: 6, image: images.restaurant2, title: 'Noddles', },
     ];
+
+    const RenderTemplate = ({ item }) => {
+        return (
+            <View style={{ marginRight: 10 }}>
+                <View>
+                    <Image source={item.foodImage} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.8, borderRadius: SIZES.base }} />
+                    <View style={{ position: 'absolute', left: SIZES.base, top: SIZES.base * 0.8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={styles.cookingCtn}>
+                            <Text>{item.cookingTime}</Text>
+                        </View>
+
+                    </View>
+                    <TouchableOpacity onPress={() => setSelect(!select)} style={{ position: 'absolute', right: SIZES.base, top: SIZES.base * 0.8, }}>
+                        <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                    </TouchableOpacity>
+                    <View style={styles.priceCtn}>
+                        <Text style={{ ...FONTS.body3, color: COLORS.white }}>N{item.price}</Text>
+                    </View>
+
+                </View>
+                {/* FIRST FLEX  */}
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base, justifyContent: 'space-between' }}>
+                    <Text style={{ color: COLORS.black, ...FONTS.body3b, fontWeight: 'bold' }}>{item.foodName}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: 'green', marginRight: SIZES.base * 0.3 }} />
+                        <Text style={{ color: COLORS.black, ...FONTS.body4, fontWeight: 'bold' }}>{item.reviewPoint}</Text>
+                        <Text style={{ color: COLORS.black, ...FONTS.body4 }}>({item.reviewsNumber})</Text>
+                    </View>
+                </View>
+                {/* SECOND FLEX  */}
+                <Text style={{ color: COLORS.black, ...FONTS.body3a }}>{item.restaurantName}</Text>
+            </View>
+        )
+    }
+
     const _renderHeader = () => {
         return (
             <View style={{ paddingLeft: SIZES.width * 0.03 }}>
@@ -68,46 +103,33 @@ const HotMore = ({ navigation }) => {
                         )
                     }}
                 />
-                <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, marginTop: SIZES.h4 }}>Recommended Food</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: SIZES.width * 0.03 }}>
+                    <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, marginTop: SIZES.h4, marginBottom: SIZES.base / 1.1 }}>Recommended Food</Text>
+                    <TouchableOpacity>
+                        <Image source={icons.arrowright3} style={{ height: SIZES.h1, width: SIZES.h1, }} />
+                    </TouchableOpacity>
+                </View >
+                {/* RECOMMENDED FOOD LIST  */}
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={trendingData}
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={{ marginRight: 10 }}>
-                                <View>
-                                    <Image source={item.foodImage} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.8, borderRadius: SIZES.base }} />
-                                    <View style={{ position: 'absolute', left: SIZES.base, top: SIZES.base * 0.8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <View style={styles.cookingCtn}>
-                                            <Text>{item.cookingTime}</Text>
-                                        </View>
-
-                                    </View>
-                                    <TouchableOpacity onPress={() => setSelect(!select)} style={{ position: 'absolute', right: SIZES.base, top: SIZES.base * 0.8, }}>
-                                        <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
-                                    </TouchableOpacity>
-                                    <View style={styles.priceCtn}>
-                                        <Text style={{ ...FONTS.body3, color: COLORS.white }}>N{item.price}</Text>
-                                    </View>
-
-                                </View>
-                                {/* FIRST FLEX  */}
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base, justifyContent: 'space-between' }}>
-                                    <Text style={{ color: COLORS.black, ...FONTS.body3b, fontWeight: 'bold' }}>{item.foodName}</Text>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: 'green', marginRight: SIZES.base * 0.3 }} />
-                                        <Text style={{ color: COLORS.black, ...FONTS.body4, fontWeight: 'bold' }}>{item.reviewPoint}</Text>
-                                        <Text style={{ color: COLORS.black, ...FONTS.body4 }}>({item.reviewsNumber})</Text>
-                                    </View>
-                                </View>
-                                {/* SECOND FLEX  */}
-                                <Text style={{ color: COLORS.black, ...FONTS.body3a }}>{item.restaurantName}</Text>
-                            </View>
-                        )
-                    }}
+                    renderItem={({ item }) => <RenderTemplate item={item} />}
                 />
-            </View>
+                {/* POPULAR FOOD LIST  */}
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: SIZES.width * 0.03 }}>
+                    <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, marginTop: SIZES.base / 2, marginBottom: SIZES.base / 1.1 }}>Popular Food</Text>
+                    <TouchableOpacity>
+                        <Image source={icons.arrowright3} style={{ height: SIZES.h1, width: SIZES.h1, }} />
+                    </TouchableOpacity>
+                </View >
+                <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={trendingData}
+                    renderItem={({ item }) => <RenderTemplate item={item} />}
+                />
+            </View >
         )
     }
 

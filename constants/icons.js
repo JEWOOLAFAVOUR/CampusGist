@@ -3,6 +3,7 @@ export const arrowleft = require('../assets/icons/arrowleft.png')
 export const arrowleft2 = require('../assets/icons/arrowleft2.png')
 export const arrowright = require('../assets/icons/arrowright.png')
 export const arrowright2 = require('../assets/icons/arrowright2.png')
+export const arrowright3 = require('../assets/icons/arrowright3.png')
 export const bell = require('../assets/icons/bell.png')
 export const bell2 = require('../assets/icons/bell2.png')
 export const block = require('../assets/icons/block.png')
@@ -43,6 +44,7 @@ export default {
     arrowright,
     arrowleft2,
     arrowright2,
+    arrowright3,
     bell,
     bell2,
     block,

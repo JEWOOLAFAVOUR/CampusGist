@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS, images, icons, SIZES } from '../../constants';
 import { SliderBox } from 'react-native-image-slider-box';
+import Slide from './Slide';
 
 const MarketDetail = ({ route }) => {
     const data = route.params.data
@@ -24,6 +25,7 @@ const MarketDetail = ({ route }) => {
             <ScrollView>
                 <View style={{}}>
                     {/* SLIDER HERE  */}
+                    <Slide />
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
                         <Image source={icons.arrowleft} style={{ height: SIZES.h1 * 0.7, width: SIZES.h1 * 0.7, tintColor: COLORS.white }} />
                     </TouchableOpacity>

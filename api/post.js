@@ -30,7 +30,6 @@ export const getLatestPosts = async (limit, pageNo) => {
 
 export const getSinglePost = async (slug) => {
     try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2M3M2NhMGZmNDNiNGIwNTk0ZWQ0MyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NzQzNDM0MjgsImV4cCI6MTY3NDQyOTgyOH0.n67C0CH0u0v-_tS9FDGQ5v215eZ-3DqMHfkKqCLnejM"
         const { data } = await client(`/post/single/${slug}`)
         // console.log(data)
         return data
@@ -42,26 +41,7 @@ export const getSinglePost = async (slug) => {
         return { error: error.message || error };
     }
 }
-// '/:postId/comments/create'sss
 
-// export const addComment = async (postId, values, accessToken) => {
-//     try {
-//         // const { data } = await client.post('/post/featured-posts', values)
-//         // return data
-//         console.log('goodtohear', postId)
-//         const url = `/post/${postId}/comments/create`
-
-//         return axios.post(url,  postId,values, accessToken)
-//             .then(response => response.data)
-//     } catch (error) {
-//         const { response } = error
-//         if (response?.data) {
-//             return response.data;
-//         }
-//         return { error: error.message || error };
-//     }
-
-// }
 
 export const addComment = async (postId, values, token) => {
     // console.log('post Id', postId, token, values)
@@ -142,19 +122,6 @@ export const getUser = async (userId) => {
 }
 
 // NEW FEATURES 
-export const getStories = async (limit1, pageNo1) => {
-    try {
-        const { data } = await client(`/post/get-stories?limit=${limit1}&pageNo=${pageNo1}/`)
-        // console.log(data)
-        return data
-    } catch (error) {
-        const { response } = error
-        if (response?.data) {
-            return response.data;
-        }
-        return { error: error.message || error };
-    }
-}
 
 export const getFood = async (limit, pageNo) => {
     try {
@@ -225,3 +192,43 @@ export const getBanner = async (limit, pageNo) => {
         return { error: error.message || error };
     }
 }
+
+export const handleLike = async (postId, token) => {
+    console.log(token, 'token at tis point')
+    try {
+        const { data } = await client.post(`/post/${postId}/toggle-like`, null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        console.log('toggle', data);
+        return data;
+    } catch (error) {
+        const { response } = error;
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+};
+
+export const handleUnlike = async (postId, token) => {
+    console.log(token, 'token at tis point')
+    try {
+        const { data } = await client.delete(`/post/${postId}/toggle-like`, null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        console.log('delete', data);
+        return data;
+    } catch (error) {
+        const { response } = error;
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+};
