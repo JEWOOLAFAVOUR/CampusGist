@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
+import { getPopularFood, getRecommendedFood } from '../../api/campuscircle';
 
 
 const HotMore = ({ navigation }) => {
@@ -8,6 +9,9 @@ const HotMore = ({ navigation }) => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
+
+    const [recommend, setRecommend] = useState([])
+    const [popular, setPopular] = useState([])
 
 
     const [select, setSelect] = useState(true)
@@ -51,11 +55,41 @@ const HotMore = ({ navigation }) => {
         { id: 6, image: images.restaurant2, title: 'Noddles', },
     ];
 
+    const fetchRecommendedFood = async () => {
+        const { error, recommendedMenu } = await getRecommendedFood();
+        console.log('this is recommended-data', recommendedMenu)
+        if (error) return console.log('recommended-data', error)
+        setRecommend(recommendedMenu)
+    }
+    const fetchPopularFood = async () => {
+        const { error, popularMenu } = await getPopularFood();
+        console.log('this is popular-data', popularMenu)
+        if (error) return console.log('popular-data', error)
+        setPopular(popularMenu)
+    }
+    useEffect(() => {
+        fetchRecommendedFood();
+        fetchPopularFood();
+    }, [])
+
+    const getThumbnail = (uri) => {
+        if (uri) return { uri }
+
+        return images.profile2
+    }
+    const _renderEmpty = () => {
+        return (
+            <View style={{}}>
+                <ActivityIndicator color={COLORS.orange} size={40} />
+                <Text style={{ ...FONTS.body3a, }}>Loading foods</Text>
+            </View>
+        )
+    }
     const RenderTemplate = ({ item }) => {
         return (
             <View style={{ marginRight: 10 }}>
                 <View>
-                    <Image source={item.foodImage} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.8, borderRadius: SIZES.base }} />
+                    <Image source={getThumbnail(item.thumbnail)} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.8, borderRadius: SIZES.base }} />
                     <View style={{ position: 'absolute', left: SIZES.base, top: SIZES.base * 0.8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={styles.cookingCtn}>
                             <Text>{item.cookingTime}</Text>
@@ -72,15 +106,15 @@ const HotMore = ({ navigation }) => {
                 </View>
                 {/* FIRST FLEX  */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base, justifyContent: 'space-between' }}>
-                    <Text style={{ color: COLORS.black, ...FONTS.body3b, fontWeight: 'bold' }}>{item.foodName}</Text>
+                    <Text style={{ color: COLORS.black, ...FONTS.body3b, fontWeight: 'bold' }}>{item.menuName}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: 'green', marginRight: SIZES.base * 0.3 }} />
-                        <Text style={{ color: COLORS.black, ...FONTS.body4, fontWeight: 'bold' }}>{item.reviewPoint}</Text>
-                        <Text style={{ color: COLORS.black, ...FONTS.body4 }}>({item.reviewsNumber})</Text>
+                        <Text style={{ color: COLORS.black, ...FONTS.body4, fontWeight: 'bold' }}>4.7</Text>
+                        <Text style={{ color: COLORS.black, ...FONTS.body4 }}>(190)</Text>
                     </View>
                 </View>
                 {/* SECOND FLEX  */}
-                <Text style={{ color: COLORS.black, ...FONTS.body3a }}>{item.restaurantName}</Text>
+                <Text style={{ color: COLORS.black, ...FONTS.body3a }}>{item.restaurant}</Text>
             </View>
         )
     }
@@ -112,8 +146,9 @@ const HotMore = ({ navigation }) => {
                 {/* RECOMMENDED FOOD LIST  */}
                 <FlatList
                     horizontal
+                    ListEmptyComponent={_renderEmpty}
                     showsHorizontalScrollIndicator={false}
-                    data={trendingData}
+                    data={recommend}
                     renderItem={({ item }) => <RenderTemplate item={item} />}
                 />
                 {/* POPULAR FOOD LIST  */}
@@ -125,8 +160,10 @@ const HotMore = ({ navigation }) => {
                 </View >
                 <FlatList
                     horizontal
+                    ListEmptyComponent={_renderEmpty}
                     showsHorizontalScrollIndicator={false}
-                    data={trendingData}
+                    data={popular}
+                    // data={trendingData}
                     renderItem={({ item }) => <RenderTemplate item={item} />}
                 />
             </View >

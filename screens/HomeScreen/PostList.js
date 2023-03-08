@@ -44,16 +44,16 @@ const PostList = ({ data, ...props }) => {
     const fetchSinglePost = async (slug) => {
         const { error, post } = await getSinglePost(slug)
         console.log('first jv', post)
-        navigation.navigate('PostDetail', { post })
-        if (error) console.log('singlepost error', error)
 
+
+        if (error) console.log('singlepost error', error)
+        navigation.navigate('PostDetail', { post })
     }
     // useEffect(() => {
     //     fetchSinglePost()
     // }, [])
     return (
         <TouchableOpacity key={data.id} activeOpacity={1} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
-
             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -85,7 +85,7 @@ const PostList = ({ data, ...props }) => {
                     <Text style={{ ...FONTS.body5, color: COLORS.orange }}>Follow</Text>
                 </TouchableOpacity>
                 <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1 }}>
-                    <Image source={images.profile2} style={{ height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
+                    <Image source={getThumbnail(data.thumbnail)} style={{ height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
                 </View>
             </View>
         </TouchableOpacity>

@@ -68,17 +68,22 @@ const CampusCircle = () => {
         )
     }
     const CampusHeader = () => {
+        const getImage = (uri) => {
+            if (uri) return { uri };
+
+            return images.restaurant2
+        }
         return (
             <View>
                 <View style={{ paddingHorizontal: SIZES.width * 0.03, paddingTop: SIZES.base * 0.9 }}>
-                    <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2 }}>Campus Circle</Text>
+                    <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h5 }}>Campus Circle</Text>
                     {/* BANNER  */}
-                    <Image source={images.image2} style={{ height: SIZES.width / 2.1, width: SIZES.width }} />
+                    <Image source={images.image2} style={{ height: SIZES.width / 2.3, width: SIZES.width }} />
                     {/* BANNER CLOSE  */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.base }}>
                         <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Hot Food</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('HotMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.body3a }}>more foods</Text>
+                            <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>see more foods</Text>
                             <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
                         </TouchableOpacity>
                     </View>
@@ -95,7 +100,7 @@ const CampusCircle = () => {
                         renderItem={({ item }) => {
                             return (
                                 <TouchableOpacity onPress={() => fetchRestaurantById(item.id)} key={item.id} style={styles.hotCtn}>
-                                    <Image source={images.restaurant1}
+                                    <Image source={getImage(item.thumbnail)}
                                         style={{
                                             height: SIZES.h1 * 3.5, width: SIZES.h1 * 4.9, borderTopRightRadius: SIZES.base,
                                             borderTopLeftRadius: SIZES.base, alignSelf: 'center'
@@ -118,10 +123,10 @@ const CampusCircle = () => {
                         }}
                     />
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h3 * 0.9 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h5 }}>
                     <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Old Market</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('MarketMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.body3a }}>visit market</Text>
+                        <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>visit market</Text>
                         <Image source={icons.arrowright} style={{ height: SIZES.h5, width: SIZES.h5 }} />
                     </TouchableOpacity>
                 </View>

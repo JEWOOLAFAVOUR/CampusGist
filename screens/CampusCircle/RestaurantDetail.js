@@ -11,29 +11,21 @@ const RestaurantDetail = ({ route }) => {
     const [select, setSelect] = useState(true)
     const [favourite, setFavourite] = useState(true)
     const data = route.params.restaurant;
-    console.log('data', data)
-
+    console.log('data', data.menu)
+    const [restaurantItem, setRestaurantItem] = useState(data.menu)
+    console.log('restaurant menu', restaurantItem)
+    // const [menu, setMenu] = useState()
     const navigation = useNavigation();
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
 
-    // const [data, setData] = useState({})
-    // // const slug = route.params.slug
-    // console.log('food object', data)
+    const getImage = (uri) => {
+        if (uri) return { uri };
 
-    // const fetchSingleFood = async (slug = route.params.slug) => {
-    //     const { error, food } = await getEachFood(slug)
-    //     setData(food)
-    //     console.log('food each', food)
-    //     if (error) console.log('singlepost error', error)
-
-    // }
-
-    // useEffect(() => {
-    //     fetchSingleFood()
-    // }, [])
+        return images.restaurant2
+    }
 
     const favouritesFoodData = [
         {
@@ -93,7 +85,7 @@ const RestaurantDetail = ({ route }) => {
         return (
             <View>
                 <View>
-                    <Image source={images.restaurant1} style={{ height: SIZES.height * 0.27, width: '100%' }} />
+                    <Image source={getImage(data.thumbnail.url)} style={{ height: SIZES.height * 0.27, width: '100%' }} />
                     {/* <View style={{}}> */}
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 10, top: 20, }}>
                         <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
@@ -107,7 +99,7 @@ const RestaurantDetail = ({ route }) => {
                     <Text style={{ ...FONTS.body1, color: COLORS.black, fontWeight: 'bold' }}>McDonald's</Text>
                     <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold' }}>({data.name})</Text>
                     <View style={{ marginVertical: SIZES.h4 }}>
-                        <FlatList
+                        {/* <FlatList
                             data={category.slice(0, 3)}
                             numColumns={3}
                             renderItem={({ item }) => {
@@ -117,7 +109,7 @@ const RestaurantDetail = ({ route }) => {
                                     </View>
                                 )
                             }}
-                        />
+                        /> */}
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -143,17 +135,18 @@ const RestaurantDetail = ({ route }) => {
         <View style={styles.page}>
             <FlatList
                 ListHeaderComponent={_renderHeader}
-                data={favouritesFoodData}
+                data={restaurantItem}
+                // data={favouritesFoodData}
                 renderItem={({ item }) => {
                     return (
                         <View style={styles.favouritesCtn}>
-                            <Image source={item.foodImage} style={{ height: SIZES.height * 0.11, width: SIZES.height * 0.11 }} />
+                            <Image source={getImage(item.thumbnail.url)} style={{ height: SIZES.height * 0.11, width: SIZES.height * 0.11 }} />
                             <View style={{ marginLeft: SIZES.base, flex: 1 }}>
-                                <Text numberOfLines={1} style={{ ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>{item.foodTitle}</Text>
+                                <Text numberOfLines={1} style={{ ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>{item.name}</Text>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Text style={{ ...FONTS.body4, color: COLORS.black }}>N</Text>
                                     {
-                                        item.tag.map((data, index) => {
+                                        item.tags.map((data, index) => {
                                             return (
                                                 <View key={index}>
                                                     <Text numberOfLines={1} style={{ ...FONTS.body4, color: COLORS.black }}> - {data}</Text>
@@ -164,12 +157,48 @@ const RestaurantDetail = ({ route }) => {
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={{ ...FONTS.body5, color: COLORS.black, marginRight: SIZES.base / 2 }}>4.5</Text>
+                                        <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: 'orange', }} />
+                                    </View>
+                                    <View style={{ marginLeft: SIZES.base, flexDirection: 'row', alignItems: 'center' }}>
+                                        <Image source={icons.clock} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.chocolate, }} />
+                                        <Text style={{ ...FONTS.body5, color: COLORS.black, marginLeft: SIZES.base / 2 }}>{item.cookingTime}</Text>
+                                    </View>
+                                </View>
+                                <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>N{item.price}</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => setSelect(!select)} style={{ alignSelf: 'flex-start', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
+                                <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: COLORS.black }} />
+                            </TouchableOpacity>
+                        </View>
+                    )
+
+
+                    return (
+                        <View style={styles.favouritesCtn}>
+                            <Image source={item.foodImage} style={{ height: SIZES.height * 0.11, width: SIZES.height * 0.11 }} />
+                            <View style={{ marginLeft: SIZES.base, flex: 1 }}>
+                                <Text numberOfLines={1} style={{ ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>{item.name}</Text>
+                                <View style={{ flexDirection: 'row', }}>
+                                    <Text style={{ ...FONTS.body4, color: COLORS.black }}>N</Text>
+                                    {/* {
+                                        item.tag.map((data, index) => {
+                                            return (
+                                                <View key={index}>
+                                                    <Text numberOfLines={1} style={{ ...FONTS.body4, color: COLORS.black }}> - {data}</Text>
+                                                </View>
+                                            )
+                                        })
+                                    } */}
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Text style={{ ...FONTS.body5, color: COLORS.black, marginRight: SIZES.base / 2 }}>{item.review}</Text>
                                         <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: 'orange', }} />
                                     </View>
                                     <View style={{ marginLeft: SIZES.base, flexDirection: 'row', alignItems: 'center' }}>
                                         <Image source={icons.clock} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.chocolate, }} />
-                                        <Text style={{ ...FONTS.body5, color: COLORS.black, marginLeft: SIZES.base / 2 }}>{item.cookingPeriod}</Text>
+                                        <Text style={{ ...FONTS.body5, color: COLORS.black, marginLeft: SIZES.base / 2 }}>{item.cookingTime}</Text>
                                     </View>
                                 </View>
                                 <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>N{item.price}</Text>
@@ -213,3 +242,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 })
+
+
+
+
+
+
+
+
+
+
+
+
