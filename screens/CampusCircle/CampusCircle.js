@@ -78,7 +78,7 @@ const CampusCircle = () => {
                 <View style={{ paddingHorizontal: SIZES.width * 0.03, paddingTop: SIZES.base * 0.9 }}>
                     <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h5 }}>Campus Circle</Text>
                     {/* BANNER  */}
-                    <Image source={images.image2} style={{ height: SIZES.width / 2.3, width: SIZES.width }} />
+                    <Image source={images.image6} style={{ height: SIZES.width / 2.3, width: SIZES.width }} />
                     {/* BANNER CLOSE  */}
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.base }}>
                         <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Hot Food</Text>
@@ -144,7 +144,7 @@ const CampusCircle = () => {
                 renderItem={({ item }) => {
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('MarketDetail', { data: item })} style={styles.mainCtn}>
-                            <Image source={images.profile2}
+                            <Image source={images.image5}
                                 style={{ marginTop: SIZES.h5 * 0.9, height: SIZES.h1 * 4.0, width: SIZES.h1 * 4.0, borderRadius: SIZES.h4, /* borderTopLeftRadius: SIZES.base, borderBottomLeftRadius: SIZES.base */ }} />
                             <View style={{ flex: 1, marginLeft: SIZES.h4, marginTop: SIZES.h5 }}>
                                 <Text numberOfLines={1} style={{ fontSize: SIZES.body1 * 0.6, fontWeight: '700', fontFamily: 'Roboto-Regular', color: COLORS.black }}>{item.marketTitle}</Text>

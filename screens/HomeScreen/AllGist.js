@@ -22,24 +22,24 @@ const AllGist = ({ ...props }) => {
     // console.log('first', props)
     const { accessToken, user, updatePostDetails, posts } = props;
     // const loadingPost = 
-    console.log('news', posts)
+    // console.log('news', posts)
     const homePostData = posts;
 
     const kaka = () => {
         homePostData
     }
-    console.log('data from storage', homePostData)
+    // console.log('data from storage', homePostData)
     const [featuredPosts, setFeaturedPosts] = useState([])
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
     const [busy, setBusy] = useState(false)
 
-    console.log('featured 1', featuredPosts)
+    // console.log('featured-post', featuredPosts)
 
     const fetchFeaturePost = async () =>{
         const { error, posts } = await getFeaturedPosts();
         console.log('this is featured post', posts)
-        if (error) return console.log('feat',error)
+        if (error) return console.log('feature-post-error',error)
         setFeaturedPosts(posts)
     }
 
@@ -53,9 +53,7 @@ const AllGist = ({ ...props }) => {
         // REDUX ACTION DOWN
         updatePostDetails(latestPost)
         // console.log('updatePostNew', posts)
-
     }
-
 
     const fetchMorePosts = async () => {
         console.log('runnings')
@@ -73,15 +71,11 @@ const AllGist = ({ ...props }) => {
 
         setLatestPost([...latestPost, ...posts])
     }
-
-    const handlePostPress = (post) => {
-        navigation.navigate('PostDetail', {})
-    }
     const fetchSinglePost = async (slug) => {
         const { error, post } = await getSinglePost(slug)
-        console.log('first jv', post)
+        console.log('fetch-single-post', post)
         navigation.navigate('PostDetail', { post })
-        if (error) console.log('singlepost error', error)
+        if (error) console.log('fetch-single-post-error', error)
 
     }
     useEffect(() => {
@@ -94,42 +88,8 @@ const AllGist = ({ ...props }) => {
     const navigation = useNavigation();
 
     const NewsToday =({data})=>{
-        const newsTodayData = [
-            {
-                id: 1,
-                title: 'Research Shows Americans Cautions but Ready To Travel',
-                category: 'Travel',
-                time: '4 mins ago',
-                thumbnail: images.restaurant1,
-            },{
-                id: 2,
-                title: 'Peter Obi Worried Over Fuel Shortages, Scarcity Of New Naira Notes',
-                category: 'Tecnnology',
-                time: '30 mins ago',
-                thumbnail: images.restaurant2,
-            },{
-                id: 3,
-                title: 'Nigeria Should Leave This Road To Venezuela',
-                category: 'Lifestyle',
-                time: '1 hours ago',
-                thumbnail: images.restaurant3,
-            },{
-                id: 4,
-                title: 'Nigeria Should Leave This Road To Venezuela',
-                category: 'Lifestyle',
-                time: '3 hours ago',
-                thumbnail: images.slide1,
-            },{
-                id: 5,
-                title: 'Nigeria Should Leave This Road To Venezuela',
-                category: 'Lifestyle',
-                time: '12 hours ago',
-                thumbnail: images.restaurant3,
-            },
-        ];
         const getImage = (uri) => {
             if (uri) return { uri };
-    
             return images.image2
         }
         return(

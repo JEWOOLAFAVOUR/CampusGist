@@ -14,9 +14,9 @@ const { width, height } = Dimensions.get('window');
 const Home = ({ ...props }) => {
     const navigation = useNavigation();
     const { accessToken } = props
-    console.log('accessToken Home', accessToken)
+    // console.log('accessToken Home', accessToken)
     useEffect(() => {
-        console.log('props at home', props)
+        // console.log('props at home', props)
     }, [])
 
     const Tab = createMaterialTopTabNavigator();

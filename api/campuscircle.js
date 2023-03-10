@@ -56,3 +56,22 @@ export const getPopularFood = async () => {
         return { error: error.message || error };
     }
 }
+export const likeMenuItem = async (restaurantId, menuId, token) => {
+    console.log(token, 'token at tis point')
+    try {
+        const { data } = await client.post(`/campus-circle/${restaurantId}/menu/${menuId}/like-food`, null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        console.log('toggle', data);
+        return data;
+    } catch (error) {
+        const { response } = error;
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+};

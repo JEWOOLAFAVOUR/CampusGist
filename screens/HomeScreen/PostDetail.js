@@ -77,7 +77,7 @@ const PostDetail = ({ route, ...props }) => {
         setLiked(!liked)
         setLikeCount(liked ? likeCount - 1 : likeCount + 1)
 
-        console.log('erroe for toogle', data)
+        console.log('data from toogle', data)
         // console.log('data hhhh', message)
 
     }

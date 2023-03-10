@@ -1,21 +1,26 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import GoBack from '../../components/GoBack';
 import { SIZES, COLORS, FONTS, images, icons } from '../../constants';
 import { getEachFood } from '../../api/post';
-import { useState } from 'react';
+import { color } from 'react-native-reanimated';
+import { likeMenuItem } from '../../api/campuscircle';
+import { connect } from 'react-redux'
 
 
-const RestaurantDetail = ({ route }) => {
+const RestaurantDetail = ({ route, ...props }) => {
     const [select, setSelect] = useState(true)
     const [favourite, setFavourite] = useState(true)
     const data = route.params.restaurant;
+    const restaurantId = data.id
     console.log('data', data.menu)
     const [restaurantItem, setRestaurantItem] = useState(data.menu)
     console.log('restaurant menu', restaurantItem)
     // const [menu, setMenu] = useState()
     const navigation = useNavigation();
+
+    const accessToken = props.accessToken
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
@@ -79,8 +84,16 @@ const RestaurantDetail = ({ route }) => {
         },
     ];
 
-    const category = [{ id: 1, title: 'Hamburgeres', }, { id: 2, title: 'Mediterrancia', }, { id: 3, title: 'Italiana', }]
+    const [liked, setLiked] = useState('like');
+    const [likeCount, setLikeCount] = useState('like');
 
+    const handleToogle = async (restaurantId, hello, accessToken) => {
+        console.log('hekko', hello)
+        const data = await likeMenuItem(restaurantId, hello, accessToken)
+        console.log('message', data)
+    }
+
+    let hello;
     const _renderHeader = () => {
         return (
             <View>
@@ -167,7 +180,8 @@ const RestaurantDetail = ({ route }) => {
                                 </View>
                                 <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>N{item.price}</Text>
                             </View>
-                            <TouchableOpacity onPress={() => setSelect(!select)} style={{ alignSelf: 'flex-start', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
+                            <TouchableOpacity onPress={() => handleToogle(restaurantId, hello = item._id, accessToken)} style={{ alignItems: 'center', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
+                                <Text style={{ ...FONTS.body3, color: COLORS.black }}>{item.likeCount}</Text>
                                 <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: COLORS.black }} />
                             </TouchableOpacity>
                         </View>
@@ -214,7 +228,18 @@ const RestaurantDetail = ({ route }) => {
     )
 }
 
-export default RestaurantDetail
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantDetail)
+
 
 const styles = StyleSheet.create({
     page: {

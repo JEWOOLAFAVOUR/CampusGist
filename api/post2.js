@@ -56,3 +56,4 @@ export const getTechnologyPosts = async (limit, pageNo) => {
         return { error: error.message || error };
     }
 }
+

@@ -33,10 +33,7 @@ const HomeStack = () => {
                     name='Home'
                     component={Home}
                 />
-                <Stack.Screen
-                    name='PostDetail'
-                    component={PostDetail}
-                />
+
                 <Stack.Screen
                     name='ProfilePage'
                     component={ProfilePage}
