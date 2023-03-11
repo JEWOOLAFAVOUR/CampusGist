@@ -11,6 +11,7 @@ import Onboarding from './Onboarding';
 import BottomTab from '../../navigator/BottomTab';
 import { connect } from 'react-redux';
 import PostDetail from '../HomeScreen/PostDetail';
+import VerifyEmail from './VerifyEmail';
 
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
@@ -24,6 +25,7 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name='PostDetail' component={PostDetail} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
     </Stack.Navigator>
   );

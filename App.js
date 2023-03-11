@@ -169,7 +169,7 @@
 // const styles = StyleSheet.create({})
 
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from './screens/AuthScreen/AuthStack';
@@ -179,7 +179,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import reduxStore from './redux/store';
 import constants from './redux/constants';
 import axios from 'axios';
-
+import { COLORS } from './constants';
 const { MyDarkTheme, MyLightTheme, BASE_URL } = constants;
 
 export const reduxPersistStore = persistStore(reduxStore);
@@ -195,6 +195,7 @@ const App = () => {
     return (
         <Provider store={reduxStore}>
             <PersistGate persistor={reduxPersistStore}>
+                <StatusBar backgroundColor={COLORS.primary} />
                 <NavigationContainer theme={MyLightTheme}>
                     <AuthStack />
                 </NavigationContainer>

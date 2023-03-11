@@ -37,7 +37,7 @@ const SplashScreen = ({ ...props }) => {
         return (
             <View style={styles.splash}>
                 <View style={styles.childView}>
-                    <Image source={dark ? images.image6 : images.image6} style={{ height: SIZES.height, width: SIZES.width, resizeMode: 'contain' }} />
+                    <Image source={dark ? images.pic7 : images.pic7} style={{ height: SIZES.height, width: SIZES.width, resizeMode: 'contain' }} />
                 </View>
             </View>
         )

@@ -5,7 +5,7 @@ import CommentSection from './CommentSection';
 import commentData from './commentData'
 
 const data = commentData
-console.log('dataaa', data)
+// console.log('dataaa', data)
 
 const ViewAllComment = ({ navigation }) => {
     return (

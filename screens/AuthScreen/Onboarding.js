@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { COLORS, images, icons, SIZES, FONTS } from '../../constants/';
+import { COLORS, images, icons, SIZES, COLORSONTS } from '../../constants/';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import * as authAction from '../../redux/actions/authAction'
+let screenHeight = Dimensions.get('window').height;
+import { FONTS } from '../../constants/';
+
 import PropTypes from 'prop-types'
 
 const Onboarding = ({ ...props }) => {
@@ -13,17 +16,17 @@ const Onboarding = ({ ...props }) => {
     const slides = [
         {
             key: 'slide1',
-            image: images.slide3,
+            image: images.pic1,
             title: <Text style={{ marginHorizontal: 10 }}>Get the latest gist from <Text style={{ color: '#ff3f4c' }}>reliable source.</Text></Text>,
             text: 'Here you can read latest news update. By registering to this application.',
         }, {
             key: 'slide2',
-            image: images.slide2,
+            image: images.pic4,
             title: <Text>Still <Text style={{ color: '#ff3f4c' }}>up to date</Text> news from all around the world.</Text>,
             text: 'Read news at anywhere at any place just by connecting to the internet.',
         }, {
             key: 'slide3',
-            image: images.slide1,
+            image: images.pic5,
             title: <Text>From art to politics, <Text style={{ color: '#ff3f4c' }}>anything</Text> in CampusGist.</Text>,
             text: 'Add to your favourite read list and also you can comments.',
         },
@@ -31,31 +34,100 @@ const Onboarding = ({ ...props }) => {
 
     const _renderItem = ({ item }) => {
         return (
-            <View style={styles.slide}>
-                {/* <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{item.title}</Text>
+            // <View style={styles.slide}>
+            //     {/* <View style={styles.titleContainer}>
+            //         <Text style={styles.title}>{item.title}</Text>
+            //     </View>
+
+            //     <View style={styles.imageContainer}>
+            //         <Image source={item.image} style={styles.image} />
+            //     </View>
+
+            //     <View style={styles.textContainer}>
+            //         <Text style={styles.text}>{item.text}</Text>
+            //     </View> */}
+            //     <View>
+            //         <Text style={{ fontSize: SIZES.body1 * 0.9, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
+            //         <View style={{}}>
+            //             <Image source={item.image} style={styles.imageSlide} />
+            //             <View style={{ position: 'absolute', bottom: SIZES.h1 * 6, alignSelf: 'center', paddingHorizontal: SIZES.h2 }}>
+            //                 <Text style={styles.slideText}>{item.title}</Text>
+            //             </View>
+            //         </View>
+            //     </View>
+            // </View>
+            <View
+                style={{
+                    height: screenHeight,
+                    flex: 1,
+                    backgroundColor: COLORS.white,
+                    justifyContent: 'center',
+                }}>
+                <View
+                    style={{
+                        // flexDirection: 'row',
+                        // justifyContent: 'space-between',
+                        top: SIZES.h1 * 1.5,
+                        alignItems: 'center',
+                        position: 'absolute',
+                        width: '100%',
+                        marginHorizontal: 5,
+                    }}>
+                    <Text style={{ ...FONTS.navTitle, color: COLORS.orange }}>Welcome to CampusGist</Text>
                 </View>
 
-                <View style={styles.imageContainer}>
-                    <Image source={item.image} style={styles.image} />
+                <Image
+                    source={item.image}
+                    style={{
+                        width: '100%',
+                        height: screenHeight / 2.2,
+                        resizeMode: 'contain',
+                        alignSelf: 'center',
+                    }}
+                />
+                <View
+                    style={{
+                        // marginHorizontal: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                    <Text
+                        style={{
+                            ...FONTS.body1,
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                            // fontFamily: appFonts.BoldText.fontFamily,
+                            color: COLORS.black,
+                            paddingVertical: 16,
+                        }}>
+                        {item.title}
+                    </Text>
+                    <Text
+                        style={{
+                            textAlign: 'center',
+                            ...FONTS.body3a,
+                            fontFamily: 'Roboto-Medium',
+                            color: COLORS.primary,
+                            paddingHorizontal: 16,
+                            textAlign: 'center',
+                        }}>
+                        {item.text}
+                    </Text>
                 </View>
-
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>{item.text}</Text>
-                </View> */}
-                <View>
-                    <Text style={{ fontSize: SIZES.body1 * 0.9, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
-                    <View style={{}}>
-                        <Image source={item.image} style={styles.imageSlide} />
-                        <View style={{ position: 'absolute', bottom: SIZES.h1 * 6, alignSelf: 'center', paddingHorizontal: SIZES.h2 }}>
-                            <Text style={styles.slideText}>{item.title}</Text>
-                        </View>
-                    </View>
+                <View
+                    style={{
+                        bottom: 0,
+                        position: 'absolute',
+                        width: '100%',
+                        backgroundColor: COLORS.primary,
+                        justifyContent: 'center',
+                        height: SIZES.h1 * 3,
+                    }}>
+                    {/* <Text style={{ color: 'white' }}>Next</Text> */}
                 </View>
             </View>
         )
     }
-
     const _renderNextButton = () => {
         return (
             <View style={styles.buttonCircle}>

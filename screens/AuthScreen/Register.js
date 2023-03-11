@@ -5,14 +5,15 @@ import { SIZES, COLORS, FONTS, icons } from '../../constants';
 import * as yup from 'yup';
 import { Formik, Field } from 'formik';
 import { registerUser } from '../../api/auth';
+import Toast from 'react-native-simple-toast';
 
 
 
 const signUpValidationSchema = yup.object().shape({
-    firstname: yup
+    firstName: yup
         .string()
         .required('Firstname is missing'),
-    lastname: yup
+    lastName: yup
         .string()
         .required('Lastname is missing'),
     username: yup
@@ -39,9 +40,24 @@ const Register = () => {
 
     const { colors: { background } } = useTheme();
 
+    const sub = () => {
+        Toast.show('Hello World', Toast.SHORT, ['RCTToast'], {
+            backgroundColor: '#999',
+            borderRadius: 10,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 12,
+            paddingRight: 12,
+            fontSize: 16,
+            color: '#fff',
+        });
+    };
+    // }
+
+
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white, paddingHorizontal: SIZES.width * 0.05 }}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ marginTop: SIZES.h1 * 1, marginBottom: SIZES.h1 * 1.5 }}>
                     <Text style={{ fontSize: SIZES.navTitle * 1.3, fontWeight: 'bold', color: COLORS.blue }}>Create</Text>
                     <Text style={{ fontSize: SIZES.navTitle * 1.3, fontWeight: 'bold', color: COLORS.blue }}>an account</Text>
@@ -50,8 +66,8 @@ const Register = () => {
                 <Formik
                     validationSchema={signUpValidationSchema}
                     initialValues={{
-                        firstname: '',
-                        lastname: '',
+                        firstName: '',
+                        lastName: '',
                         username: '',
                         email: '',
                         password: '',
@@ -62,19 +78,19 @@ const Register = () => {
                         registerUser(values).then(res => {
                             console.log('response', res)
                             setShowSpinner(false);
-                            Alert.alert(
-                                ' ',
-                                res.status,
-                                [
-                                    {
-                                        text: 'Ok',
-                                        onPress: () => {
-                                            navigation.navigate('Login')
-                                        }
-                                    }
-                                ]
-                            )
-                            // navigation.navigate('Bottom')
+                            // Alert.alert(
+                            //     ' ',
+                            //     res.status,
+                            //     [
+                            //         {
+                            //             text: 'Ok',
+                            //             onPress: () => {
+                            //                 navigation.navigate('Login')
+                            //             }
+                            //         }
+                            //     ]
+                            // )
+                            navigation.navigate('VerifyEmail')
                         }).catch(err => {
                             console.log('signup error', err.response.data?.error)
                             setShowSpinner(false);
@@ -89,22 +105,22 @@ const Register = () => {
                                 <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
                                     <TextInput
                                         placeholder='Enter Firstname'
-                                        name='firstname'
-                                        onChangeText={handleChange('firstname')}
+                                        name='firstName'
+                                        onChangeText={handleChange('firstName')}
                                         style={{ ...FONTS.body3 }}
                                     />
-                                    {(errors.firstname && touched.firstname) &&
-                                        <Text style={styles.errorText}>{errors.firstname}</Text>}
+                                    {(errors.firstName && touched.firstName) &&
+                                        <Text style={styles.errorText}>{errors.firstName}</Text>}
                                 </View>
                                 <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
                                     <TextInput
                                         placeholder='Enter Lastname'
-                                        name='lastname'
-                                        onChangeText={handleChange('lastname')}
+                                        name='lastName'
+                                        onChangeText={handleChange('lastName')}
                                         style={{ ...FONTS.body3 }}
                                     />
-                                    {(errors.lastname && touched.lastname) &&
-                                        <Text style={styles.errorText}>{errors.lastname}</Text>}
+                                    {(errors.lastName && touched.lastName) &&
+                                        <Text style={styles.errorText}>{errors.lastName}</Text>}
                                 </View>
                             </View>
 
@@ -156,7 +172,7 @@ const Register = () => {
                             }
                             {/* BUTTON  */}
                             <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 2, flexDirection: 'row', alignItems: 'center' }]}>
-                                <Text style={{ ...FONTS.body2a, color: COLORS.white, marginRight: SIZES.h4 }}>Login</Text>
+                                <Text style={{ ...FONTS.body2a, color: COLORS.white, marginRight: SIZES.h4 }}>Sign Up</Text>
                                 {
                                     showSpinner && (<ActivityIndicator color={COLORS.white} />)
                                 }
@@ -174,11 +190,15 @@ const Register = () => {
                             <TouchableOpacity onPress={() => navigation.navigate('Login')} >
                                 <Text style={{ ...FONTS.h2, color: COLORS.primary }}>  Sign In</Text>
                             </TouchableOpacity>
+
                         </View>
                         {/* <TouchableOpacity style={{ alignItems: 'center' }}>
                             <Text style={{ ...FONTS.h2, color: COLORS.primary }}>Skip</Text>
                         </TouchableOpacity> */}
                     </View>
+                    <TouchableOpacity onPress={() => sub()}>
+                        <Text style={{ ...FONTS.h1 }}>Hello Everyone</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
