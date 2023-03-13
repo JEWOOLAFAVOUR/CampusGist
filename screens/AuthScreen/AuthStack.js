@@ -12,6 +12,11 @@ import BottomTab from '../../navigator/BottomTab';
 import { connect } from 'react-redux';
 import PostDetail from '../HomeScreen/PostDetail';
 import VerifyEmail from './VerifyEmail';
+import WelcomeScreen from './WelcomeScreen';
+import RegisterWithPhone from './RegisterWithPhone';
+import YourGender from './YourGender';
+import LevelBio from './LevelBio';
+import RegistrationSuccessful from './RegistrationSuccessful';
 
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
@@ -21,11 +26,16 @@ const AuthStack = ({ ...props }) => {
       initialRouteName={isOnboardingDisabled ? 'Splash' : 'Onboarding'}
       /* initialRouteName='Login' */ screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="Bottom" component={BottomTab} />
       <Stack.Screen name='PostDetail' component={PostDetail} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="RegisterWithPhone" component={RegisterWithPhone} />
       <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
+      <Stack.Screen name="YourGender" component={YourGender} />
+      <Stack.Screen name="LevelBio" component={LevelBio} />
+      <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
     </Stack.Navigator>
   );

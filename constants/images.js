@@ -2,6 +2,7 @@ export const image1 = require('../assets/images/image1.jpg');
 export const image2 = require('../assets/images/image2.jpg');
 export const image5 = require('../assets/images/image5.jpg');
 export const image6 = require('../assets/images/image6.jpg');
+export const otp = require('../assets/images/otp.jpg');
 export const pic1 = require('../assets/images/pic1.jpg');
 export const pic2 = require('../assets/images/pic2.jpg');
 export const pic3 = require('../assets/images/pic3.jpg');
@@ -22,6 +23,7 @@ export const slide1 = require('../assets/images/slide1.jpg');
 export const slide2 = require('../assets/images/slide2.jpg');
 export const slide3 = require('../assets/images/slide3.jpg');
 export const slide4 = require('../assets/images/slide4.jpg');
+export const successful = require('../assets/images/successful.jpg');
 
 
 export default {
@@ -29,6 +31,7 @@ export default {
     image2,
     image5,
     image6,
+    otp,
     pic1,
     pic2,
     pic3,
@@ -49,4 +52,5 @@ export default {
     slide2,
     slide3,
     slide4,
+    successful,
 }

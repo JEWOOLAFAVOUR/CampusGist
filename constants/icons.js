@@ -8,6 +8,7 @@ export const bell = require('../assets/icons/bell.png')
 export const bell2 = require('../assets/icons/bell2.png')
 export const block = require('../assets/icons/block.png')
 export const bookmark = require('../assets/icons/bookmark.png')
+export const call = require('../assets/icons/call.png')
 export const circlecheck = require('../assets/icons/circlecheck.png')
 export const clock = require('../assets/icons/clock.png')
 export const close = require('../assets/icons/close.png')
@@ -49,6 +50,7 @@ export default {
     bell2,
     block,
     bookmark,
+    call,
     circlecheck,
     clock,
     close,

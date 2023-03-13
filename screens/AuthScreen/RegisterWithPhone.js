@@ -5,8 +5,9 @@ import { SIZES, COLORS, FONTS, icons } from '../../constants';
 import * as yup from 'yup';
 import { Formik, Field } from 'formik';
 import { registerUser } from '../../api/auth';
-import Toast from '../../components/Toast';
-import Roller from '../../components/Roller';
+import Toast from 'react-native-simple-toast';
+
+
 
 const signUpValidationSchema = yup.object().shape({
     firstName: yup
@@ -17,45 +18,44 @@ const signUpValidationSchema = yup.object().shape({
         .required('Lastname is missing'),
     username: yup
         .string()
-        .required('Username is missing')
-        .min(5, ({ min }) => `Username must be at least ${min} characters`),
-    email: yup
-        .string()
-        .email('Please enter valid email')
-        .required('Email is required'),
+        .required('Username is missing'),
+    phone: yup
+        .number()
+        .required('Phone number is required'),
     password: yup
         .string()
         .matches(/\w*[a-z]\w*/, 'Password must have a small letter')
         .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
-        // .matches(/\d/, 'Password must have a number')
+        .matches(/\d/, 'Password must have a number')
         .min(8, ({ min }) => `Password must be at least ${min} characters`)
         .required('Password is required'),
 })
 
-const Register = () => {
+const RegisterWithPhone = () => {
     const navigation = useNavigation();
 
     const [showSpinner, setShowSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [existUserName, setExistUserName] = useState(false);
-
 
     const { colors: { background } } = useTheme();
+
+    const sub = () => {
+        Toast.show('Hello World', Toast.SHORT, ['RCTToast'], {
+            backgroundColor: '#999',
+            borderRadius: 10,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 12,
+            paddingRight: 12,
+            fontSize: 16,
+            color: '#fff',
+        });
+    };
+    // }
 
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white, paddingHorizontal: SIZES.width * 0.05 }}>
-            {
-                showError && (
-                    <Toast message="Please verify your email to proceed" type="fail" />
-                )
-            }
-            {
-                existUserName && (
-                    <Toast message="This username already exist!" type="fail" />
-                )
-            }
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
                 <Image source={icons.arrowleft} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.primary }} />
             </TouchableOpacity>
@@ -71,33 +71,33 @@ const Register = () => {
                         firstName: '',
                         lastName: '',
                         username: '',
-                        email: '',
+                        phone: '',
                         password: '',
                     }}
                     onSubmit={async (values) => {
-                        setShowSpinner(true);
-                        console.log('values', values);
-                        registerUser(values).then(res => {
-                            console.log('responssse', res)
-                            setShowSpinner(false);
-                            if (res.status === "Email not verified") {
-                                setShowError(false)
-
-                                setShowError(true)
-                                // navigation.navigate('VerifyEmail')
-                            } else if (res.data.verified === false) {
-                                console.log('coolll', values)
-                                navigation.navigate('VerifyEmail', { item: res.data._id })
-                            }
-                        }).catch(err => {
-                            console.log('signup error', err.response.data?.error)
-                            setShowSpinner(false);
-                            setExistUserName(false)
-                            console.log('Error', err.response.data?.error)
-                            setExistUserName(true)
-                        })
-                        // navigation.navigate('VerifyEmail')
-
+                        // setShowSpinner(true);
+                        // console.log('values', values);
+                        // registerUser(values).then(res => {
+                        //     console.log('response', res)
+                        //     setShowSpinner(false);
+                        // Alert.alert(
+                        //     ' ',
+                        //     res.status,
+                        //     [
+                        //         {
+                        //             text: 'Ok',
+                        //             onPress: () => {
+                        //                 navigation.navigate('Login')
+                        //             }
+                        //         }
+                        //     ]
+                        // )
+                        navigation.navigate('VerifyEmail')
+                        // }).catch(err => {
+                        //     console.log('signup error', err.response.data?.error)
+                        //     setShowSpinner(false);
+                        //     console.log('Error', err.response.data?.error)
+                        // })
                     }}
                 >
                     {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
@@ -106,7 +106,6 @@ const Register = () => {
                                 <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
                                     <TextInput
                                         placeholder='Enter Firstname'
-                                        placeholderTextColor={COLORS.chocolate}
                                         name='firstName'
                                         onChangeText={handleChange('firstName')}
                                         style={{ ...FONTS.body4 }}
@@ -117,7 +116,6 @@ const Register = () => {
                                 <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
                                     <TextInput
                                         placeholder='Enter Lastname'
-                                        placeholderTextColor={COLORS.chocolate}
                                         name='lastName'
                                         onChangeText={handleChange('lastName')}
                                         style={{ ...FONTS.body4 }}
@@ -132,10 +130,9 @@ const Register = () => {
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.base }}>
                                     <TextInput
                                         placeholder='Enter Username'
-                                        placeholderTextColor={COLORS.chocolate}
                                         name='username'
                                         onChangeText={handleChange('username')}
-                                        style={{ ...FONTS.body4, flex: 1 }}
+                                        style={{ ...FONTS.body4 }}
                                     />
                                     <Image source={icons.person} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
                                 </View>
@@ -146,17 +143,16 @@ const Register = () => {
                             <View style={styles.inputCtn}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.base }}>
                                     <TextInput
-                                        placeholder='Enter Email'
-                                        placeholderTextColor={COLORS.chocolate}
-                                        name='email'
-                                        onChangeText={handleChange('email')}
-                                        keyboardType='email-address'
+                                        placeholder='Enter Phone number'
+                                        name='phone'
+                                        onChangeText={handleChange('phone')}
+                                        keyboardType='number-pad'
                                         style={{ ...FONTS.body4, flex: 1 }}
                                     />
                                     <Image source={icons.mail} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
                                 </View>
-                                {(errors.email && touched.email) &&
-                                    <Text style={styles.errorText}>{errors.email}</Text>}
+                                {(errors.phone && touched.phone) &&
+                                    <Text style={styles.errorText}>{errors.phone}</Text>}
                             </View>
                             {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text> */}
                             <View>
@@ -164,12 +160,11 @@ const Register = () => {
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.base }}>
                                         <TextInput
                                             placeholder='Enter Password'
-                                            placeholderTextColor={COLORS.chocolate}
                                             name='password'
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={showPassword}
-                                            style={{ ...FONTS.body4, flex: 1 }}
                                             keyboardType='visible-password'
+                                            style={{ ...FONTS.body4, flex: 1 }}
                                         />
                                         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                                             <Image source={icons.key} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.chocolate }} />
@@ -186,8 +181,7 @@ const Register = () => {
                             <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 2, flexDirection: 'row', alignItems: 'center' }]}>
                                 <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Register</Text>
                                 {
-                                    // showSpinner && (<ActivityIndicator color={COLORS.white} />)
-                                    showSpinner && (<Roller />)
+                                    showSpinner && (<ActivityIndicator color={COLORS.white} />)
                                 }
                                 <Image source={icons.arrowright} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.white }} />
                             </TouchableOpacity>
@@ -216,7 +210,7 @@ const Register = () => {
     )
 }
 
-export default Register
+export default RegisterWithPhone
 
 const styles = StyleSheet.create({
     inputCtn: {
@@ -254,4 +248,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#f3f3f3',
         marginTop: SIZES.h3,
     },
-})
+});

@@ -29,7 +29,8 @@ const SplashScreen = ({ ...props }) => {
                 setTokenInterceptor(user)
             }
             hideSplashScreen()
-            navigation.navigate(isLoggedIn ? 'Bottom' : 'Login');
+            // navigation.navigate(isLoggedIn ? 'Bottom' : 'Login');
+            navigation.navigate(isLoggedIn ? 'Bottom' : 'WelcomeScreen');
         }, 1000);
     }, []);
 
