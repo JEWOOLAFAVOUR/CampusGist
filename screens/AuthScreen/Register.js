@@ -39,8 +39,8 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showError, setShowError] = useState(false);
     const [existUserName, setExistUserName] = useState(false);
-
-
+    const [msg, setMsg] = useState('');
+    const [vProfile, setVProfile] = useState(false)
     const { colors: { background } } = useTheme();
 
 
@@ -53,9 +53,11 @@ const Register = () => {
             }
             {
                 existUserName && (
-                    <Toast message="This username already exist!" type="fail" />
+                    <Toast message={msg} type="fail" />
                 )
             }
+            {vProfile && <Toast message={"Account Created, Please Verify!"} type="success" />}
+
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
                 <Image source={icons.arrowleft} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.primary }} />
             </TouchableOpacity>
@@ -80,18 +82,24 @@ const Register = () => {
                         registerUser(values).then(res => {
                             console.log('responssse', res)
                             setShowSpinner(false);
+                            // setShowSpinner(true);
                             if (res.status === "Email not verified") {
                                 setShowError(false)
 
                                 setShowError(true)
-                                // navigation.navigate('VerifyEmail')
+                                navigation.navigate('VerifyEmail', { item: res.userId, email: values.email })
                             } else if (res.data.verified === false) {
                                 console.log('coolll', values)
-                                navigation.navigate('VerifyEmail', { item: res.data._id })
+                                setVProfile(false)
+                                setVProfile(true)
+                                setTimeout(() => {
+                                    navigation.navigate('VerifyEmail', { item: res.data._id })
+                                }, 2000);
                             }
                         }).catch(err => {
                             console.log('signup error', err.response.data?.error)
                             setShowSpinner(false);
+                            setMsg(err.response.data?.error)
                             setExistUserName(false)
                             console.log('Error', err.response.data?.error)
                             setExistUserName(true)
@@ -187,7 +195,7 @@ const Register = () => {
                                 <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Register</Text>
                                 {
                                     // showSpinner && (<ActivityIndicator color={COLORS.white} />)
-                                    showSpinner && (<Roller />)
+                                    showSpinner && (<Roller visible={showSpinner} />)
                                 }
                                 <Image source={icons.arrowright} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.white }} />
                             </TouchableOpacity>

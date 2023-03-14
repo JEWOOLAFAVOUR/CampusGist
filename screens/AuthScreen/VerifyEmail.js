@@ -11,55 +11,67 @@ import Toast from '../../components/Toast';
 
 
 const VerifyEmail = ({ navigation, route, ...props }) => {
-    // console.log('props', props)
-    // useEffect(() => {
-    //     const backAction = () => {
-    //         Alert.alert(
-    //             'Exit App',
-    //             'Do you want to exit the app?',
-    //             [
-    //                 {
-    //                     text: 'Cancel',
-    //                     onPress: () => null,
-    //                     style: 'cancel'
-    //                 },
-    //                 {
-    //                     text: 'Exit',
-    //                     onPress: () => BackHandler.exitApp()
-    //                 }
-    //             ],
-    //             { cancelable: false }
-    //         );
-    //         return true;
-    //     };
+    // console.log('props', route)
+    const useId = route.params.item;
+    // console.log('dttt', useId)
+    useEffect(() => {
+        const backAction = () => {
+            Alert.alert(
+                'Exit App',
+                'Do you want to exit the app?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel'
+                    },
+                    {
+                        text: 'Exit',
+                        onPress: () => BackHandler.exitApp()
+                    }
+                ],
+                { cancelable: false }
+            );
+            return true;
+        };
 
-    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
-    //         e.preventDefault();
-    //         backAction();
-    //     });
+        const removeListener = navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            backAction();
+        });
 
-    //     const backHandler = BackHandler.addEventListener(
-    //         'hardwareBackPress',
-    //         backAction
-    //     );
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
 
-    //     return () => {
-    //         removeListener();
-    //         backHandler.remove();
-    //     };
-    // }, [navigation]);
+        return () => {
+            removeListener();
+            backHandler.remove();
+        };
+    }, [navigation]);
     const [userId, setUserId] = useState(route.params.item)
     const [otp, setOtp] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showSpinner, setShowSpinner] = useState(false);
+
     const [showToast, setShowToast] = useState(false)
+
     console.log(showToast)
     const [toastMsg, setToastMsg] = useState('')
     console.log('toast msggggggg', toastMsg)
+
+    const [toastMsg2, setToastMsg2] = useState('')
+    const [showToast2, setShowToast2] = useState(false)
     const { updateUserLogin, updateUserAccessToken, user, isLoggedIn } = props
 
-    const [error, setError] = useState({})
-    console.log('startinnnnnn', error)
+    const [errork, setErrork] = useState('')
+    const [showToastError, setShowToastError] = useState(false)
+    // console.log('errork comming', errork)
+    const [aV, setAv] = useState(false)
+    const [uF, setUf] = useState(false)
+    const [vO, setVo] = useState(false)
+    const [eV, setEv] = useState(false)
     const handleInputChange = (value) => {
         setOtp(value);
         setErrorMessage('');
@@ -74,29 +86,57 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
             // Valid OTP
             setErrorMessage('');
             try {
-                // console.log('first', userId)
                 setShowSpinner(true)
                 const data = await verifyEmail(otp, userId);
-                setShowSpinner(false)
                 console.log('Verification response:', data);
-                // console.log('gggggggg', data.success)
-                setError(data)
+                // if(data.error === "")
+                setShowSpinner(false)
+                setErrork(data.error)
+                // setShowToastError(false)
+                // setShowToastError(true)
+                if (data.error === "This account is already verified!") {
+                    setAv(false)
+                    setAv(true)
+                    setTimeout(() => {
+                        navigation.navigate("Login");
+                    }, 2000);
+                } else if (data.error === "Sorry, user not found!") {
+                    setUf(false)
+                    setUf(true)
+                } else if (data.error === "Please provide a valid otp token!") {
+                    setVo(false)
+                    setVo(true)
+                } else if (data.status === "Your email is verified") {
+                    setEv(false)
+                    setEv(true)
+                    setTimeout(() => {
+                        navigation.navigate("YourGender");
+                    }, 2000);
+                    updateUserLogin(data.user, true)
+                    updateUserAccessToken(data.user.accessToken)
 
-
-                // } else if (data.success === "true") {
-                //     console.log('lllllllllllll', data)
-                //     return navigation.navigate('YourGender');
-
-                // }
-                // updateUserLogin(res.user, true)
-                // updateUserAccessToken(res.user.accessToken)
-
+                }
             } catch (error) {
                 console.error('Error verifying email:', error);
                 setErrorMessage('Error verifying email, please try again.');
             }
         }
     }
+
+    const handleResend = async (useId) => {
+        const data = await resendOtp(useId);
+        console.log('comig', data)
+        if (data.status === false) {
+            setToastMsg(data.error)
+            setShowToast(false)
+            setShowToast(true)
+        } else if (data.success === true) {
+            setToastMsg2(data.status)
+            setShowToast2(false)
+            setShowToast2(true)
+        }
+    }
+
 
 
     return (
@@ -107,8 +147,22 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
                 )
             }
             {
-                showSpinner && (<Roller />)
+                showToast2 && (
+                    <Toast message={toastMsg2} type="success" />
+                )
             }
+            {
+                showSpinner && (<Roller visible={showSpinner} />)
+            }
+            {
+                showToastError && (
+                    <Toast message={errork} type="fail" />
+                )
+            }
+            {aV && <Toast message={"This account is already verified!"} type="fail" />}
+            {uF && <Toast message={"Sorry, user not found!"} type="fail" />}
+            {vO && <Toast message={"Please provide a valid otp token!"} type="fail" />}
+            {eV && <Toast message={"Your email is verified"} type="success" />}
             <View style={{}}>
                 <View style={{ alignItems: 'center', marginTop: SIZES.h1 * 2 }}>
                     <Image source={images.otp} style={{ height: SIZES.height * 0.3, width: SIZES.width * 0.6 }} />
@@ -137,7 +191,7 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.h2, alignSelf: 'center' }}>
                         <Text style={{ ...FONTS.body3, color: COLORS.primary }}>Didn't Recieve Code?</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleResend(useId)}>
                             <Text style={{ ...FONTS.body3, color: COLORS.orange }}> Resend</Text>
                         </TouchableOpacity>
                     </View>
@@ -184,7 +238,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: SIZES.h1 * 2,
-        alignSelf: 'flex-end',
+        alignSelf: 'center',
         marginRight: SIZES.width * 0.05
         // position: 'absolute',
         // bottom: 0,

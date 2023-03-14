@@ -1,10 +1,21 @@
 import { View, Text, BackHandler, Alert, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import React from 'react'
+import React, { useState } from 'react'
 import { COLORS, icons, images, FONTS, SIZES } from '../../constants'
+import { connect } from 'react-redux';
 
 
-const YourGender = ({ navigation, route }) => {
-    console.log('route coming 2', route)
+const YourGender = ({ navigation, ...props }) => {
+    // console.log('comig props n gender from resux', props)
+    const [selectedGender, setSelectedGender] = useState('');
+
+    const handleGenderSelection = (gender) => {
+        setSelectedGender(gender);
+    }
+
+    const handleNextButtonPress = () => {
+        navigation.navigate("LevelBio", { selectedGender });
+    };
+
     return (
         <View style={styles.page}>
             <View style={{ flex: 1 }}>
@@ -17,24 +28,60 @@ const YourGender = ({ navigation, route }) => {
                 </View>
                 {/* MALE AND FEMALE BUTTON */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <TouchableOpacity style={[styles.genderCtn, { backgroundColor: 'lightblue' }]}>
+                    {/* <TouchableOpacity style={[styles.genderCtn, { backgroundColor: 'lightblue' }]}>
                         <Image source={images.pic1} style={{ height: SIZES.h1, width: SIZES.h1 }} />
                         <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.white, marginTop: SIZES.h4 }}>Male</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.genderCtn, { backgroundColor: 'pink' }]}>
                         <Image source={images.pic1} style={{ height: SIZES.h1, width: SIZES.h1 }} />
                         <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.white, marginTop: SIZES.h4 }}>Female</Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity
+                        style={[
+                            styles.genderCtn,
+                            {
+                                backgroundColor:
+                                    selectedGender === "male" ? COLORS.primary : "lightblue",
+                            },
+                        ]}
+                        onPress={() => handleGenderSelection("male")}
+                    >
+                        <Image source={images.pic1} style={{ height: SIZES.h1, width: SIZES.h1 }} />
+                        <Text style={{ ...FONTS.body2, fontWeight: "bold", color: COLORS.white, marginTop: SIZES.h4 }}>Male</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[
+                            styles.genderCtn,
+                            {
+                                backgroundColor:
+                                    selectedGender === "female" ? COLORS.primary : "pink",
+                            },
+                        ]}
+                        onPress={() => handleGenderSelection("female")}
+                    >
+                        <Image source={images.pic1} style={{ height: SIZES.h1, width: SIZES.h1 }} />
+                        <Text style={{ ...FONTS.body2, fontWeight: "bold", color: COLORS.white, marginTop: SIZES.h4 }}>Female</Text>
+                    </TouchableOpacity>
+                    {/* END HERE  */}
                 </View>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('LevelBio')} style={styles.nextCtn}>
+            <TouchableOpacity onPress={() => handleNextButtonPress()} disabled={!selectedGender} style={styles.nextCtn}>
                 <Image source={icons.arrowright} style={{ height: SIZES.h3 * 0.9, width: SIZES.h3 * 0.9, tintColor: COLORS.white }} />
             </TouchableOpacity>
         </View>
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
 
-export default YourGender
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(YourGender)
 
 const styles = StyleSheet.create({
     page: {

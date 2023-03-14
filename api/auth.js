@@ -18,25 +18,6 @@ const makeApiRequest = async (method, endpoint, data) => {
     }
 };
 
-// Login User 
-export const loginUser = async (values) => {
-    try {
-        // const { data } = await client.post('/post/featured-posts', values)
-        // return data
-        const url = 'user/signin'
-
-        return axios.post(url, values)
-            .then(response => response.data)
-    } catch (error) {
-        const { response } = error
-        if (response?.data) {
-            return response.data;
-        }
-        return { error: error.message || error };
-    }
-
-}
-
 export const registerUser = async (values) => {
     try {
         // const { data } = await client.post('/post/featured-posts', values)
@@ -55,6 +36,13 @@ export const registerUser = async (values) => {
 
 }
 
+export const loginUser = async (email, password) => {
+    // console.log('passing otp', otp, userId)
+    const data = { email, password }; // create an object with otp and userId
+    const response = await makeApiRequest('POST', '/user/signin', data);
+    return response;
+};
+
 export const verifyEmail = async (otp, userId) => {
     console.log('passing otp', otp, userId)
     const data = { otp, userId }; // create an object with otp and userId
@@ -62,9 +50,11 @@ export const verifyEmail = async (otp, userId) => {
     return response;
 };
 
-export const resendOtp = async () => {
-    const data = await makeApiRequest('POST', '/user/resend-otp');
-    return data;
+export const resendOtp = async (userId) => {
+    console.log('passing userId', userId)
+    const data = { userId }; // create an object with otp and userId
+    const response = await makeApiRequest('POST', '/user/resend-otp', data);
+    return response;
 };
 
 export const updateUserBioAndLevel = async () => {

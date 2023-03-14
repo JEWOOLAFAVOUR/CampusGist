@@ -4,7 +4,8 @@ import { COLORS, icons, images, FONTS, SIZES } from '../../constants';
 import { Dropdown } from 'react-native-element-dropdown';
 import { updateUserBioAndLevel } from '../../api/auth';
 
-const LevelBio = ({ navigation }) => {
+const LevelBio = ({ navigation, route }) => {
+    console.log('coing route', route.params)
     const data = [
         { label: '100 Level', value: '1' },
         { label: '200 Level', value: '2' },
