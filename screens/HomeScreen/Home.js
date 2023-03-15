@@ -58,6 +58,7 @@ const Home = ({ ...props }) => {
                         borderRadius: SIZES.radius,
                     },
                 })}
+                
             >
                 <Tab.Screen name="AllGist" hello={accessToken} component={AllGist} />
                 <Tab.Screen name="Campuses" component={Campuses} />

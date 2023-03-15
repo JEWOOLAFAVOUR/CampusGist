@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, ToastAndroid, TextInput } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { COLORS, FONTS, SIZES, icons, images } from '../../constants';
 import Header from '../../components/Header'
 import FormButton from '../../components/FormButton';
 import { useNavigation } from '@react-navigation/native';
+import { updateUserBioAndLevel } from '../../api/auth';
 
 const ChangeBio = ({ }) => {
     const navigation = useNavigation();
@@ -13,6 +14,13 @@ const ChangeBio = ({ }) => {
     }, [navigation]);
     const ToastMessage = () => {
         ToastAndroid.show("Edited successfully!", ToastAndroid.SHORT);
+    }
+    const [bio, setBio] = useState('')
+
+    const handleSubmit = async () => {
+        console.log('bioooo', bio)
+        const data = await updateUserBioAndLevel()
+        console.log('coming data', data)
     }
     return (
         <View style={styles.page}>
@@ -34,12 +42,17 @@ const ChangeBio = ({ }) => {
                 <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Write something about you to share in public.</Text>
                 {/* TEXTINPUT */}
                 <View style={styles.inputCtn}>
-                    <TextInput multiline placeholder='Enter your bio' style={{ ...FONTS.body3a, color: COLORS.black }} />
+                    <TextInput
+                        multiline placeholder='Enter your bio'
+                        style={{ ...FONTS.body3a, color: COLORS.black }}
+                        value={bio}
+                        onChangeText={value => setBio(value)}
+                    />
                 </View>
 
             </View>
             <View style={{ marginBottom: SIZES.h1 * 2, paddingHorizontal: SIZES.width * 0.03, }}>
-                <FormButton onPress={() => { ToastMessage(); navigation.goBack() }} title="Update Bio" />
+                <FormButton onPress={() => handleSubmit()} title="Update Bio" />
             </View>
         </View>
     )

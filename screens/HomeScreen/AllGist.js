@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import PostList from './PostList'
 import PropTypes from 'prop-types'
 import * as newActions from '../../redux/actions/newsAction'
+import Roller from '../../components/Roller'
 
 
 let pageNo = 0;
@@ -34,7 +35,8 @@ const AllGist = ({ ...props }) => {
     const [reachedEnd, setReachedEnd] = useState(false)
     const [busy, setBusy] = useState(false)
 
-    // console.log('featured-post', featuredPosts)
+    const [load, setLoad] = useState(false);
+    // const [load, setLoad] = useState(true);
 
     const fetchFeaturePost = async () =>{
         const { error, posts } = await getFeaturedPosts();
@@ -55,22 +57,7 @@ const AllGist = ({ ...props }) => {
         // console.log('updatePostNew', posts)
     }
 
-    const fetchMorePosts = async () => {
-        console.log('runnings')
-        if (reachedEnd || busy) return;
-
-        pageNo += 1;
-        setBusy(true)
-        const { error, posts, postCount } = await getLatestPosts(limit, pageNo);
-        setBusy(false)
-        if (error) return console.log(error)
-
-        if (postCount === latestPost.length) return setReachedEnd(true)
-
-        // console.log('post', posts)
-
-        setLatestPost([...latestPost, ...posts])
-    }
+   
     const fetchSinglePost = async (slug) => {
         const { error, post } = await getSinglePost(slug)
         console.log('fetch-single-post', post)
@@ -79,11 +66,14 @@ const AllGist = ({ ...props }) => {
 
     }
     useEffect(() => {
+    //  setLoad(true)
         fetchLatestPosts();
         kaka();
-        fetchFeaturePost();
-        homePostData;
-    }, [])
+        fetchFeaturePost()
+     setLoad(true)
+
+      }, []);
+    //     homePostData;
 
     const navigation = useNavigation();
 
@@ -180,6 +170,7 @@ const AllGist = ({ ...props }) => {
     return (
         <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
             {/* <Slider /> */}
+            <Roller visible={load}/>
             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
                 <FlatList
                     // ListHeaderComponent={Slider}
@@ -254,7 +245,22 @@ const styles = StyleSheet.create({
     },
 })
 
+// const fetchMorePosts = async () => {
+//     console.log('runnings')
+//     if (reachedEnd || busy) return;
 
+//     pageNo += 1;
+//     setBusy(true)
+//     const { error, posts, postCount } = await getLatestPosts(limit, pageNo);
+//     setBusy(false)
+//     if (error) return console.log(error)
+
+//     if (postCount === latestPost.length) return setReachedEnd(true)
+
+//     // console.log('post', posts)
+
+//     setLatestPost([...latestPost, ...posts])
+// }
 
 
 
