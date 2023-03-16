@@ -38,6 +38,7 @@ const AllGist = ({ ...props }) => {
 
     const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
+    const [loading, setLoading] = useState(true)
 
     const fetchFeaturePost = async () =>{
         const { error, posts } = await getFeaturedPosts();
@@ -60,12 +61,30 @@ const AllGist = ({ ...props }) => {
 
    
     const fetchSinglePost = async (slug) => {
-        const { error, post } = await getSinglePost(slug)
-        console.log('fetch-single-post', post)
-        navigation.navigate('PostDetail', { post })
-        if (error) console.log('fetch-single-post-error', error)
+        try {
+          // Set the loading state to true
+          setLoading(true);
+          
+          // Call the API to get the post
+          const { error, post } = await getSinglePost(slug);
+          
+          // If there was an error, log it
+          if (error) {
+            console.log('fetch-single-post-error', error);
+            return;
+          }
+          
+          // Navigate to the PostDetail screen with the post data
+          navigation.navigate('PostDetail', { post });
+        } catch (error) {
+          // Log any errors that occur during the fetch
+          console.error('Error fetching single post: ', error);
+        } finally {
+          // Set the loading state to false, regardless of whether the fetch succeeded or failed
+          setLoading(false);
+        }
+      }
 
-    }
     useEffect(() => {
         const fetchAllData = async () => {
           try {
@@ -180,12 +199,12 @@ const AllGist = ({ ...props }) => {
         )
     }
 
-   
 
     return (
         <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
             {/* <Slider /> */}
             {load ?<Roller visible={true}/> : null}
+            {loading &&<Roller visible={true}/> }
             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
                 <FlatList
                     // ListHeaderComponent={Slider}

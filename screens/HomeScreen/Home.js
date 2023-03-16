@@ -13,42 +13,42 @@ const { width, height } = Dimensions.get('window');
 
 const Home = ({ ...props }) => {
     const navigation = useNavigation();
-    useEffect(() => {
-        const backAction = () => {
-            Alert.alert(
-                'Exit App',
-                'Do you want to exit the app?',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => null,
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'Exit',
-                        onPress: () => BackHandler.exitApp()
-                    }
-                ],
-                { cancelable: false }
-            );
-            return true;
-        };
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         Alert.alert(
+    //             'Exit App',
+    //             'Do you want to exit the app?',
+    //             [
+    //                 {
+    //                     text: 'Cancel',
+    //                     onPress: () => null,
+    //                     style: 'cancel'
+    //                 },
+    //                 {
+    //                     text: 'Exit',
+    //                     onPress: () => BackHandler.exitApp()
+    //                 }
+    //             ],
+    //             { cancelable: false }
+    //         );
+    //         return true;
+    //     };
 
-        const removeListener = navigation.addListener('beforeRemove', (e) => {
-            e.preventDefault();
-            backAction();
-        });
+    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
+    //         e.preventDefault();
+    //         backAction();
+    //     });
 
-        const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
-            () => {
-                navigation.goBack();
-                return true;
-            }
-        );
+    //     const backHandler = BackHandler.addEventListener(
+    //         'hardwareBackPress',
+    //         () => {
+    //             navigation.goBack();
+    //             return true;
+    //         }
+    //     );
 
-        return () => backHandler.remove();
-    }, [navigation]);
+    //     return () => backHandler.remove();
+    // }, [navigation]);
 
     const Tab = createMaterialTopTabNavigator();
     return (

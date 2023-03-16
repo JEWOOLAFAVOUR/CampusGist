@@ -1,4 +1,4 @@
-import { StyleSheet, Image, TouchableOpacity, Alert, Text, View, FlatList, ActivityIndicator } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { circleData, hotFoodData, oldMarketData } from './CampusCircleData'
@@ -21,9 +21,6 @@ const CampusCircle = () => {
     const [restaurant, setRestaurant] = useState([])
     const [showSpinner, setShowSpinner] = useState(false);
     const [load, setLoad] = useState(true)
-
-
-
 
     const fetchRestaurant = async () => {
         const { error, restaurants } = await getAllRestaurant()
@@ -53,22 +50,15 @@ const CampusCircle = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                setLoad(true); // Set the loader to be visible
-                await Promise.all([
-                    fetchMarket(),
-                    fetchBanner(),
-                    fetchRestaurant(),
-                ]);
-            } catch (error) {
-                console.error('Error fetching data: ', error);
-            } finally {
-                setLoad(false); // Set the loader to be hidden
-            }
-        };
-        fetchData();
-    }, []);
-
+            await Promise.all([
+                fetchMarket(),
+                fetchBanner(),
+                fetchRestaurant(),
+            ])
+            setLoad(false)
+        }
+        fetchData()
+    }, [])
 
     // const fetchRestaurantById = async (postId) => {
     //     const { error, restaurant } = await getRestaurantById(postId)
