@@ -50,6 +50,7 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
             backHandler.remove();
         };
     }, [navigation]);
+
     const [userId, setUserId] = useState(route.params.item)
     const [otp, setOtp] = useState('');
     const [errorMessage, setErrorMessage] = useState('');

@@ -8,7 +8,7 @@ const Roller = ({ visible }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 10000);
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, []);
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({});
 
 // Blood Pressure, Breath Count, Step Count, Speed Measurement, Noise Measurement
 
-// so he said I should write a quotation for it, note i'm using react native in clonning/redsegin the app all over from scarath from flutter, backend is ready, because they
+// so he said I should write a quotation for it, note i'm using react native in clonning/redsegin the app all over from scarath from flutter, backend is ready, because they were unable to acheive "Linear Acceleremoter" in flutter, so please help me construct a quotation  also explain very well because i'll be defending, all term explain as weell
 // import { StyleSheet, Text, View } from 'react-native'
 // import React from 'react'
 // import Spinner from 'react-native-loading-spinner-overlay';

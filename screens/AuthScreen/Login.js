@@ -51,7 +51,7 @@ const Login = ({ ...props }) => {
             setShowToast2(true)
             setTimeout(() => {
                 navigation.navigate("Bottom");
-            }, 2000);
+            }, 1000);
             updateUserLogin(data.user, true)
             updateUserAccessToken(data.user.accessToken)
         }

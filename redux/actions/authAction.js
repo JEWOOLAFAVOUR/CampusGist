@@ -1,4 +1,4 @@
-import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN } from "../constants/constants";
+import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER } from "../constants/constants";
 import client from "../../api/client";
 
 export const updateOnboarding = (status) => {
@@ -27,3 +27,12 @@ export const updateUserAccessToken = (accessToken) => {
     }
 }
 
+export const logoutUser = () => {
+    // Remove the authentication token from your Axios instance
+    delete client.defaults.headers.common['Authorization'];
+
+    // Return the action object to update the state
+    return {
+        type: LOGOUT_USER
+    };
+};

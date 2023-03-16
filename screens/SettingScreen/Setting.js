@@ -2,8 +2,11 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch, Scro
 import React, { useEffect } from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { logoutUser } from '../../redux/actions/authAction'
 
 const Setting = () => {
+    const dispatch = useDispatch()
     const navigation = useNavigation();
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
@@ -41,7 +44,10 @@ const Setting = () => {
             id: 6,
             title: 'Logout',
             iconName: icons.bell,
-            // onPress: Notification,
+            onPress: () => {
+                dispatch(logoutUser())
+                navigation.navigate('WelcomeScreen')
+            },
         },
     ];
     const _renderHeader = () => {

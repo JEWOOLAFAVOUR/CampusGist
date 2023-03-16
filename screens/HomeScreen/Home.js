@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, StatusBar } from 'react-native'
-import React, { useEffect } from 'react'
+import { StyleSheet, Text, BackHandler, Alert, View, Dimensions, Image, TouchableOpacity, StatusBar } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import AllGist from './AllGist'
@@ -13,11 +13,42 @@ const { width, height } = Dimensions.get('window');
 
 const Home = ({ ...props }) => {
     const navigation = useNavigation();
-    const { accessToken } = props
-    // console.log('accessToken Home', accessToken)
     useEffect(() => {
-        // console.log('props at home', props)
-    }, [])
+        const backAction = () => {
+            Alert.alert(
+                'Exit App',
+                'Do you want to exit the app?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel'
+                    },
+                    {
+                        text: 'Exit',
+                        onPress: () => BackHandler.exitApp()
+                    }
+                ],
+                { cancelable: false }
+            );
+            return true;
+        };
+
+        const removeListener = navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            backAction();
+        });
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            () => {
+                navigation.goBack();
+                return true;
+            }
+        );
+
+        return () => backHandler.remove();
+    }, [navigation]);
 
     const Tab = createMaterialTopTabNavigator();
     return (

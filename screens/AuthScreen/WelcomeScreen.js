@@ -1,10 +1,46 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, Text, BackHandler, Alert, TextInput, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { COLORS, icons, images, FONTS, SIZES } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 
 const WelcomeScreen = () => {
     const navigation = useNavigation();
+    useEffect(() => {
+        const backAction = () => {
+            Alert.alert(
+                'Exit App',
+                'Do you want to exit the app?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel'
+                    },
+                    {
+                        text: 'Exit',
+                        onPress: () => BackHandler.exitApp()
+                    }
+                ],
+                { cancelable: false }
+            );
+            return true;
+        };
+
+        const removeListener = navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            backAction();
+        });
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            () => {
+                navigation.goBack();
+                return true;
+            }
+        );
+
+        return () => backHandler.remove();
+    }, [navigation]);
     return (
         <View style={styles.page}>
             <Image source={images.pic4} style={{ height: SIZES.height * 0.5, width: SIZES.width * 1, }} />

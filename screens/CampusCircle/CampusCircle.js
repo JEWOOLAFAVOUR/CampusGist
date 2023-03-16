@@ -1,4 +1,4 @@
-import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, Alert, Text, View, FlatList, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { circleData, hotFoodData, oldMarketData } from './CampusCircleData'
@@ -7,6 +7,7 @@ import { getFood, getMarket, getBanner } from '../../api/post'
 import { SliderBox } from 'react-native-image-slider-box';
 import Slide from './Slide'
 import { getAllRestaurant, getRestaurantById } from '../../api/campuscircle'
+import Roller from '../../components/Roller'
 
 let pageNo = 0;
 const limit = 10;
@@ -19,6 +20,10 @@ const CampusCircle = () => {
     const [market, setMarket] = useState([])
     const [restaurant, setRestaurant] = useState([])
     const [showSpinner, setShowSpinner] = useState(false);
+    const [load, setLoad] = useState(true)
+
+
+
 
     const fetchRestaurant = async () => {
         const { error, restaurants } = await getAllRestaurant()
@@ -47,17 +52,47 @@ const CampusCircle = () => {
     }
 
     useEffect(() => {
-        fetchMarket();
-        fetchBanner();
-        fetchRestaurant();
-    }, [])
+        const fetchData = async () => {
+            try {
+                setLoad(true); // Set the loader to be visible
+                await Promise.all([
+                    fetchMarket(),
+                    fetchBanner(),
+                    fetchRestaurant(),
+                ]);
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+            } finally {
+                setLoad(false); // Set the loader to be hidden
+            }
+        };
+        fetchData();
+    }, []);
+
+
+    // const fetchRestaurantById = async (postId) => {
+    //     const { error, restaurant } = await getRestaurantById(postId)
+    //     console.log('single-restaurant', restaurant)
+    //     navigation.navigate('RestaurantDetail', { restaurant })
+    //     if (error) return console.log('single-restaurant error', error)
+    // }
 
     const fetchRestaurantById = async (postId) => {
-        const { error, restaurant } = await getRestaurantById(postId)
-        console.log('single-restaurant', restaurant)
-        navigation.navigate('RestaurantDetail', { restaurant })
-        if (error) return console.log('single-restaurant error', error)
-    }
+        try {
+            setLoad(true); // Set the loader to be visible
+            const { error, restaurant } = await getRestaurantById(postId);
+            console.log('single-restaurant', restaurant);
+            navigation.navigate('RestaurantDetail', { restaurant });
+            if (error) {
+                console.log('single-restaurant error', error);
+            }
+        } catch (error) {
+            console.error('Error fetching restaurant: ', error);
+        } finally {
+            setLoad(false); // Set the loader to be hidden
+        }
+    };
+
 
     const _renderEmpty = () => {
         return (
@@ -135,6 +170,7 @@ const CampusCircle = () => {
     }
     return (
         <View style={{ backgroundColor: COLORS.white, flex: 1, }}>
+            {load ? <Roller visible={true} /> : null}
             <FlatList
                 ListHeaderComponent={CampusHeader}
                 // ListFooterComponentStyle={{ marginTop: 200 }}

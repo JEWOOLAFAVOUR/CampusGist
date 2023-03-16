@@ -1,4 +1,4 @@
-import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN } from "../constants/constants";
+import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER } from "../constants/constants";
 
 const initialState = {
     isOnboardingDisabled: false,
@@ -25,6 +25,13 @@ const authReducer = (state = initialState, action) => {
         case UPDATE_USER_ACCESS_TOKEN:
             return {
                 ...state, accessToken
+            };
+        case LOGOUT_USER:
+            return {
+                ...state,
+                isLoggedIn: false,
+                user: {},
+                accessToken: ""
             };
         default:
             return state;

@@ -13,6 +13,7 @@ import * as newActions from '../../redux/actions/newsAction'
 import Roller from '../../components/Roller'
 
 
+
 let pageNo = 0;
 const limit = 50;
 
@@ -35,7 +36,7 @@ const AllGist = ({ ...props }) => {
     const [reachedEnd, setReachedEnd] = useState(false)
     const [busy, setBusy] = useState(false)
 
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
 
     const fetchFeaturePost = async () =>{
@@ -66,25 +67,39 @@ const AllGist = ({ ...props }) => {
 
     }
     useEffect(() => {
-    //  setLoad(true)
-        fetchLatestPosts();
-        kaka();
-        fetchFeaturePost()
-     setLoad(true)
-
+        const fetchAllData = async () => {
+          try {
+            setLoad(true); // Set the loader to be visible
+            await Promise.all([
+              fetchLatestPosts(),
+              kaka(),
+              fetchFeaturePost(),
+            ]);
+          } catch (error) {
+            console.error('Error fetching data: ', error);
+          } finally {
+            setTimeout(() => {
+              setLoad(false); // Set the loader to be hidden after 2 seconds
+            }, 2000);
+          }
+        };
+        fetchAllData();
       }, []);
+      
+
     //     homePostData;
 
     const navigation = useNavigation();
 
-    const NewsToday =({data})=>{
+    const NewsToday =({data}) => {
         const getImage = (uri) => {
             if (uri) return { uri };
             return images.image2
         }
+
         return(
             <View>
-                <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.base}}>Gists Today</Text>
+                <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.base * 0.9}}>Gists Today</Text>
                 <FlatList
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -107,7 +122,7 @@ const AllGist = ({ ...props }) => {
                         )
                     }}
                 />
-                <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.base * 0.8, marginBottom: SIZES.base * 0.1}}>Latest Gists</Text>
+                <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.base * 0.7, marginBottom: SIZES.base * 0.05}}>Latest Gists</Text>
             </View>
         )
     } 
@@ -151,9 +166,9 @@ const AllGist = ({ ...props }) => {
                 data={categoryData}
                 renderItem={({item})=>{
                         return(
-                            <TouchableOpacity onPress={item.onPress} style={{marginRight: SIZES.h2, marginTop:SIZES.base * 0.5, marginBottom:SIZES.base * 0.5}}>
+                            <TouchableOpacity onPress={item.onPress} style={{marginRight: SIZES.h2 * 1, marginTop:SIZES.base / 4, marginBottom:SIZES.base * 0.5}}>
                                 <View style={[styles.categoryCtn, {backgroundColor: item.test ? COLORS.semiblue : COLORS.grey3}]}>
-                                    <Image source={item.iconName} style={{height: SIZES.h2 * 1.1, width: SIZES.h2 * 1.1, tintColor: item.test ? COLORS.white : COLORS.chocolate}}/>
+                                    <Image source={item.iconName} style={{height: SIZES.h2 * 1, width: SIZES.h2 * 1, tintColor: item.test ? COLORS.white : COLORS.chocolate}}/>
                                 </View>
                                 <Text style={{textAlign: 'center',...FONTS.body5, color: COLORS.black}}>{item.title}</Text>
                             </TouchableOpacity>
@@ -170,7 +185,7 @@ const AllGist = ({ ...props }) => {
     return (
         <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
             {/* <Slider /> */}
-            <Roller visible={load}/>
+            {load ?<Roller visible={true}/> : null}
             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
                 <FlatList
                     // ListHeaderComponent={Slider}
@@ -228,8 +243,8 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     categoryCtn:{
-        height: SIZES.h1 * 1.5,
-        width: SIZES.h1 * 1.65,
+        height: SIZES.h1 * 1.4,
+        width: SIZES.h1 * 1.6,
         borderRadius: SIZES.base,
         justifyContent: 'center',
         alignItems:'center',
