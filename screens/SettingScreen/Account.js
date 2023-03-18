@@ -26,7 +26,7 @@ const Account = ({ ...props }) => {
                     </View>
                     <View style={{ marginLeft: SIZES.h3 }}>
                         <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text>
+                        <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data.username}</Text>
                     </View>
                     {/* <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('EditProfile', { data })}>
                         <Text style={{ color: COLORS.white, ...FONTS.body4 }}>Edit Profile</Text>

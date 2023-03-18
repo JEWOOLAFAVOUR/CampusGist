@@ -21,14 +21,22 @@ const LikeProduct = () => {
     const Media = () => {
         return (
             <View style={styles.page}>
-                <Text style={{ fontSize: SIZES.h1 * 3, color: COLORS.black }}>Media</Text>
+                <Text style={{ fontSize: SIZES.h1 * 1.5, color: COLORS.black, fontFamily: 'Roboto-Medium' }}>You haven't Posted yet</Text>
+                <Text style={{ ...FONTS.body2 }}>When you post, it'll show up here</Text>
+                <TouchableOpacity>
+                    <Text>Posts now</Text>
+                </TouchableOpacity>
             </View>
         )
     }
     const Saved = () => {
         return (
             <View style={styles.page}>
-                <Text style={{ fontSize: SIZES.h1 * 3, color: COLORS.black }}>Saved</Text>
+                <Text style={{ fontSize: SIZES.h1 * 1.5, color: COLORS.black, fontFamily: 'Roboto-Medium' }}>You haven't Posted yet</Text>
+                <Text style={{ ...FONTS.body2 }}>When you post, it'll show up here</Text>
+                <TouchableOpacity>
+                    <Text>Posts now</Text>
+                </TouchableOpacity>
             </View>
         )
     }

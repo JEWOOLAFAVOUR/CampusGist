@@ -1,25 +1,45 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { COLORS, SIZES, FONTS, icons } from '../../constants'
+import { COLORS, SIZES, FONTS, icons, images } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
+import { getUserById } from '../../api/auth'
 
-const CommentSection = ({ item, index }) => {
+const CommentSection = ({ data }) => {
+    console.log('itemcccccccc', data?.user_id?._id)
+    const userId = data?.user_id?._id;
     const navigation = useNavigation();
-    const [loveRec, setLoveRec] = useState(item.numOfReaction)
+    // const [loveRec, setLoveRec] = useState(item.numOfReaction)
+    const [loveRec, setLoveRec] = useState(2)
     const [click, setClick] = useState(false)
+    const [seeMore, setSeeMore] = useState(false)
+
+    const getUserClick = async (userId) => {
+        console.log('userrrrrrrrr', userId)
+        const data = await getUserById(userId)
+        console.log('result from user fetch', data)
+        if (data.verified === true) {
+            navigation.navigate('ProfilePage', { data })
+        } else {
+            console.log('hellooo')
+        }
+
+    }
     return (
-        <View key={index} style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')} style={styles.imageCtn}>
-                <Image source={item.profilePic} style={{ height: SIZES.h1 * 1.8, width: SIZES.h1 * 1.8, borderRadius: 100 }} />
+        <View style={styles.container}>
+            <TouchableOpacity onPress={() => getUserClick(userId)} style={styles.imageCtn}>
+                <Image source={images.pic1} style={{ height: SIZES.h1 * 1.8, width: SIZES.h1 * 1.8, borderRadius: 100 }} />
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-start' }}>
                 <View style={{ flex: 1, marginLeft: SIZES.h5 }}>
-                    <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')}>
-                        <Text style={{ ...FONTS.body3a, color: COLORS.black, fontWeight: '700' }}>{item.userName}</Text>
+                    {/* <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')}> */}
+                    <TouchableOpacity onPress={() => getUserClick(userId)}>
+                        <Text style={{ ...FONTS.body4, color: COLORS.black, fontWeight: '700' }}>{data?.user_id?.username}</Text>
                     </TouchableOpacity>
-                    <Text numberOfLines={2} style={{ ...FONTS.body3, color: COLORS.black }}>{item.comment}</Text>
+                    <TouchableOpacity onPress={() => setSeeMore(!seeMore)}>
+                        <Text numberOfLines={seeMore ? 0 : 2} style={{ ...FONTS.body3a, color: COLORS.black }}>{data?.comment}</Text>
+                    </TouchableOpacity>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.body3a }}>{item.createdAt}</Text>
+                        <Text style={{ ...FONTS.body4, flex: 1 }}>{data?.createdAt}</Text>
                         <TouchableOpacity style={styles.replyCtn}>
                             <Text style={{ color: COLORS.black }}>Reply</Text>
                         </TouchableOpacity>

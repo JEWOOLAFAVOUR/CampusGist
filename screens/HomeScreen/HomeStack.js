@@ -12,12 +12,23 @@ import Entertainment from './Entertainment';
 import Sport from './Sport';
 import Lifestyle from './Lifestyle';
 import Religion from './Religion';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLayoutEffect } from 'react';
+
 
 const { width, height } = Dimensions.get('window');
 
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
+    const navigation = useNavigation();
+    const showBottomTabBar = useRoute().state?.index === 0;
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            tabBarVisible: showBottomTabBar,
+        });
+    }, [navigation, showBottomTabBar]);
     return (
         <View
             style={{
@@ -28,7 +39,9 @@ const HomeStack = () => {
                 // initialRouteName="Profile"
                 screenOptions={{
                     headerShown: false
-                }}>
+                }}
+
+            >
                 <Stack.Screen
                     name='Home'
                     component={Home}
@@ -71,6 +84,12 @@ const HomeStack = () => {
                     name='Religion'
                     component={Religion}
                 />
+                <Stack.Screen
+                    name='PostDetail'
+                    component={PostDetail}
+                    options={{ tabBarVisible: true }}
+                />
+
             </Stack.Navigator>
         </View>
     );

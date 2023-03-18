@@ -28,7 +28,6 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="Bottom" component={BottomTab} />
-      <Stack.Screen name='PostDetail' component={PostDetail} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="RegisterWithPhone" component={RegisterWithPhone} />

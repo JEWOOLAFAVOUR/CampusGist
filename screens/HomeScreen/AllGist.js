@@ -6,11 +6,13 @@ import { homeData } from './homeData'
 import { useNavigation } from '@react-navigation/native'
 import { getFeaturedPosts, getLatestPosts, getSinglePost, getStories } from '../../api/post'
 import dateFormat from 'dateformat'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import PostList from './PostList'
 import PropTypes from 'prop-types'
 import * as newActions from '../../redux/actions/newsAction'
 import Roller from '../../components/Roller'
+import reduxStore from '../../redux/store'
+import NetInfoProvider from '../../components/NetInfoProvider'
 
 
 
@@ -22,15 +24,9 @@ const limit1 = 10;
 
 const AllGist = ({ ...props }) => {
     // console.log('first', props)
-    const { accessToken, user, updatePostDetails, posts } = props;
-    // const loadingPost = 
-    // console.log('news', posts)
-    const homePostData = posts;
-
-    const kaka = () => {
-        homePostData
-    }
-    // console.log('data from storage', homePostData)
+    
+const dispatch = useDispatch()
+   
     const [featuredPosts, setFeaturedPosts] = useState([])
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
@@ -48,16 +44,33 @@ const AllGist = ({ ...props }) => {
     }
 
     const fetchLatestPosts = async () => {
+        try{
         const { error, posts } = await getLatestPosts(limit, pageNo);
         console.log('this is latest post', posts)
         if (error) return console.log(error)
-
+      
         setLatestPost(posts)
-
-        // REDUX ACTION DOWN
-        updatePostDetails(latestPost)
-        // console.log('updatePostNew', posts)
+      
+        const state = reduxStore.getState();
+        const existingPosts = state.news.posts;
+      
+        // Filter out any posts that already exist in the store
+        const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+      
+        // Add the filtered posts to the store
+        if (filteredPosts.length > 0) {
+          const allPosts = [...existingPosts, ...filteredPosts];
+          dispatch(newActions.updatePostDetails(allPosts));
+        }
+      
+        // Update the latest posts in the store
+    //    reduxStore.dispatch(newActions.updateLatestPosts(posts));
+    }catch(error){
+        console.error('Error fetching latest post: ', error);
+        
     }
+      }
+      
 
    
     const fetchSinglePost = async (slug) => {
@@ -91,7 +104,6 @@ const AllGist = ({ ...props }) => {
             setLoad(true); // Set the loader to be visible
             await Promise.all([
               fetchLatestPosts(),
-              kaka(),
               fetchFeaturePost(),
             ]);
           } catch (error) {
@@ -173,11 +185,15 @@ const AllGist = ({ ...props }) => {
                 id: 5,
                 title: 'Religion',
                 iconName: icons.thumb,
-                onPress: () =>navigation.navigate('Religion'),
+                onPress: () =>{
+                    dispatch(newActions.clearNews());
+                },
+                // onPress: () =>navigation.navigate('Religion'),
             },
         ];
         return (
             <View style={{}}>
+                <NetInfoProvider/>
                 <FlatList 
                      showsHorizontalScrollIndicator={false}
                     horizontal={true}

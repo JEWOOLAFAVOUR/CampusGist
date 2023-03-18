@@ -58,7 +58,7 @@ const PostList = ({ data, ...props }) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image source={images.slide1} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9, borderRadius: 100 }} />
-                        <Text style={{ color: COLORS.grey, fontSize: SIZES.body4, fontFamily: 'Roboto-Regular', marginBottom: 2, marginLeft: SIZES.base }}>Olosolo02</Text>
+                        <Text style={{ color: COLORS.grey, fontSize: SIZES.body4, fontFamily: 'Roboto-Medium', marginBottom: 2, marginLeft: SIZES.base }}>Admin</Text>
                     </View>
 
                 </View>
@@ -82,7 +82,7 @@ const PostList = ({ data, ...props }) => {
             </View>
             <View style={{ marginRight: SIZES.base }}>
                 <TouchableOpacity style={styles.followCtn}>
-                    <Text style={{ ...FONTS.body5, color: COLORS.orange }}>Follow</Text>
+                    <Text style={{ ...FONTS.body5, color: COLORS.orange }}>Following</Text>
                 </TouchableOpacity>
                 <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1 }}>
                     <Image source={getThumbnail(data.thumbnail)} style={{ height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     followCtn: {
         borderWidth: 1,
         height: SIZES.h2 * 1.1,
-        width: SIZES.h1 * 2,
+        width: SIZES.h1 * 2.1,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: SIZES.h5,

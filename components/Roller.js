@@ -17,6 +17,7 @@ const Roller = ({ visible }) => {
         <Spinner
             visible={loading && visible}
             size="large"
+            color='#182952'
         />
     );
 }

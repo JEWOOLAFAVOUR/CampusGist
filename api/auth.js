@@ -57,6 +57,12 @@ export const resendOtp = async (userId) => {
     return response;
 };
 
+export const getUserById = async (id) => {
+    const response = await makeApiRequest('GET', `/user/find/${id}`);
+    return response;
+};
+
+// NOT DONE
 export const updateUserBioAndLevel = async () => {
     const response = await makeApiRequest('POST', '/user/update-user-bio-level');
     return response;

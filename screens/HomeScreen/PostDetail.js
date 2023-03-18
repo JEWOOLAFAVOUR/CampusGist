@@ -12,7 +12,6 @@ import * as yup from 'yup';
 import { addComment, getSinglePost, toggleLike } from '../../api/post';
 import { connect } from 'react-redux'
 
-
 import { handleLike, handleUnlike } from '../../api/post';
 
 const copy = `# h1 Heading 8-)
@@ -36,19 +35,19 @@ const PostDetail = ({ route, ...props }) => {
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
 
-    console.log('this is props', props)
+    // console.log('this is props', props)
     // const post = route.params?.post;
     const { post } = route.params;
 
     const [postData, setPostData] = useState([post])
-    console.log('cooolllll', postData)
+    console.log('new possst', postData)
 
     const accessToken = props.accessToken
     // console.log('first', accessToken)
     // console.log('first', token)
 
     // const [post, setPost] = useState({})
-    console.log('token', accessToken)
+    // console.log('token', accessToken)
 
     const getImage = (uri) => {
         if (uri) return { uri };
@@ -62,14 +61,14 @@ const PostDetail = ({ route, ...props }) => {
     const [liked, setLiked] = useState(like);
     const [likeCount, setLikeCount] = useState(like);
 
-    console.log('post details', post)
+    // console.log('post details', post)
 
     const postId = id;
-    console.log('first', postId)
+    // console.log('first', postId)
 
     const handleToggle = async (postId, accessToken) => {
-        console.log('access token testing', accessToken)
-        console.log('firstdddddddd', postId)
+        // console.log('access token testing', accessToken)
+        // console.log('firstdddddddd', postId)
 
 
         const data = await handleLike(postId, accessToken)
@@ -103,8 +102,6 @@ const PostDetail = ({ route, ...props }) => {
                 renderItem={({ item }) => {
                     return (
                         <View key={id} style={{}}>
-
-
                             {/* BODY  */}
                             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.base }}>
                                 <Text numberOfLines={3} style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>{item.title}</Text>
@@ -157,21 +154,25 @@ const PostDetail = ({ route, ...props }) => {
                             </View>
 
                             {/* COMMENT SECTION */}
-                            <View style={{ marginBottom: SIZES.h2 }}>
+                            <View style={{ marginBottom: SIZES.h3 }}>
                                 <View style={{ paddingHorizontal: SIZES.width * 0.05, flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.h4 * 1.3 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                                             <View style={{ height: SIZES.h3 * 0.95, width: 3, backgroundColor: COLORS.orange, marginRight: SIZES.h5 }} />
-                                            <Text style={{ ...FONTS.h2, color: COLORS.blue, fontWeight: 'bold' }}>Comments</Text>
+                                            <Text style={{ ...FONTS.h3a, color: COLORS.blue, fontWeight: 'bold' }}>Comments</Text>
                                         </View>
-                                        <TouchableOpacity onPress={() => navigation.navigate('ViewAllComment')}>
-                                            <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>view all(26)</Text>
+                                        <TouchableOpacity onPress={() => navigation.navigate('ViewAllComment', { data: item.comments })}>
+                                            <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>view all({item.commentlength})</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                                {
+                                {/* {
                                     commentData.map((data, index) => <CommentSection item={data} index />)
-                                }
+                                } */}
+                                <FlatList
+                                    data={item.comments}
+                                    renderItem={({ item }) => <CommentSection data={item} />}
+                                />
                             </View>
                         </View>
                     )
@@ -313,6 +314,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 })
+
+// I'm having a issue in my naviation in react native
+
+// the flow
+// Home => PostDetail => Poster Account
+
+// When I get to Poster Account and Press the  back button, it navigate to "Home"
+
+
+// But because of the Input in PostDetail I structed the stack in another way
+// Stack Navigator for App is where "PostDetail" is
+
+// And The "Home" is in Bottom Tab
+
+// And the "PostDetails" is in Home Stack all screens in home is in "HomeStack", can you help
 
 // import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, TextInput } from 'react-native'
 // import React, { useEffect } from 'react'

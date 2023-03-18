@@ -1,0 +1,235 @@
+[
+    {
+        "__v": 0,
+        "_id": "64000b7f2028ec0e18c68889",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": " Hi",
+        "createdAt": "2023-03-02T02:35:43.260Z",
+        "updatedAt": "2023-03-02T02:35:43.260Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "64000c7c2028ec0e18c68896",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Hi",
+        "createdAt": "2023-03-02T02:39:56.654Z",
+        "updatedAt": "2023-03-02T02:39:56.654Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "64000c972028ec0e18c6889c",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Hello",
+        "createdAt": "2023-03-02T02:40:23.472Z",
+        "updatedAt": "2023-03-02T02:40:23.472Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "6408fd1abc176d46ebf7d7d3",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Hello ",
+        "createdAt": "2023-03-08T21:24:42.997Z",
+        "updatedAt": "2023-03-08T21:24:42.997Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "64106e92860b89b903d93bb6",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Good one ",
+        "createdAt": "2023-03-14T12:54:42.107Z",
+        "updatedAt": "2023-03-14T12:54:42.107Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "641070e78dbd48750b60c64a",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Hi",
+        "createdAt": "2023-03-14T13:04:39.015Z",
+        "updatedAt": "2023-03-14T13:04:39.015Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "641070e88dbd48750b60c650",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Hi",
+        "createdAt": "2023-03-14T13:04:40.060Z",
+        "updatedAt": "2023-03-14T13:04:40.060Z",
+        "user_id": null
+    },
+    {
+        "__v": 0,
+        "_id": "6413a50f5e3964af58097704",
+        "blog_id": "63feb5d016b65548c733cda7",
+        "comment": "Hello from new comments ",
+        "createdAt": "2023-03-16T23:23:59.842Z",
+        "updatedAt": "2023-03-16T23:23:59.842Z",
+        "user_id": {
+            "__v": 0,
+            "_id": "6410e23bceae453a1278ef75",
+            "avatar": "",
+            "bio": "",
+            "createdAt": "2023-03-14T21:08:11.739Z",
+            "email": "jewoolafavour2020@gmail.com",
+            "firstName": "Jewoola ",
+            "followers": 0,
+            "following": 0,
+            "isAdmin": false,
+            "lastName": "Favour ",
+            "level": "100",
+            "postCount": 0,
+            "rank": "Novice",
+            "updatedAt": "2023-03-15T07:49:14.278Z",
+            "username": "Favour28",
+            "verified": true
+        }
+    }
+]
+
+
+
+[
+    {
+        "author": "Admin",
+        "comment": 27,
+        "createdAt": "2023-03-01T02:18:13.358Z",
+        "id": "63feb5d016b65548c733cda7",
+        "like": 1,
+        "meta": "this is a short descrition",
+        "slug": "NASU strike still going jj",
+        "tags": [
+            "Computer Science",
+            "Mechanical Engineering"
+        ],
+        "thumbnail": "https://res.cloudinary.com/dr0nfchqe/image/upload/v1677604639/lrjyemrywomgzdyltlfk.jpg",
+        "title": "NASU strike still going on NASU strike still going on NASU strike still going on NASU strike still going on"
+    },
+    {
+        "author": "Admin",
+        "comment": 5,
+        "createdAt": "2023-02-06T08:50:50.539Z",
+        "id": "63e0bf5e840214e233deb2cc",
+        "like": 1,
+        "meta": "This a message from peter obi",
+        "slug": "peter-obi-worried-over-fuel-shortages-scarcity-of-new-naira-notes",
+        "tags": [
+            "peter obi"
+        ],
+        "thumbnail": "https://res.cloudinary.com/dr0nfchqe/image/upload/v1675641024/lmscpxmos6mpmwtkbyq8.jpg",
+        "title": "Peter Obi Worried Over Fuel Shortages, Scarcity Of New Naira Notes"
+    },
+    {
+        "author": "Admin",
+        "comment": 0,
+        "createdAt": "2023-01-23T20:22:36.947Z",
+        "id": "63ceec8cc705d08f9272113e",
+        "like": 1,
+        "meta": "this is a short descrition",
+        "slug": "NASU strike still going on",
+        "tags": [
+            "Computer Science",
+            "Mechanical Engineering"
+        ],
+        "title": "NASU strike still going on"
+    },
+    {
+        "author": "Admin",
+        "comment": 3,
+        "createdAt": "2023-01-23T20:20:40.912Z",
+        "id": "63ceec18c705d08f92721123",
+        "like": 1,
+        "meta": "this is a short descrition",
+        "slug": "For all Category Test Four",
+        "tags": [
+            "Computer Science",
+            "Mechanical Engineering"
+        ],
+        "title": "For all Category Test One"
+    },
+    {
+        "author": "Admin",
+        "comment": 0,
+        "createdAt": "2022-11-23T08:32:15.933Z",
+        "id": "637dda8f2c06c0c5397db7da",
+        "like": 1,
+        "meta": "night",
+        "slug": "night",
+        "tags": [
+            "night"
+        ],
+        "title": "night"
+    },
+    {
+        "author": "Admin",
+        "comment": 0,
+        "createdAt": "2022-11-23T00:10:35.136Z",
+        "id": "637d64fb0bf2be8d96ce53f2",
+        "like": 1,
+        "meta": "this is a short descrition",
+        "slug": "For all Category Test Three",
+        "tags": [
+            "Computer Science",
+            "Mechanical Engineering"
+        ],
+        "title": "For all Category Test One"
+    },
+    {
+        "author": "Admin",
+        "comment": 21,
+        "createdAt": "2022-11-15T00:02:57.913Z",
+        "id": "6372d731ed6c75eb602d1166",
+        "like": 1,
+        "meta": "This a sample test for the App, thanks.",
+        "slug": "nigeria-should-leave-this-road-to-venezuela",
+        "tags": [
+            "politics"
+        ],
+        "title": "Nigeria Should Leave This Road To Venezuela"
+    },
+    {
+        "author": "Admin",
+        "comment": 0,
+        "createdAt": "2022-11-08T21:13:35.414Z",
+        "id": "636ac67f08d5bb3fcd0d7ad7",
+        "like": 1,
+        "meta": "this is a short descrition",
+        "slug": "successful-process",
+        "tags": [
+            "javascript"
+        ],
+        "title": "Successful Process"
+    },
+    {
+        "author": "Admin",
+        "comment": 1,
+        "createdAt": "2022-11-07T23:57:59.006Z",
+        "id": "63699b870ea4a342b9e081b7",
+        "like": 2,
+        "meta": "dnd",
+        "slug": "hello-everyone",
+        "tags": [
+            "me"
+        ],
+        "title": "Hello Everyone"
+    },
+    {
+        "author": "Admin",
+        "comment": 0,
+        "createdAt": "2022-11-05T01:59:00.260Z",
+        "id": "6365c34e4dc1bf41a3445efa",
+        "like": 1,
+        "meta": "this is a short descrition",
+        "slug": "campusgist-app-on-development",
+        "tags": [
+            "Computer Science",
+            "Mechanical Engineering"
+        ],
+        "thumbnail": "https://res.cloudinary.com/dr0nfchqe/image/upload/v1667584752/umrqwrqbanx8eneu9jod.jpg",
+        "title": "CampusGist App on Development"
+    }
+]
