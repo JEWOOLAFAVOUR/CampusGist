@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import * as newActions from '../../redux/actions/newsAction'
 import Roller from '../../components/Roller'
 import reduxStore from '../../redux/store'
+import moment from 'moment'
 import NetInfoProvider from '../../components/NetInfoProvider'
 
 
@@ -122,10 +123,56 @@ const dispatch = useDispatch()
 
     const navigation = useNavigation();
 
-    const NewsToday =({data}) => {
+    const NewsToday =() => {
         const getImage = (uri) => {
             if (uri) return { uri };
             return images.image2
+        }
+        const _renderTemlate =  ({item}) =>{
+             // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
+    const createdAt = item?.createdAt
+    // console.log(createdAt, 'llllllllllllll')
+
+    // Use Moment.js to parse the createdAt string with the ISO 8601 format
+    const createdAtMoment = moment(createdAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    // Use Moment.js to calculate the time difference between the createdAt timestamp and the current time
+    const timeDiff = moment.duration(moment().diff(createdAtMoment));
+
+    // Use the time difference to determine the appropriate format for the output string
+    let formattedTime;
+
+    if (timeDiff.asDays() > 7) {
+        // If the post was created more than a week ago, display the date in the format "YYYY-MM-DD"
+        formattedTime = moment(createdAtMoment).format('YYYY-MM-DD');
+    } else if (timeDiff.asDays() > 1) {
+        // If the post was created more than a day ago but less than a week ago, display the time in the format "X days ago"
+        formattedTime = moment(createdAtMoment).fromNow();
+    } else if (timeDiff.asHours() >= 1) {
+        // If the post was created within the last day but more than an hour ago, display the time in the format "X hours ago"
+        formattedTime = moment(createdAtMoment).subtract(moment().utcOffset(), 'minutes').fromNow();
+    } else if (timeDiff.asMinutes() >= 1) {
+        // If the post was created within the last hour but more than a minute ago, display the time in the format "X minutes ago"
+        formattedTime = moment(createdAtMoment).local().fromNow();
+    } else {
+        // If the post was created within the last minute, display the time as "just now"
+        formattedTime = 'just now';
+    }
+            return(
+                <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)} activeOpacity={0.7} style={styles.latestCtn}>
+                    <View>
+                        <Image source={getImage(item.thumbnail)} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
+                        <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
+                            <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
+                                <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
+                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.chocolate, marginLeft: SIZES.base}}>gist</Text>
+                            </View>
+                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.chocolate}}>{formattedTime}</Text>
+                        </View>
+                    </View>
+                    <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>
+                </TouchableOpacity>
+            )
         }
 
         return(
@@ -135,23 +182,7 @@ const dispatch = useDispatch()
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={featuredPosts}
-                     renderItem={({item})=>{
-                        return(
-                            <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)} activeOpacity={0.7} style={styles.latestCtn}>
-                                <View>
-                                    <Image source={getImage(item.thumbnail)} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
-                                    <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
-                                        <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
-                                            <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
-                                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>sport</Text>
-                                        </View>
-                                        <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>4 mins ago</Text>
-                                    </View>
-                                </View>
-                                <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>
-                            </TouchableOpacity>
-                        )
-                    }}
+                     renderItem={({item})=> <_renderTemlate item={item}/>}
                 />
                 <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.base * 0.7, marginBottom: SIZES.base * 0.05}}>Latest Gists</Text>
             </View>
@@ -163,37 +194,39 @@ const dispatch = useDispatch()
             {
                 id: 1,
                 title: 'Technology',
-                iconName: icons.contact,
+                iconName: icons.technology,
                 onPress: () =>navigation.navigate('Technology'),
             },{
                 id: 2,
                 title: 'Entertainment',
-                iconName: icons.moon,
+                iconName: icons.entertainment,
                 onPress: () =>navigation.navigate('Entertainment'),
             },{
                 id: 3,
                 title: 'Sport',
-                iconName: icons.bookmark,
+                iconName: icons.sport,
                 test: true,
                 onPress: () =>navigation.navigate('Sport'),
             },{
                 id: 4,
-                title: 'LifeStyle',
-                iconName: icons.mail,
-                onPress: () =>navigation.navigate('Lifestyle'),
+                title: 'Campus',
+                iconName: icons.campus,
+                // test: true,
+                onPress: () =>{},
             },{
                 id: 5,
-                title: 'Religion',
-                iconName: icons.thumb,
+                title: 'LifeStyle',
+                iconName: icons.lifestyle,
                 onPress: () =>{
                     dispatch(newActions.clearNews());
                 },
-                // onPress: () =>navigation.navigate('Religion'),
+                // onPress: () =>navigation.navigate('Lifestyle'),
             },
         ];
         return (
             <View style={{}}>
-                <NetInfoProvider/>
+                {/* <NetInfoProvider/> */}
+                <Text style={{...FONTS.h3, color: COLORS.orange, marginBottom: SIZES.base /2}}>Categories</Text>
                 <FlatList 
                      showsHorizontalScrollIndicator={false}
                     horizontal={true}
@@ -203,9 +236,9 @@ const dispatch = useDispatch()
                         return(
                             <TouchableOpacity onPress={item.onPress} style={{marginRight: SIZES.h2 * 1, marginTop:SIZES.base / 4, marginBottom:SIZES.base * 0.5}}>
                                 <View style={[styles.categoryCtn, {backgroundColor: item.test ? COLORS.semiblue : COLORS.grey3}]}>
-                                    <Image source={item.iconName} style={{height: SIZES.h2 * 1, width: SIZES.h2 * 1, tintColor: item.test ? COLORS.white : COLORS.chocolate}}/>
+                                    <Image source={item.iconName} style={{height: SIZES.h2 * 1.3, width: SIZES.h2 * 1.3, tintColor: item.test ? COLORS.white : COLORS.chocolate}}/>
                                 </View>
-                                <Text style={{textAlign: 'center',...FONTS.body5, color: COLORS.black}}>{item.title}</Text>
+                                <Text style={{textAlign: 'center',...FONTS.body5, color: COLORS.blue}}>{item.title}</Text>
                             </TouchableOpacity>
                         )
                     }}

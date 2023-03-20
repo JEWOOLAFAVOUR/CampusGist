@@ -6,6 +6,8 @@ import { getSinglePost } from '../../api/post';
 import { useNavigation } from '@react-navigation/native';
 import { handleLike, handleUnlike } from '../../api/post';
 import { connect } from 'react-redux'
+// import moment from 'moment/moment';
+import moment from 'moment';
 
 
 
@@ -52,6 +54,41 @@ const PostList = ({ data, ...props }) => {
     // useEffect(() => {
     //     fetchSinglePost()
     // }, [])
+
+
+    // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
+    const createdAt = data.createdAt
+    // console.log(createdAt, 'llllllllllllll')
+
+    // Use Moment.js to parse the createdAt string with the ISO 8601 format
+    const createdAtMoment = moment(createdAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    // Use Moment.js to calculate the time difference between the createdAt timestamp and the current time
+    const timeDiff = moment.duration(moment().diff(createdAtMoment));
+
+    // Use the time difference to determine the appropriate format for the output string
+    let formattedTime;
+
+    if (timeDiff.asDays() > 7) {
+        // If the post was created more than a week ago, display the date in the format "YYYY-MM-DD"
+        formattedTime = moment(createdAtMoment).format('YYYY-MM-DD');
+    } else if (timeDiff.asDays() > 1) {
+        // If the post was created more than a day ago but less than a week ago, display the time in the format "X days ago"
+        formattedTime = moment(createdAtMoment).fromNow();
+    } else if (timeDiff.asHours() >= 1) {
+        // If the post was created within the last day but more than an hour ago, display the time in the format "X hours ago"
+        formattedTime = moment(createdAtMoment).subtract(moment().utcOffset(), 'minutes').fromNow();
+    } else if (timeDiff.asMinutes() >= 1) {
+        // If the post was created within the last hour but more than a minute ago, display the time in the format "X minutes ago"
+        formattedTime = moment(createdAtMoment).local().fromNow();
+    } else {
+        // If the post was created within the last minute, display the time as "just now"
+        formattedTime = 'just now';
+    }
+
+    // console.log(formattedTime, 'forrrrrrr'); // Outputs a string in the format "X days ago", "X hours ago", "X minutes ago", or "just now"
+    //  ago", "X minutes ago", or "just now"
+
     return (
         <TouchableOpacity key={data.id} activeOpacity={1} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
@@ -68,7 +105,7 @@ const PostList = ({ data, ...props }) => {
                 </View>
                 {/* REACTION  */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: SIZES.base * 0.9 }}>
-                    <Text>4 hours ago</Text>
+                    <Text style={{ ...FONTS.body4 }}>{formattedTime}</Text>
                     <Text style={{ marginHorizontal: SIZES.base }}>-</Text>
                     <TouchableOpacity onPress={() => setCommentRec(commentRec + 1)} style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.base * 1.5 }}>
                         <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
@@ -84,7 +121,7 @@ const PostList = ({ data, ...props }) => {
                 <TouchableOpacity style={styles.followCtn}>
                     <Text style={{ ...FONTS.body5, color: COLORS.orange }}>Following</Text>
                 </TouchableOpacity>
-                <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1 }}>
+                <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1, borderWidth: 1, borderRadius: SIZES.h4 * 0.9, borderColor: COLORS.chocolateBackground }}>
                     <Image source={getThumbnail(data.thumbnail)} style={{ height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
                 </View>
             </View>

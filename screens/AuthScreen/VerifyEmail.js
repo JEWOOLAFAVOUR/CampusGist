@@ -14,42 +14,42 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
     // console.log('props', route)
     const useId = route.params.item;
     // console.log('dttt', useId)
-    useEffect(() => {
-        const backAction = () => {
-            Alert.alert(
-                'Exit App',
-                'Do you want to exit the app?',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => null,
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'Exit',
-                        onPress: () => BackHandler.exitApp()
-                    }
-                ],
-                { cancelable: false }
-            );
-            return true;
-        };
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         Alert.alert(
+    //             'Exit App',
+    //             'Do you want to exit the app?',
+    //             [
+    //                 {
+    //                     text: 'Cancel',
+    //                     onPress: () => null,
+    //                     style: 'cancel'
+    //                 },
+    //                 {
+    //                     text: 'Exit',
+    //                     onPress: () => BackHandler.exitApp()
+    //                 }
+    //             ],
+    //             { cancelable: false }
+    //         );
+    //         return true;
+    //     };
 
-        const removeListener = navigation.addListener('beforeRemove', (e) => {
-            e.preventDefault();
-            backAction();
-        });
+    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
+    //         e.preventDefault();
+    //         backAction();
+    //     });
 
-        const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
-            backAction
-        );
+    //     const backHandler = BackHandler.addEventListener(
+    //         'hardwareBackPress',
+    //         backAction
+    //     );
 
-        return () => {
-            removeListener();
-            backHandler.remove();
-        };
-    }, [navigation]);
+    //     return () => {
+    //         removeListener();
+    //         backHandler.remove();
+    //     };
+    // }, [navigation]);
 
     const [userId, setUserId] = useState(route.params.item)
     const [otp, setOtp] = useState('');

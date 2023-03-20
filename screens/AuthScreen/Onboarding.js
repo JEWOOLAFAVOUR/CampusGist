@@ -17,20 +17,52 @@ const Onboarding = ({ ...props }) => {
         {
             key: 'slide1',
             image: images.pic1,
-            title: <Text style={{ marginHorizontal: 10 }}>Get the latest gist from <Text style={{ color: '#ff3f4c' }}>reliable source.</Text></Text>,
-            text: 'Here you can read latest news update. By registering to this application.',
+            title: <Text style={{ marginHorizontal: 10 }}>Get the latest gist from <Text style={{ color: '#ff3f4c' }}>reliable source</Text></Text>,
+            text: 'Get the latest information on events, organizations, and academic gists.',
         }, {
             key: 'slide2',
             image: images.pic4,
-            title: <Text>Still <Text style={{ color: '#ff3f4c' }}>up to date</Text> news from all around the world.</Text>,
-            text: 'Read news at anywhere at any place just by connecting to the internet.',
+            title: <Text>Gist <Text style={{ color: '#ff3f4c' }}>on-the-go,</Text> gist from all around the campuses</Text>,
+            text: 'Read gists at anywhere at any place just by connecting to the internet.',
         }, {
             key: 'slide3',
             image: images.pic5,
-            title: <Text>From art to politics, <Text style={{ color: '#ff3f4c' }}>anything</Text> in CampusGist.</Text>,
+            title: <Text>From art to politics, <Text style={{ color: '#ff3f4c' }}>CampusGist</Text> has it all</Text>,
             text: 'Add to your favourite read list and also you can comments.',
         },
     ];
+    // const slides = [
+    //     {
+    //         key: 'slide1',
+    //         image: images.pic1,
+    //         title: <Text style={{ marginHorizontal: 10 }}>Stay informed with CampusGist <Text style={{ color: '#ff3f4c' }}>Your source for campus news and updates</Text></Text>,
+    //         text: 'Get the latest information on events, organizations, and academic news. Register now to stay up-to-date with everything happening on your campus.',
+    //     }, {
+    //         key: 'slide2',
+    //         image: images.pic4,
+    //         title: <Text>News on-the-go <Text style={{ color: '#ff3f4c' }}>Keep up with</Text> the latest stories from around the world.</Text>,
+    //         text: 'Read news at anywhere at any place just by connecting to the internet.',
+    //     }, {
+    //         key: 'slide3',
+    //         image: images.pic5,
+    //         title: <Text>Explore diverse topics, <Text style={{ color: '#ff3f4c' }}>From art to science,</Text> CampusGist has it all.</Text>,
+    //         text: 'Explore diverse topics and engage with other users by leaving comments and sharing your opinions on CampusGist.',
+    //     },
+    // ];
+    //     Slide 1:
+    // Image: A picture of a university campus or a group of students
+    // Title: "Stay informed with CampusGist: Your source for campus news and updates"
+    // Text: "Get the latest information on events, organizations, and academic news. Register now to stay up-to-date with everything happening on your campus."
+
+    // Slide 2:
+    // Image: A picture of a person reading news on their phone
+    // Title: "News on-the-go: Keep up with the latest stories from around the world"
+    // Text: "Our app provides news updates from various sources, covering topics ranging from politics to sports. Stay informed wherever you are by reading the latest news from CampusGist."
+
+    // Slide 3:
+    // Image: A picture of a person reading a book
+    // Title: "Explore diverse topics: From art to science, CampusGist has it all"
+    // Text: "Find articles on a wide range of topics, including art, science, technology, and more. Add articles to your favorites list and engage with other users by leaving comments and sharing your opinions."
 
     const _renderItem = ({ item }) => {
         return (
@@ -93,7 +125,7 @@ const Onboarding = ({ ...props }) => {
                     }}>
                     <Text
                         style={{
-                            ...FONTS.body1,
+                            ...FONTS.body2,
                             textAlign: 'center',
                             fontWeight: 'bold',
                             // fontFamily: appFonts.BoldText.fontFamily,

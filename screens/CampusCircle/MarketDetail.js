@@ -1,107 +1,125 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS, images, icons, SIZES } from '../../constants';
-import { SliderBox } from 'react-native-image-slider-box';
-import Slide from './Slide';
+import moment from 'moment';
 
 const MarketDetail = ({ route }) => {
-    const data = route.params.data
+    const data = route.params?.response?.data;
+    console.log('route coming', data)
+
     const navigation = useNavigation();
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
 
+    const image = [
+        { id: 1, marketImg: images.pic3 },
+        { id: 2, marketImg: images.image5 },
+        { id: 3, marketImg: images.image6 },
+        { id: 4, marketImg: images.pic4 },
+    ];
+    const [more, setMore] = useState(false)
+    const getImage = (uri) => {
+        if (uri) return { uri };
 
-    const [cool, setCool] = React.useState([
-        images.restaurant1, images.restaurant2, images.restaurant3
-    ])
-    const testImage = [images.image1, images.profile2, images.image1
-    ]
+        return images.restaurant2
+    }
+    // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
+    const createdAt = data.createdAt
+    // console.log(createdAt, 'llllllllllllll')
+
+    // Use Moment.js to parse the createdAt string with the ISO 8601 format
+    const createdAtMoment = moment(createdAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    // Use Moment.js to calculate the time difference between the createdAt timestamp and the current time
+    const timeDiff = moment.duration(moment().diff(createdAtMoment));
+
+    // Use the time difference to determine the appropriate format for the output string
+    let formattedTime;
+
+    if (timeDiff.asDays() > 7) {
+        // If the post was created more than a week ago, display the date in the format "YYYY-MM-DD"
+        formattedTime = moment(createdAtMoment).format('YYYY-MM-DD');
+    } else if (timeDiff.asDays() > 1) {
+        // If the post was created more than a day ago but less than a week ago, display the time in the format "X days ago"
+        formattedTime = moment(createdAtMoment).fromNow();
+    } else if (timeDiff.asHours() >= 1 && timeDiff.asHours() < 24) {
+        // If the post was created within the last day but more than an hour ago, display the time in the format "X hours ago"
+        formattedTime = moment(createdAtMoment).subtract(moment().utcOffset(), 'minutes').fromNow();
+    } else if (timeDiff.asMinutes() >= 1) {
+        // If the post was created within the last hour but more than a minute ago, display the time in the format "X minutes ago"
+        formattedTime = moment(createdAtMoment).local().fromNow();
+    } else {
+        // If the post was created within the last minute, display the time as "just now"
+        formattedTime = 'just now';
+    }
+
+
 
     return (
-        <View style={{ flex: 1 }}>
-            <ScrollView>
-                <View style={{}}>
-                    {/* SLIDER HERE  */}
-                    <Slide />
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
-                        <Image source={icons.arrowleft} style={{ height: SIZES.h1 * 0.7, width: SIZES.h1 * 0.7, tintColor: COLORS.white }} />
+        <View style={styles.page}>
+            {/* HEADER SECTION  */}
+            <View style={styles.headerCtn}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: SIZES.base / 2 }}>
+                    <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, marginRight: SIZES.h4, }} />
+                </TouchableOpacity>
+                <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold', }}>A ROOM SELF CONTAIN HSHS SHSHSH AAHAHAH HAHAH</Text>
+            </View>
+            {/* HEADER END */}
+            <ScrollView style={styles.page}>
+                <ScrollView horizontal={true}>
+                    {
+                        image.map((data, index) => {
+                            return (
+                                <View key={index} style={{ height: SIZES.height * 0.4, width: SIZES.width * 0.9, borderWidth: 1, borderColor: COLORS.chocolateBackground, marginRight: SIZES.base }}>
+                                    <Image source={data.marketImg} style={{ height: SIZES.height * 0.4, width: SIZES.width * 0.9, }} />
+                                </View>
+                            )
+                        })
+                    }
+                </ScrollView>
+                <View style={{ marginTop: SIZES.base, paddingHorizontal: SIZES.width * 0.03 }}>
+                    <TouchableOpacity onPress={() => setMore(!more)}>
+                        <Text numberOfLines={more ? 4 : 3} style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.black }}>{data.title}</Text>
                     </TouchableOpacity>
-                </View>
-                {/* DETAILS */}
-                <View style={{ flex: 1, paddingTop: SIZES.h2, paddingHorizontal: SIZES.h2 * 0.8 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.black }}>{data.marketTitle}</Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={icons.star} style={{ height: SIZES.h3 * 0.9, width: SIZES.h3 * 0.9, tintColor: COLORS.orange, marginLeft: 3 }} />
-                            <Image source={icons.star} style={{ height: SIZES.h3 * 0.9, width: SIZES.h3 * 0.9, tintColor: COLORS.orange, marginLeft: 3 }} />
-                            <Image source={icons.star} style={{ height: SIZES.h3 * 0.9, width: SIZES.h3 * 0.9, tintColor: COLORS.orange, marginLeft: 3 }} />
-                            <Image source={icons.star} style={{ height: SIZES.h3 * 0.9, width: SIZES.h3 * 0.9, tintColor: COLORS.orange, marginLeft: 3 }} />
+                    <Text style={{ ...FONTS.body2c, color: COLORS.orange, fontWeight: 'bold', marginTop: SIZES.base * 1.3 }}>₦{data.price}</Text>
+                    <Text style={{ ...FONTS.body3b, color: COLORS.black, }}>Listed {formattedTime}</Text>
+                    {/* SEND A MESSAGE  */}
+                    <View style={styles.sendMsgCtn}>
+                        <Text style={{ ...FONTS.h3a, color: COLORS.black, marginLeft: SIZES.h1 }}>Send seller a message</Text>
+                        <View style={styles.curveCtn}>
+                            <Text style={{ ...FONTS.body3b, color: COLORS.black, marginLeft: SIZES.base, }}>Is this still available?</Text>
+                        </View>
+                        <TouchableOpacity style={styles.sendCtn}>
+                            <Text style={{ ...FONTS.body2, color: COLORS.white, fontWeight: 'bold' }}>Send</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {/* LOCATION  */}
+                    <View>
+                        <Image source={images.image2} style={{ height: SIZES.height * 0.12, width: SIZES.width }} />
+                        <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold', position: 'absolute', bottom: 2, left: SIZES.width * 0.35 }}>Ogbomosho</Text>
+                    </View>
+                    {/* DESCRIPTION SECTION  */}
+                    <View style={{ marginTop: SIZES.base * 1.3 }}>
+                        <View style={{ height: 1, backgroundColor: COLORS.chocolate, marginBottom: SIZES.base }} />
+                        <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.black }}>Description</Text>
+                        <Text style={{ ...FONTS.body3b, color: COLORS.black }}>This is 3kg 5kg and 6kg fairly used, not leaking and very reliable.</Text>
+                        <View style={{ height: 1, backgroundColor: COLORS.chocolate, marginTop: SIZES.base }} />
+                    </View>
+                    {/* SELLERS INFORMATION  */}
+                    <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.black, marginTop: SIZES.h5, }}>Seller information</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base }}>
+                        <Image source={images.pic2} style={{ height: SIZES.h1 * 2.4, width: SIZES.h1 * 2.4, borderRadius: 100 }} />
+                        <View style={{ marginLeft: SIZES.h4, }}>
+                            <Text style={{ ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>Edema Cordy</Text>
+                            <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>080123456789</Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={icons.location} style={{ height: SIZES.h4 * 1.1, width: SIZES.h4 * 1.1, tintColor: 'indigo' }} />
-                        <Text style={{ ...FONTS.body3, color: COLORS.chocolate }}>Alexandra City, Alabama</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ ...FONTS.body1, fontWeight: 'bold', color: 'indigo' }}>N25000</Text>
-                        <View style={styles.saleCtn}>
-                            <Text style={{ color: COLORS.white, ...FONTS.body3 }}>For Sale</Text>
-                        </View>
-                    </View>
-                    {/* ABOUT APARTMENT */}
-                    <View style={{ marginVertical: SIZES.base }}>
-                        <Text style={{ ...FONTS.body2, fontWeight: '700', color: COLORS.black }}>About Apartment</Text>
-                        <Text numberOfLines={3} style={{ marginTop: SIZES.base, ...FONTS.body4, color: COLORS.black }}>A paired apartment is two apartment that share a wall and have opposite side entries. The whole building is designed to look like one single large apartment.</Text>
-                    </View>
-                    {/* SPECIFICATION */}
-                    <View style={{ marginVertical: SIZES.base * 0.8 }}>
-                        <Text style={{ ...FONTS.body2, fontWeight: '700', color: COLORS.black }}>Specification</Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image source={icons.person} style={{ height: SIZES.h2, width: SIZES.h2 }} />
-                                    <Text style={{ ...FONTS.h2, color: 'indigo', marginLeft: SIZES.radius * 0.3 }}>5</Text>
-                                </View>
-                                <Text style={{ ...FONTS.body3b, color: COLORS.grey }}>Bedroom</Text>
-                            </View>
-                            <View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image source={icons.person} style={{ height: SIZES.h2, width: SIZES.h2 }} />
-                                    <Text style={{ ...FONTS.h2, color: 'indigo', marginLeft: SIZES.radius * 0.3 }}>2</Text>
-                                </View>
-                                <Text style={{ ...FONTS.body3b, color: COLORS.grey }}>Bathroom</Text>
-                            </View>
-                            <View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image source={icons.person} style={{ height: SIZES.h2, width: SIZES.h2 }} />
-                                    <Text style={{ ...FONTS.h2, color: 'indigo', marginLeft: SIZES.radius * 0.3 }}>500ft</Text>
-                                </View>
-                                <Text style={{ ...FONTS.body3b, color: COLORS.grey }}>Square Ft</Text>
-                            </View>
-                        </View>
-                    </View>
-                    {/* LISTING AGENT  */}
-                    <View style={{}}>
-                        <Text style={{ ...FONTS.body2, fontWeight: '600', color: COLORS.indigo }}>Listing Agent</Text>
-                        <View style={{ paddingTop: SIZES.h5 * 1.1, flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={images.slide2} style={{ width: SIZES.h1 * 1.8, height: SIZES.h1 * 1.8, borderRadius: SIZES.h5, }} />
-                            <View style={{ marginLeft: SIZES.h5, flex: 1 }}>
-                                <Text style={{ ...FONTS.body2, fontWeight: '700', color: COLORS.black }}>RH HOUSING</Text>
-                                <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>Agent</Text>
-                            </View>
-                            <Image source={icons.person} style={{ height: SIZES.h1, width: SIZES.h1, marginRight: SIZES.h3 }} />
-                            <Image source={icons.person} style={{ height: SIZES.h1, width: SIZES.h1 }} />
-                        </View>
-                    </View>
+                    <View style={{ marginBottom: SIZES.h1 }} />
                 </View>
             </ScrollView>
-            {/* BOOK NOW */}
-            <TouchableOpacity style={styles.bookNowCtn}>
-                <Text style={{ ...FONTS.h3, color: COLORS.white }}>Book Now</Text>
-            </TouchableOpacity>
         </View>
     )
 }
@@ -113,43 +131,39 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    container: {
+    headerCtn: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 20,
-        marginHorizontal: 20,
-        height: 100,
-        backgroundColor: 'pink',
-        borderRadius: 20,
-        padding: 40,
+        paddingHorizontal: SIZES.width * 0.03,
+        paddingTop: SIZES.h5,
+        marginBottom: SIZES.base
     },
-    backArrow: {
-        position: 'absolute',
-        top: 10, left: 20,
-        height: SIZES.h1 * 1.2,
-        width: SIZES.h1 * 1.2,
-        backgroundColor: COLORS.orange,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 100,
-    },
-    saleCtn: {
-        height: SIZES.h2 * 1.1,
-        width: SIZES.h2 * 3.3,
-        backgroundColor: 'indigo',
-        borderRadius: SIZES.h2,
-        alignItems: 'center',
+    sendMsgCtn: {
+        height: SIZES.h1 * 4.7,
+        borderWidth: 1.5,
+        marginVertical: SIZES.h5,
+        borderRadius: 10,
+        borderColor: COLORS.chocolate,
         justifyContent: 'center',
     },
-    bookNowCtn: {
-        height: SIZES.h1 * 1.7,
-        width: SIZES.h1 * 8.8,
+    curveCtn: {
+        height: SIZES.h1 * 1.4,
+        marginHorizontal: SIZES.h3,
+        borderWidth: 1,
+        borderColor: COLORS.chocolate,
         justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: 'indigo',
+        paddingHorizontal: SIZES.h4,
         borderRadius: SIZES.h1,
-        marginBottom: SIZES.base,
+        marginTop: SIZES.base / 2,
+        backgroundColor: COLORS.grey2,
+    },
+    sendCtn: {
+        height: SIZES.h1 * 1.5,
+        marginHorizontal: SIZES.h3,
+        backgroundColor: COLORS.blue,
+        borderRadius: SIZES.h5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: SIZES.base,
     },
 })

@@ -9,7 +9,7 @@ import { setTokenInterceptor } from '../../utils/setTokenInterceptor';
 
 const SplashScreen = ({ ...props }) => {
 
-    const { isLoggedIn, user, accessToken } = props;
+    const { isLoggedIn, user, accessToken, refreshToken } = props;
 
 
     const [isVisible, setIsVisible] = useState(true);
@@ -24,6 +24,7 @@ const SplashScreen = ({ ...props }) => {
 
     useEffect(() => {
         console.log('access token inside splashscreen ', accessToken);
+        console.log('refress token inside splashscreen ', refreshToken);
         setTimeout(() => {
             if (isLoggedIn) {
                 setTokenInterceptor(user)
@@ -32,15 +33,17 @@ const SplashScreen = ({ ...props }) => {
             // navigation.navigate(isLoggedIn ? 'Bottom' : 'Login');
             navigation.replace(isLoggedIn ? 'Bottom' : 'WelcomeScreen');
             // navigation.navigate(isLoggedIn ? 'WelcomeScreen' : 'WelcomeScreen');
-        }, 1000);
+        }, 2000);
     }, []);
 
     const renderSplash = () => {
         return (
             <View style={styles.splash}>
-                <View style={styles.childView}>
-                    <Image source={dark ? images.pic7 : images.pic7} style={{ height: SIZES.height, width: SIZES.width, resizeMode: 'contain' }} />
-                </View>
+                <Image source={dark ? images.splash : images.splash} style={{ height: SIZES.height, width: SIZES.width }} />
+
+                {/* <View style={styles.childView}>
+                    <Image source={dark ? images.splash : images.splash} style={{ height: SIZES.height, width: SIZES.width, resizeMode: 'contain' }} />
+                </View> */}
             </View>
         )
     }
@@ -65,6 +68,7 @@ const mapStateToProps = (state) => {
         user: state.auth.user,
         isLoggedIn: state.auth.isLoggedIn,
         accessToken: state.auth.accessToken,
+        refreshToken: state.auth.refreshToken,
     }
 }
 
@@ -81,8 +85,8 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 10,
         position: 'absolute',
-        width: '100%',
-        height: '100%',
+        // width: '100%',
+        // height: '100%',
     },
     childView: {
         justifyContent: 'center',

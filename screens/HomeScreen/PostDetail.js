@@ -11,6 +11,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { addComment, getSinglePost, toggleLike } from '../../api/post';
 import { connect } from 'react-redux'
+import moment from 'moment';
 
 import { handleLike, handleUnlike } from '../../api/post';
 
@@ -57,9 +58,10 @@ const PostDetail = ({ route, ...props }) => {
 
     if (!post) return null;
 
-    const { title, thumbnail, tags, createdAt, author, content, id, like } = post;
+    const { title, thumbnail, tags, author, content, id, like } = post;
     const [liked, setLiked] = useState(like);
     const [likeCount, setLikeCount] = useState(like);
+    const [seeMore, setSeeMore] = useState(false)
 
     // console.log('post details', post)
 
@@ -70,7 +72,6 @@ const PostDetail = ({ route, ...props }) => {
         // console.log('access token testing', accessToken)
         // console.log('firstdddddddd', postId)
 
-
         const data = await handleLike(postId, accessToken)
         // setLiked(!liked + 1)
         setLiked(!liked)
@@ -78,7 +79,36 @@ const PostDetail = ({ route, ...props }) => {
 
         console.log('data from toogle', data)
         // console.log('data hhhh', message)
+    }
 
+    // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
+    const createdAt = post?.createdAt
+    // console.log(createdAt, 'llllllllllllll')
+
+    // Use Moment.js to parse the createdAt string with the ISO 8601 format
+    const createdAtMoment = moment(createdAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    // Use Moment.js to calculate the time difference between the createdAt timestamp and the current time
+    const timeDiff = moment.duration(moment().diff(createdAtMoment));
+
+    // Use the time difference to determine the appropriate format for the output string
+    let formattedTime;
+
+    if (timeDiff.asDays() > 7) {
+        // If the post was created more than a week ago, display the date in the format "YYYY-MM-DD"
+        formattedTime = moment(createdAtMoment).format('YYYY-MM-DD');
+    } else if (timeDiff.asDays() > 1) {
+        // If the post was created more than a day ago but less than a week ago, display the time in the format "X days ago"
+        formattedTime = moment(createdAtMoment).fromNow();
+    } else if (timeDiff.asHours() >= 1) {
+        // If the post was created within the last day but more than an hour ago, display the time in the format "X hours ago"
+        formattedTime = moment(createdAtMoment).subtract(moment().utcOffset(), 'minutes').fromNow();
+    } else if (timeDiff.asMinutes() >= 1) {
+        // If the post was created within the last hour but more than a minute ago, display the time in the format "X minutes ago"
+        formattedTime = moment(createdAtMoment).local().fromNow();
+    } else {
+        // If the post was created within the last minute, display the time as "just now"
+        formattedTime = 'just now';
     }
 
     const [test, setTest] = React.useState(false)
@@ -104,7 +134,9 @@ const PostDetail = ({ route, ...props }) => {
                         <View key={id} style={{}}>
                             {/* BODY  */}
                             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.base }}>
-                                <Text numberOfLines={3} style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>{item.title}</Text>
+                                <TouchableOpacity onPress={() => setSeeMore(!seeMore)}>
+                                    <Text numberOfLines={seeMore ? 5 : 3} style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>{item.title}</Text>
+                                </TouchableOpacity>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.h4 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -118,14 +150,14 @@ const PostDetail = ({ route, ...props }) => {
                                         </TouchableOpacity>
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        {/* <Text style={{ ...FONTS.body3a, color: COLORS.black, marginRight: SIZES.base / 2 }}>{dateFormat(createdAt, 'shortTime')}</Text>
-                            <Text style={{ ...FONTS.body3a, color: COLORS.black }}>{dateFormat(createdAt, 'mediumDate')}</Text> */}
-                                        <TouchableOpacity onPress={() => setClicked(!clicked)} style={styles.followCtn}>
+                                        {/* {/* <Text style={{ ...FONTS.body3a, color: COLORS.black, marginRight: SIZES.base / 2 }}>{dateFormat(createdAt, 'shortTime')}</Text> */}
+                                        <Text style={{ ...FONTS.body3, color: COLORS.black }}>{formattedTime}</Text>
+                                        {/* <TouchableOpacity onPress={() => setClicked(!clicked)} style={styles.followCtn}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <Text style={{ color: COLORS.white, ...FONTS.body3a, marginRight: SIZES.base * 0.7 }}>+</Text>
                                                 <Text style={{ color: COLORS.white, ...FONTS.body3a }}>{clicked ? 'Following' : 'Follow'}</Text>
                                             </View>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
                                     </View>
                                     {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {

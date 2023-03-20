@@ -4,6 +4,7 @@ import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../../redux/actions/authAction'
+import { clearNews } from '../../redux/actions/newsAction'
 
 const Setting = () => {
     const dispatch = useDispatch()
@@ -46,7 +47,9 @@ const Setting = () => {
             iconName: icons.bell,
             onPress: () => {
                 dispatch(logoutUser())
-                navigation.navigate('WelcomeScreen')
+                dispatch(clearNews());
+
+                navigation.replace('WelcomeScreen')
             },
         },
     ];

@@ -88,20 +88,20 @@ const Register = () => {
 
                                 setShowError(true)
                                 navigation.navigate('VerifyEmail', { item: res.userId, email: values.email })
-                            } else if (res.data.verified === false) {
+                            } else if (res?.data?.verified === false) {
                                 console.log('coolll', values)
                                 setVProfile(false)
                                 setVProfile(true)
                                 setTimeout(() => {
-                                    navigation.navigate('VerifyEmail', { item: res.data._id })
+                                    navigation.navigate('VerifyEmail', { item: res?.data?._id })
                                 }, 2000);
                             }
                         }).catch(err => {
-                            console.log('signup error', err.response.data?.error)
+                            console.log('signup error', err.response.data)
                             setShowSpinner(false);
-                            setMsg(err.response.data?.error)
+                            setMsg(err?.response.data?.error)
                             setExistUserName(false)
-                            console.log('Error', err.response.data?.error)
+                            console.log('Error', err?.response?.data?.error)
                             setExistUserName(true)
                         })
                         // navigation.navigate('VerifyEmail')

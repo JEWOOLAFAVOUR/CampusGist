@@ -17,7 +17,7 @@ import Toast from '../../components/Toast';
 const Login = ({ ...props }) => {
 
 
-    const { updateUserLogin, updateUserAccessToken, user, isLoggedIn } = props
+    const { updateUserLogin, updateUserAccessToken, user, isLoggedIn, updateUserRefreshToken } = props
 
     const navigation = useNavigation();
 
@@ -40,20 +40,22 @@ const Login = ({ ...props }) => {
             setToastMsg(data.error)
             setShowToast(false)
             setShowToast(true)
-        } else if (data.user.verified === false) {
+        } else if (data?.user?.verified === false) {
             setNotVerify(false)
             setNotVerify(true)
             setTimeout(() => {
                 navigation.navigate("VerifyEmail", { item: data.user.id });
-            }, 2000);
+            }, 1000);
         } else {
             setShowToast2(false)
             setShowToast2(true)
             setTimeout(() => {
-                navigation.navigate("Bottom");
+                navigation.replace("Bottom");
             }, 1000);
             updateUserLogin(data.user, true)
+
             updateUserAccessToken(data.user.accessToken)
+            updateUserRefreshToken(data.refreshToken)
         }
     }
 
@@ -129,18 +131,21 @@ Login.propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
     updateUserLogin: PropTypes.func.isRequired,
     updateUserAccessToken: PropTypes.func.isRequired,
+    updateUserRefreshToken: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
     return {
         user: state.auth.user,
-        isLoggedIn: state.auth.isLoggedIn
+        isLoggedIn: state.auth.isLoggedIn,
+        // refreshToken: state.auth.refreshToken,
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     updateUserLogin: (user, isLoggedIn) => dispatch(authActions.updateUserLogin(user, isLoggedIn)),
-    updateUserAccessToken: (token) => dispatch(authActions.updateUserAccessToken(token))
+    updateUserAccessToken: (token) => dispatch(authActions.updateUserAccessToken(token)),
+    updateUserRefreshToken: (refreshToken) => dispatch(authActions.updateUserRefreshToken(refreshToken))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

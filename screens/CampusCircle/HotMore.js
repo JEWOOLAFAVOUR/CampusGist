@@ -87,7 +87,7 @@ const HotMore = ({ navigation }) => {
     }
     const RenderTemplate = ({ item }) => {
         return (
-            <View style={{ marginRight: 10 }}>
+            <View style={{ marginRight: 10, borderColor: COLORS.chocolateBackground, borderWidth: 1, borderRadius: SIZES.base * 0.9 }}>
                 <View>
                     <Image source={getThumbnail(item.thumbnail)} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.8, borderRadius: SIZES.base }} />
                     <View style={{ position: 'absolute', left: SIZES.base, top: SIZES.base * 0.8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

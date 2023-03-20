@@ -8,6 +8,7 @@ import Entertainment from './Entertainment'
 import Campuses from './Campuses'
 import { connect } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import NetInfoProvider from '../../components/NetInfoProvider'
 
 const { width, height } = Dimensions.get('window');
 
@@ -60,6 +61,7 @@ const Home = ({ ...props }) => {
                 backgroundColor: COLORS.white,
             }}>
             <StatusBar backgroundColor={COLORS.primary} />
+            <NetInfoProvider />
             <View style={{ marginBottom: 0, flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base, justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.05 }}>
                 <Text style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>

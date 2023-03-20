@@ -3,13 +3,21 @@ import thunk from "redux-thunk";
 import promiseMiddleware from "../middleware/ApiCalls";
 
 import rootReducer from "../reducers";
+import { checkTokenExpiration } from "../reducers/midToken";
 
-let middleware = [thunk, promiseMiddleware];
+// let middleware = [thunk, checkTokenExpiration];
+let middleware = [thunk];
+
+
 
 const handleStoreUpdate = (store) => {
     const newsState = store.getState().news;
     console.log(`Number of posts: ${newsState.posts.length}`);
 };
+// const refreshToken = (store) => {
+//     const rF = store.getState().auth.refreshToken
+//     console.log('dddddddd', rF)
+// }
 
 const reduxStore = createStore(
     rootReducer,
@@ -19,5 +27,6 @@ const reduxStore = createStore(
 );
 
 reduxStore.subscribe(() => handleStoreUpdate(reduxStore));
+// reduxStore.subscribe(() => refreshToken(reduxStore));
 
 export default reduxStore;

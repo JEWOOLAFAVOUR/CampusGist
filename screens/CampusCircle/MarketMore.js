@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { oldMarketData } from './CampusCircleData';
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
+import { getAllMarket } from '../../api/campuscircle';
+import Roller from '../../components/Roller';
 
 
 
@@ -12,18 +14,122 @@ const MarketMore = () => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
+    const [market, setMarket] = useState([])
+    const [load, setLoad] = useState(true)
 
+    console.log('lllllllllllll', market)
+
+    const categoryData = [
+        { id: 1, image: images.pic1, title: 'Hostels', },
+        { id: 2, image: images.pic2, title: 'Fashion', },
+        { id: 3, image: images.pic3, title: 'Electronics', },
+        { id: 4, image: images.pic4, title: 'Services', },
+        // { id: 5, image: images.restaurant1, title: 'Meat', },
+        // { id: 6, image: images.restaurant2, title: 'Noddles', },
+    ];
+
+    const getMarket = async () => {
+        const response = await getAllMarket()
+        console.log('market data', response)
+        setMarket(response?.market)
+        // if (error) return console.log('market-error', error)
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await Promise.all([
+                getMarket(),
+            ])
+            setLoad(false)
+        }
+        fetchData()
+    }, [])
+    const getImage = (uri) => {
+        if (uri) return { uri };
+
+        return images.restaurant2
+    }
+    const _renderHeader = () => {
+        return (
+            <View style={{ marginBottom: SIZES.h5 }}>
+                <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={categoryData}
+                    renderItem={({ item }) => {
+                        return (
+                            <View style={{ marginRight: SIZES.base * 0.8 }}>
+                                <Image source={item.image} style={{
+                                    height: SIZES.h1 * 2.5, width: SIZES.h1 * 3.5, borderRadius: SIZES.base
+                                }} />
+                                <Text style={{ ...FONTS.body4, textAlign: 'center', color: COLORS.black }}>{item.title}</Text>
+                            </View>
+                        )
+                    }}
+                />
+            </View>
+        )
+    }
+    const _renderEmpty = () => {
+        return (
+            <View style={{}}>
+                <ActivityIndicator color={COLORS.orange} size={40} />
+                <Text style={{ ...FONTS.body3a, }}>Loading foods</Text>
+            </View>
+        )
+    }
     return (
         <View style={styles.page}>
-            <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5, }}>Market</Text>
+            {load ? <Roller visible={true} /> : null}
+            <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5, }}>CG Market</Text>
             <FlatList
-                data={oldMarketData}
+                data={market}
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={_renderHeader}
+                ListEmptyComponent={_renderEmpty}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail', { data: item })} style={styles.container}>
-                            <View>
+                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail')} style={styles.container}>
+                            <Image source={getImage(item.pictures?.url)} style={styles.marketImg} />
+                            <View style={{ marginLeft: SIZES.h5 }}>
+                                <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>N{item.price}</Text>
+                                <Text numberOfLines={1} style={{ ...FONTS.body3b, color: COLORS.black }}>{item.title}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )
+                }}
+            />
+        </View>
+    )
+}
+
+export default MarketMore
+
+const styles = StyleSheet.create({
+    page: {
+        flex: 1,
+        backgroundColor: COLORS.white,
+        paddingHorizontal: SIZES.width * 0.02,
+        paddingTop: SIZES.h5,
+    },
+    container: {
+        height: SIZES.height * 0.3,
+        width: SIZES.width * 0.47,
+        // borderRadius: SIZES.h4,
+        backgroundColor: COLORS.grey2,
+        elevation: 3,
+    },
+    marketImg: {
+        height: SIZES.height * 0.23,
+        width: SIZES.width * 0.47,
+    },
+})
+
+
+
+{/* <View>
                                 <Image source={item.marketImage}
                                     style={{ height: SIZES.height * 0.24, width: SIZES.width * 0.47, borderRadius: SIZES.h4, }} />
                                 <View style={styles.agentCtn}>
@@ -45,40 +151,4 @@ const MarketMore = () => {
                                     </View>
                                     <Text style={{ ...FONTS.h3, color: COLORS.indigo }}>N150,000</Text>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }}
-            />
-        </View>
-    )
-}
-
-export default MarketMore
-
-const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: COLORS.white,
-        paddingHorizontal: SIZES.width * 0.02,
-        paddingTop: SIZES.h5,
-    },
-    container: {
-        height: SIZES.height * 0.37,
-        width: SIZES.width * 0.47,
-        borderRadius: SIZES.h4,
-        backgroundColor: COLORS.grey2,
-        elevation: 3,
-    },
-    agentCtn: {
-        height: SIZES.h1 * 1.4,
-        width: SIZES.h1 * 1.4,
-        backgroundColor: COLORS.indigo,
-        borderRadius: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        bottom: -10,
-        left: SIZES.base,
-    },
-})
+                            </View> */}
