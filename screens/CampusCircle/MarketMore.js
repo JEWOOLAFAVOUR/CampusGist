@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { oldMarketData } from './CampusCircleData';
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
-import { getAllMarket } from '../../api/campuscircle';
+import { getAllMarket, getMarketById } from '../../api/campuscircle';
 import Roller from '../../components/Roller';
 
 
@@ -16,6 +16,9 @@ const MarketMore = () => {
     }, [navigation]);
     const [market, setMarket] = useState([])
     const [load, setLoad] = useState(true)
+    const [refreshing, setRefreshing] = useState(false);
+    const [k, setk] = useState(true)
+
 
     console.log('lllllllllllll', market)
 
@@ -34,6 +37,25 @@ const MarketMore = () => {
         setMarket(response?.market)
         // if (error) return console.log('market-error', error)
     }
+
+    const fetchMarketById = async (marketId) => {
+        try {
+            setk(true)
+            const response = await getMarketById(marketId)
+            console.log('single market data', response)
+            setk(false)
+            navigation.navigate('MarketDetail', { response })
+        } catch (err) {
+            console.log('fetch-mark-id erro', err)
+        }
+
+    }
+    const handleRefresh = () => {
+        setRefreshing(true);
+        getMarket();
+        setRefreshing(false);
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,6 +103,7 @@ const MarketMore = () => {
     return (
         <View style={styles.page}>
             {load ? <Roller visible={true} /> : null}
+            {k ? <Roller visible={true} /> : null}
             <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5, }}>CG Market</Text>
             <FlatList
                 data={market}
@@ -91,7 +114,7 @@ const MarketMore = () => {
                 columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('MarketDetail')} style={styles.container}>
+                        <TouchableOpacity onPress={() => fetchMarketById(item._id)} style={styles.container}>
                             <Image source={getImage(item.pictures?.url)} style={styles.marketImg} />
                             <View style={{ marginLeft: SIZES.h5 }}>
                                 <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>N{item.price}</Text>
@@ -100,6 +123,13 @@ const MarketMore = () => {
                         </TouchableOpacity>
                     )
                 }}
+                refreshControl={
+                    <RefreshControl
+                        colors={['#9Bd35A', '#689F38']}
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                    />
+                }
             />
         </View>
     )

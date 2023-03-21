@@ -1,35 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
+import Modal from 'react-native-modal';
+import Toast from './Toast';
 
 const NetInfoProvider = () => {
     const [isConnected, setIsConnected] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [intervalId, setIntervalId] = useState(null);
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             setIsConnected(state.isConnected);
             if (!state.isConnected) {
-                Alert.alert('No internet connection', 'Please check your internet connection and try again.');
+                setIsModalVisible(true);
+                const id = setInterval(() => {
+                    NetInfo.fetch().then(state => {
+                        if (state.isConnected) {
+                            setIsConnected(true);
+                            setIsModalVisible(false);
+                            clearInterval(intervalId);
+                        }
+                    });
+                }, 10000);
+                setIntervalId(id);
             }
         });
 
         return () => {
             unsubscribe();
+            if (intervalId) clearInterval(intervalId);
         };
     }, []);
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+        clearInterval(intervalId);
+    };
 
     return (
         <View>
             {isConnected ? (
-                <Text>You are connected to the internet.</Text>
+                <Toast type="success" message="You are connected to the internet." />
             ) : (
-                <Text>You are not connected to the internet.</Text>
+                <Modal isVisible={isModalVisible} onBackdropPress={closeModal}>
+                    <View style={{ backgroundColor: 'white', padding: 20 }}>
+                        <Text style={{ marginBottom: 10 }}>No internet connection</Text>
+                        <Text>Please check your internet connection and try again.</Text>
+                    </View>
+                </Modal>
             )}
         </View>
     );
 };
 
 export default NetInfoProvider;
+
+
 
 
 // import React, { useEffect, useState } from 'react';

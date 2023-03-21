@@ -27,7 +27,7 @@ const MarketDetail = ({ route }) => {
         return images.restaurant2
     }
     // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
-    const createdAt = data.createdAt
+    const createdAt = data?.createdAt
     // console.log(createdAt, 'llllllllllllll')
 
     // Use Moment.js to parse the createdAt string with the ISO 8601 format

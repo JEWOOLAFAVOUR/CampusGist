@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import Slider from './Slider'
@@ -32,6 +32,7 @@ const dispatch = useDispatch()
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
     const [busy, setBusy] = useState(false)
+    const [refreshing, setRefreshing] = useState(false);
 
     const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
@@ -43,6 +44,8 @@ const dispatch = useDispatch()
         if (error) return console.log('feature-post-error',error)
         setFeaturedPosts(posts)
     }
+
+    
 
     const fetchLatestPosts = async () => {
         try{
@@ -72,7 +75,12 @@ const dispatch = useDispatch()
     }
       }
       
-
+      const handleRefresh = () => {
+        setRefreshing(true);
+        fetchFeaturePost();
+        fetchLatestPosts();
+        setRefreshing(false);
+      };
    
     const fetchSinglePost = async (slug) => {
         try {
@@ -117,6 +125,7 @@ const dispatch = useDispatch()
         };
         fetchAllData();
       }, []);
+      
       
 
     //     homePostData;
@@ -271,6 +280,13 @@ const dispatch = useDispatch()
                     ListFooterComponent={() => {
                         return reachedEnd ? <Text style={{ color: COLORS.orange, textAlign: 'center', paddingVertical: 50 }}>You reached to end!</Text> : null
                     }}
+                    refreshControl={
+                        <RefreshControl
+                          colors={['#9Bd35A', '#689F38']}
+                          refreshing={refreshing}
+                          onRefresh={handleRefresh}
+                        />
+                      }
                 />
             </View>
         </View>

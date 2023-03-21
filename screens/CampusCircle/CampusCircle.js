@@ -1,4 +1,4 @@
-import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { circleData, hotFoodData, oldMarketData } from './CampusCircleData'
@@ -23,6 +23,8 @@ const CampusCircle = () => {
     const [showSpinner, setShowSpinner] = useState(false);
     const [load, setLoad] = useState(true)
     const [k, setk] = useState(true)
+    const [refreshing, setRefreshing] = useState(false);
+
 
     const fetchRestaurant = async () => {
         const { error, restaurants } = await getAllRestaurant()
@@ -56,6 +58,14 @@ const CampusCircle = () => {
 
         setBanner(banners)
     }
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchBanner();
+        fetchRestaurant();
+        getMarket();
+        setRefreshing(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -225,6 +235,13 @@ const CampusCircle = () => {
                 // ListFooterComponentStyle={{ marginTop: 200 }}
                 data={oldMarketData}
                 ListEmptyComponent={_renderEmpty}
+                refreshControl={
+                    <RefreshControl
+                        colors={['#9Bd35A', '#689F38']}
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                    />
+                }
             // data={market}
 
             />
