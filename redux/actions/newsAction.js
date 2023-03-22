@@ -7,6 +7,13 @@ export const updatePostDetails = (posts) => {
     }
 }
 
+// export const featured = (posts) => {
+//     return {
+//         type: UPDATE_POST_DETAILS,
+//         posts,
+//     }
+// }
+
 export const clearNews = () => {
     return {
         type: CLEAR_NEWS,

@@ -73,7 +73,7 @@ const Home = ({ ...props }) => {
                             <Image source={icons.bell} style={{ height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8, tintColor: COLORS.black }} />
                         </View>
                         <View style={styles.notificationBell}>
-                            <Text style={{ color: COLORS.white, ...FONTS.h5 }}>6</Text>
+                            <Text style={{ color: COLORS.white, ...FONTS.h5 }}>0</Text>
                         </View>
                         {/* <TouchableOpacity>
                         <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />

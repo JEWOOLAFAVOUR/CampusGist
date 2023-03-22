@@ -17,6 +17,8 @@ import RegisterWithPhone from './RegisterWithPhone';
 import YourGender from './YourGender';
 import LevelBio from './LevelBio';
 import RegistrationSuccessful from './RegistrationSuccessful';
+import ViewAllComment from '../HomeScreen/ViewAllComment';
+import ProfilePage from '../HomeScreen/ProfilePage';
 
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
@@ -34,6 +36,11 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
       <Stack.Screen name="YourGender" component={YourGender} />
       <Stack.Screen name="LevelBio" component={LevelBio} />
+      {/* home  */}
+      {/* <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
+      <Stack.Screen name="ProfilePage" component={ProfilePage} /> */}
+      {/* home  */}
       <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
     </Stack.Navigator>

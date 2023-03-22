@@ -6,19 +6,51 @@ import { useNavigation } from '@react-navigation/native'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LikeProduct from './LikeProduct'
-
-
+// import ImagePicker from 'react-native-image-crop-picker';
 
 const Account = ({ ...props }) => {
     console.log('This is the account props', props)
     const data = props?.user
     console.log('data from pros', data)
     const navigation = useNavigation()
+
+    const handleChoosePhoto = () => {
+        // ImagePicker.openPicker({
+        //     width: 300,
+        //     height: 300,
+        //     cropping: true
+        // }).then(image => {
+        //     const formData = new FormData();
+        //     formData.append('profilePicture', {
+        //         uri: image.path,
+        //         type: image.mime,
+        //         name: 'profilePicture.jpg'
+        //     });
+
+        //     fetch('http://your-server-url.com/update-profile-picture', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data'
+        //         },
+        //         body: formData
+        //     })
+        //         .then(response => {
+        //             // Handle the server response
+        //         })
+        //         .catch(error => {
+        //             // Handle any errors
+        //         });
+        // });
+    };
+
+
+
     return (
         <View style={styles.page}>
             <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h4 }}>
                 <TouchableOpacity onPress={() => navigation.navigate('Setting')} style={{ marginBottom: SIZES.h5 }}>
                     <Image source={icons.setting} style={styles.settingBtn} />
+
                 </TouchableOpacity>
                 <View style={styles.container}>
                     <View style={styles.imageRadius}>
@@ -28,9 +60,10 @@ const Account = ({ ...props }) => {
                         <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
                         <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data.username}</Text>
                     </View>
-                    {/* <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('EditProfile', { data })}>
+                    {/* FOR EDIT PROFILE ICON  */}
+                    <TouchableOpacity onPress={() => handleChoosePhoto()} style={styles.editProfileBtn}>
                         <Text style={{ color: COLORS.white, ...FONTS.body4 }}>Edit Profile</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                 </View>
                 <View style={{ marginTop: SIZES.h3, }}>
                     <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level</Text>

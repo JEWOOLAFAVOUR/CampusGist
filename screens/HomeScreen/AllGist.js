@@ -14,6 +14,8 @@ import Roller from '../../components/Roller'
 import reduxStore from '../../redux/store'
 import moment from 'moment'
 import NetInfoProvider from '../../components/NetInfoProvider'
+import NetInfo from '@react-native-community/netinfo';
+
 
 
 
@@ -47,33 +49,78 @@ const dispatch = useDispatch()
 
     
 
-    const fetchLatestPosts = async () => {
-        try{
-        const { error, posts } = await getLatestPosts(limit, pageNo);
-        console.log('this is latest post', posts)
-        if (error) return console.log(error)
+    // const fetchLatestPosts = async () => {
+    //     try{
+    //     const { error, posts } = await getLatestPosts(limit, pageNo);
+    //     console.log('this is latest post', posts)
+    //     if (error) return console.log(error)
       
-        setLatestPost(posts)
+    //     // setLatestPost(posts)
       
-        const state = reduxStore.getState();
-        const existingPosts = state.news.posts;
+    //     const state = reduxStore.getState();
+    //     const existingPosts = state.news.posts;
+    //     setLatestPost(existingPosts)
+
+
+    //     console.log('existing post fetched from async ', existingPosts)
+    //     // Filter out any posts that already exist in the store
+    //     const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
       
-        // Filter out any posts that already exist in the store
-        const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+    //     // Add the filtered posts to the store
+    //     if (filteredPosts.length > 0) {
+    //       const allPosts = [...existingPosts, ...filteredPosts];
+    //       dispatch(newActions.updatePostDetails(allPosts));
+    //     }
       
-        // Add the filtered posts to the store
-        if (filteredPosts.length > 0) {
-          const allPosts = [...existingPosts, ...filteredPosts];
-          dispatch(newActions.updatePostDetails(allPosts));
-        }
-      
-        // Update the latest posts in the store
-    //    reduxStore.dispatch(newActions.updateLatestPosts(posts));
-    }catch(error){
-        console.error('Error fetching latest post: ', error);
+    //     // Update the latest posts in the store
+    // //    reduxStore.dispatch(newActions.updateLatestPosts(posts));
+    // }catch(error){
+    //     console.error('Error fetching latest post: ', error);
         
+    // }
+    //   }
+
+
+const fetchLatestPosts = async () => {
+  try {
+    const state = reduxStore.getState();
+        const existingPosts = await state.news.posts;
+        console.log('existingggggggggg',existingPosts)
+
+    const { error, posts } = await getLatestPosts(limit, pageNo);
+    console.log('this is latest post', posts);
+    // if (error) return console.log('djjdjd',error);
+    if (error) return console.log('djjdjd',error);
+
+    // Check if the device is online
+    const { isConnected } = await NetInfo.fetch();
+    if (isConnected) {
+      // If online, update the post state with the fetched posts
+      setLatestPost(posts);
+      console.log('online....................')
+    } else {
+      // If offline, update the post state with the existing posts from the store
+      setLatestPost(existingPosts);
+      console.log('offline...................')
     }
-      }
+
+    console.log('existing post fetched from async ', existingPosts);
+    // Filter out any posts that already exist in the store
+    const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+
+    // Add the filtered posts to the store
+    if (filteredPosts.length > 0) {
+      const allPosts = [...existingPosts, ...filteredPosts];
+      dispatch(newActions.updatePostDetails(allPosts));
+    }
+
+    // Update the latest posts in the store
+    // reduxStore.dispatch(newActions.updateLatestPosts(posts));
+  } catch (error) {
+    console.error('Error fetching latest post: ', error);
+  }
+};
+
       
       const handleRefresh = () => {
         setRefreshing(true);
@@ -106,6 +153,10 @@ const dispatch = useDispatch()
           setLoading(false);
         }
       }
+
+    //   useEffect(()=>{
+    //     fetchLatestPosts()
+    //   }, [])
 
     useEffect(() => {
         const fetchAllData = async () => {
@@ -174,9 +225,9 @@ const dispatch = useDispatch()
                         <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
                             <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
                                 <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
-                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.chocolate, marginLeft: SIZES.base}}>gist</Text>
+                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>gist</Text>
                             </View>
-                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.chocolate}}>{formattedTime}</Text>
+                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>{formattedTime}</Text>
                         </View>
                     </View>
                     <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>
@@ -282,7 +333,7 @@ const dispatch = useDispatch()
                     }}
                     refreshControl={
                         <RefreshControl
-                          colors={['#9Bd35A', '#689F38']}
+                          colors={[COLORS.primary, COLORS.blue]}
                           refreshing={refreshing}
                           onRefresh={handleRefresh}
                         />

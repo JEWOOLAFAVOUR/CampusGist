@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList, Platform, Keyboard } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { COLORS, FONTS, icons, images, SIZES } from '../../constants';
 import RelatedPost from './RelatedPost';
@@ -14,6 +15,7 @@ import { connect } from 'react-redux'
 import moment from 'moment';
 
 import { handleLike, handleUnlike } from '../../api/post';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const copy = `# h1 Heading 8-)
  
@@ -35,6 +37,21 @@ const PostDetail = ({ route, ...props }) => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
+
+    // useEffect(() => {
+    //     navigation.setOptions({
+    //         tabBarVisible: false,
+    //     });
+
+    //     return () => {
+    //         navigation.setOptions({
+    //             tabBarVisible: true,
+    //         });
+    //     };
+    // }, [navigation]);
+
+    // Your PostDetails screen content goes here
+
 
     // console.log('this is props', props)
     // const post = route.params?.post;
@@ -113,7 +130,7 @@ const PostDetail = ({ route, ...props }) => {
 
     const [test, setTest] = React.useState(false)
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, paddingBottom: Keyboard.keyboardHeight }}>
             <StatusBar />
             {/* HEADER SECTION */}
             <View style={{ backgroundColor: COLORS.primary }}>

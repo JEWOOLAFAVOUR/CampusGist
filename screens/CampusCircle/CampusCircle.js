@@ -96,6 +96,7 @@ const CampusCircle = () => {
             if (error) {
                 console.log('single-restaurant error', error);
             }
+            setLoad(false)
         } catch (error) {
             console.error('Error fetching restaurant: ', error);
         } finally {
@@ -205,7 +206,7 @@ const CampusCircle = () => {
                     // data={oldMarketData.slice(1, 11)}
                     data={market.slice(0, 10)}
                     numColumns={2}
-                    ListEmptyComponent={_renderEmpty}
+                    // ListEmptyComponent={_renderEmpty}
                     columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                     renderItem={({ item }) => {
                         return (
@@ -233,8 +234,8 @@ const CampusCircle = () => {
                 ListHeaderComponent={CampusHeader}
                 ListFooterComponent={_renderFooter}
                 // ListFooterComponentStyle={{ marginTop: 200 }}
-                data={oldMarketData}
-                ListEmptyComponent={_renderEmpty}
+                // data={oldMarketData}
+                // ListEmptyComponent={_renderEmpty}
                 refreshControl={
                     <RefreshControl
                         colors={['#9Bd35A', '#689F38']}
