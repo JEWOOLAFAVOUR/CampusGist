@@ -1,3 +1,6 @@
+export const electronics = require('../assets/images/electronics.jpg');
+export const fashion = require('../assets/images/fashion.jpg');
+export const hostel = require('../assets/images/hostel.jpg');
 export const image1 = require('../assets/images/image1.jpg');
 export const image2 = require('../assets/images/image2.jpg');
 export const image5 = require('../assets/images/image5.jpg');
@@ -20,6 +23,7 @@ export const restaurant1 = require('../assets/images/restaurant1.jpeg');
 export const restaurant2 = require('../assets/images/restaurant2.jpeg');
 export const restaurant3 = require('../assets/images/restaurant3.jpeg');
 export const restaurant4 = require('../assets/images/restaurant4.jpeg');
+export const services = require('../assets/images/services.jpg');
 export const slide1 = require('../assets/images/slide1.jpg');
 export const slide2 = require('../assets/images/slide2.jpg');
 export const slide3 = require('../assets/images/slide3.jpg');
@@ -29,6 +33,9 @@ export const successful = require('../assets/images/successful.jpg');
 
 
 export default {
+    electronics,
+    fashion,
+    hostel,
     image1,
     image2,
     image5,
@@ -51,6 +58,7 @@ export default {
     restaurant2,
     restaurant3,
     restaurant4,
+    services,
     slide1,
     slide2,
     slide3,

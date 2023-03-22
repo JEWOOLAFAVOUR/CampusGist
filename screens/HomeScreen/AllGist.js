@@ -85,7 +85,7 @@ const fetchLatestPosts = async () => {
   try {
     const state = reduxStore.getState();
         const existingPosts = await state.news.posts;
-        console.log('existingggggggggg',existingPosts)
+        // console.log('existingggggggggg',existingPosts)
 
     const { error, posts } = await getLatestPosts(limit, pageNo);
     console.log('this is latest post', posts);

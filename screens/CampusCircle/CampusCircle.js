@@ -238,7 +238,7 @@ const CampusCircle = () => {
                 // ListEmptyComponent={_renderEmpty}
                 refreshControl={
                     <RefreshControl
-                        colors={['#9Bd35A', '#689F38']}
+                        colors={[COLORS.primary, COLORS.blue]}
                         refreshing={refreshing}
                         onRefresh={handleRefresh}
                     />

@@ -23,10 +23,10 @@ const MarketMore = () => {
     console.log('lllllllllllll', market)
 
     const categoryData = [
-        { id: 1, image: images.pic1, title: 'Hostels', },
-        { id: 2, image: images.pic2, title: 'Fashion', },
-        { id: 3, image: images.pic3, title: 'Electronics', },
-        { id: 4, image: images.pic4, title: 'Services', },
+        { id: 1, image: images.hostel, title: 'Hostels', },
+        { id: 2, image: images.fashion, title: 'Fashion', },
+        { id: 3, image: images.electronics, title: 'Electronics', },
+        { id: 4, image: images.services, title: 'Services', },
         // { id: 5, image: images.restaurant1, title: 'Meat', },
         // { id: 6, image: images.restaurant2, title: 'Noddles', },
     ];
@@ -104,6 +104,9 @@ const MarketMore = () => {
         <View style={styles.page}>
             {load ? <Roller visible={true} /> : null}
             {k ? <Roller visible={true} /> : null}
+            <TouchableOpacity onPress={() => { }}>
+                <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1 }} />
+            </TouchableOpacity>
             <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5, }}>CG Market</Text>
             <FlatList
                 data={market}
@@ -125,7 +128,7 @@ const MarketMore = () => {
                 }}
                 refreshControl={
                     <RefreshControl
-                        colors={['#9Bd35A', '#689F38']}
+                        colors={[COLORS.primary, COLORS.blue]}
                         refreshing={refreshing}
                         onRefresh={handleRefresh}
                     />
