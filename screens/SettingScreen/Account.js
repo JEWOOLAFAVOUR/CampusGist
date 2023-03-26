@@ -6,7 +6,8 @@ import { useNavigation } from '@react-navigation/native'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LikeProduct from './LikeProduct'
-// import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import { updateUserProfilePic } from '../../api/auth';
 
 const Account = ({ ...props }) => {
     console.log('This is the account props', props)
@@ -14,35 +15,74 @@ const Account = ({ ...props }) => {
     console.log('data from pros', data)
     const navigation = useNavigation()
 
-    const handleChoosePhoto = () => {
-        // ImagePicker.openPicker({
-        //     width: 300,
-        //     height: 300,
-        //     cropping: true
-        // }).then(image => {
-        //     const formData = new FormData();
-        //     formData.append('profilePicture', {
-        //         uri: image.path,
-        //         type: image.mime,
-        //         name: 'profilePicture.jpg'
-        //     });
+    // const handleChoosePhoto = async (userId) => {
+    //     console.log('post idddd', userId)
+    //     const data = await updateUserProfilePic(userId)
+    //     console.log('ddhdddh', data)
+    //     // ImagePicker.openPicker({
+    //     //     width: 300,
+    //     //     height: 300,
+    //     //     cropping: true
+    //     // }).then(image => {
+    //     //     const formData = new FormData();
+    //     //     formData.append('profilePicture', {
+    //     //         uri: image.path,
+    //     //         type: image.mime,
+    //     //         name: 'profilePicture.jpg'
+    //     //     });
 
-        //     fetch('http://your-server-url.com/update-profile-picture', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data'
-        //         },
-        //         body: formData
-        //     })
-        //         .then(response => {
-        //             // Handle the server response
-        //         })
-        //         .catch(error => {
-        //             // Handle any errors
-        //         });
-        // });
-    };
 
+
+    //     // });
+
+    // };
+    // const handleChoosePhoto = async (userId) => {
+    //     try {
+    //         const image = await ImagePicker.openPicker({
+    //             width: 300,
+    //             height: 300,
+    //             cropping: true,
+    //             mediaType: 'photo'
+    //         });
+
+    //         const formData = new FormData();
+    //         formData.append('file', {
+    //             uri: image.path,
+    //             type: image.mime,
+    //             name: 'avatar.jpg'
+    //         });
+
+    //         const response = await updateUserProfilePic(userId, formData);
+    //         console.log('responseeeeeeeeeeee', response); // handle the response from the server
+    //     } catch (error) {
+    //         console.log('errrrrrrrrrr', error);
+    //     }
+    // };
+    const handleChoosePhoto = async (userId) => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+        }).then(async (image) => {
+            console.log(image);
+            const formData = new FormData();
+            formData.append("file", {
+                uri: image.path,
+                type: image.mime,
+                name: `photo_${Date.now()}`
+            });
+            const response = await updateUserProfilePic(userId, formData);
+            console.log('response:', response); // handle the response from the server
+        });
+    }
+
+
+
+    const getImage = (uri) => {
+        if (uri) return { uri };
+
+        return images.image2
+    }
 
 
     return (
@@ -54,22 +94,22 @@ const Account = ({ ...props }) => {
                 </TouchableOpacity>
                 <View style={styles.container}>
                     <View style={styles.imageRadius}>
-                        <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
+                        <Image source={getImage(data?.avatar?.url)} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                     </View>
                     <View style={{ marginLeft: SIZES.h3 }}>
                         <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
                         <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data.username}</Text>
                     </View>
                     {/* FOR EDIT PROFILE ICON  */}
-                    <TouchableOpacity onPress={() => handleChoosePhoto()} style={styles.editProfileBtn}>
+                    {/* <TouchableOpacity onPress={() => handleChoosePhoto(data.id)} style={styles.editProfileBtn}>
                         <Text style={{ color: COLORS.white, ...FONTS.body4 }}>Edit Profile</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View style={{ marginTop: SIZES.h3, }}>
                     <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         {/* <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text> */}
-                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>bio -{data.bio}</Text>
+                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.black }}>bio - {data.bio} - {data?.gender}</Text>
                         {/* <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('ChangeBio')}>
                             <Text style={{ ...FONTS.body4, color: COLORS.black }}>Change Bio</Text>
                         </TouchableOpacity> */}

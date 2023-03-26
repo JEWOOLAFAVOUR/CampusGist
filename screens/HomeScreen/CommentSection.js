@@ -6,8 +6,12 @@ import { getUserById } from '../../api/auth'
 import moment from 'moment'
 
 const CommentSection = ({ data }) => {
-    console.log('itemcccccccc', data?.user_id?._id)
+    console.log('itemcccccccc', data?.user_id)
     console.log('llllllllllfirst', data?.createdAt)
+
+    const avatar = data?.user_id?.avatar?.url;
+
+
 
     const userId = data?.user_id?._id;
     const navigation = useNavigation();
@@ -57,10 +61,17 @@ const CommentSection = ({ data }) => {
         // If the post was created within the last minute, display the time as "just now"
         formattedTime = 'just now';
     }
+
+    const getImage = (uri) => {
+        if (uri) return { uri };
+
+        return images.image2
+    }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => getUserClick(userId)} style={styles.imageCtn}>
-                <Image source={images.pic1} style={{ height: SIZES.h1 * 1.8, width: SIZES.h1 * 1.8, borderRadius: 100 }} />
+                <Image source={getImage(avatar)} style={{ height: SIZES.h1 * 1.8, width: SIZES.h1 * 1.8, borderRadius: 100 }} />
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-start' }}>
                 <View style={{ flex: 1, marginLeft: SIZES.h5 }}>

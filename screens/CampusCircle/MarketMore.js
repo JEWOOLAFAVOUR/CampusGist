@@ -26,9 +26,7 @@ const MarketMore = () => {
         { id: 1, image: images.hostel, title: 'Hostels', },
         { id: 2, image: images.fashion, title: 'Fashion', },
         { id: 3, image: images.electronics, title: 'Electronics', },
-        { id: 4, image: images.services, title: 'Services', },
-        // { id: 5, image: images.restaurant1, title: 'Meat', },
-        // { id: 6, image: images.restaurant2, title: 'Noddles', },
+        { id: 4, image: images.services, title: 'Services', }
     ];
 
     const getMarket = async () => {
@@ -48,7 +46,6 @@ const MarketMore = () => {
         } catch (err) {
             console.log('fetch-mark-id erro', err)
         }
-
     }
     const handleRefresh = () => {
         setRefreshing(true);
@@ -104,10 +101,12 @@ const MarketMore = () => {
         <View style={styles.page}>
             {load ? <Roller visible={true} /> : null}
             {k ? <Roller visible={true} /> : null}
-            <TouchableOpacity onPress={() => { }}>
-                <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1 }} />
-            </TouchableOpacity>
-            <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5, }}>CG Market</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.base }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ flex: 0.5 }}>
+                    <Image source={icons.arrowleft2} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9 }} />
+                </TouchableOpacity>
+                <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5 }}>CG Market</Text>
+            </View>
             <FlatList
                 data={market}
                 showsVerticalScrollIndicator={false}

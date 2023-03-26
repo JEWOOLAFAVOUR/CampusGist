@@ -24,6 +24,7 @@ export const COLORS = {
     grey3: '#efefef',
     indigo: 'indigo',
     semiblue: '#538ef1',
+    red: 'red',
 };
 
 export const SIZES = {

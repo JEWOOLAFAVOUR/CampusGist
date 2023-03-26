@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { getPopularFood, getRecommendedFood } from '../../api/campuscircle';
+import Roller from '../../components/Roller';
 
 
 const HotMore = ({ navigation }) => {
@@ -12,6 +13,8 @@ const HotMore = ({ navigation }) => {
 
     const [recommend, setRecommend] = useState([])
     const [popular, setPopular] = useState([])
+    const [load, setLoad] = useState(true)
+    const [refreshing, setRefreshing] = useState(false);
 
 
     const [select, setSelect] = useState(true)
@@ -67,9 +70,23 @@ const HotMore = ({ navigation }) => {
         if (error) return console.log('popular-data', error)
         setPopular(popularMenu)
     }
-    useEffect(() => {
+
+    const handleRefresh = () => {
+        setRefreshing(true);
         fetchRecommendedFood();
         fetchPopularFood();
+        setRefreshing(false);
+    }
+
+    useEffect(() => {
+        const fetchFood = async () => {
+            await Promise.all([
+                fetchRecommendedFood(),
+                fetchPopularFood(),
+            ])
+            setLoad(false)
+        }
+        fetchFood()
     }, [])
 
     const getThumbnail = (uri) => {
@@ -172,10 +189,24 @@ const HotMore = ({ navigation }) => {
 
     return (
         <View style={styles.page}>
-            <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2, marginHorizontal: SIZES.width * 0.03 }}>Campus Market</Text>
+            {load ? <Roller visible={true} /> : null}
+            {/* <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2, marginHorizontal: SIZES.width * 0.03 }}>Campus Market</Text> */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.base, marginLeft: SIZES.base * 1.3 }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ flex: 0.5 }}>
+                    <Image source={icons.arrowleft2} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9 }} />
+                </TouchableOpacity>
+                <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5 }}>CG Foods</Text>
+            </View>
             <FlatList
                 ListHeaderComponent={_renderHeader}
                 data={''}
+                refreshControl={
+                    <RefreshControl
+                        colors={[COLORS.primary, COLORS.blue]}
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                    />
+                }
             />
         </View>
     )

@@ -46,11 +46,11 @@ const HomeStack = () => {
                     name='Home'
                     component={Home}
                 />
-
+                {/* 
                 <Stack.Screen
                     name='ProfilePage'
                     component={ProfilePage}
-                />
+                /> */}
                 <Stack.Screen
                     name='Notification'
                     component={Notification}
@@ -59,10 +59,10 @@ const HomeStack = () => {
                     name='Story'
                     component={Story}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='ViewAllComment'
                     component={ViewAllComment}
-                />
+                /> */}
                 {/* NEW FEATURES  */}
                 <Stack.Screen
                     name='Technology'
@@ -84,11 +84,11 @@ const HomeStack = () => {
                     name='Religion'
                     component={Religion}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='PostDetail'
                     component={PostDetail}
                     options={{ tabBarVisible: true }}
-                />
+                /> */}
 
             </Stack.Navigator>
         </View>

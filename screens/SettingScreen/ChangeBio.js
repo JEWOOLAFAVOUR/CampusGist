@@ -5,6 +5,9 @@ import Header from '../../components/Header'
 import FormButton from '../../components/FormButton';
 import { useNavigation } from '@react-navigation/native';
 import { updateUserBioAndLevel } from '../../api/auth';
+import reduxStore from '../../redux/store';
+import { updateUserBio } from '../../redux/actions/authAction';
+import Toast from '../../components/Toast';
 
 const ChangeBio = ({ }) => {
     const navigation = useNavigation();
@@ -16,15 +19,49 @@ const ChangeBio = ({ }) => {
         ToastAndroid.show("Edited successfully!", ToastAndroid.SHORT);
     }
     const [bio, setBio] = useState('')
+    const [height, setHeight] = useState(40)
+    const [showToast, setShowToast] = useState(false)
+    const [error, setError] = useState('')
 
+    // const handleContentSizeChange = (event) => {
+    //     setHeight(event.nativeEvent.contentSize.height);
+    // };
+    const handleContentSizeChange = (event) => {
+        const { contentSize } = event.nativeEvent;
+        const maxHeight = 3 * 24;
+        if (contentSize.height <= maxHeight) {
+            setHeight(contentSize.height);
+        } else {
+            setHeight(maxHeight);
+        }
+    };
     const handleSubmit = async () => {
-        console.log('bioooo', bio)
-        const data = await updateUserBioAndLevel()
-        console.log('coming data', data)
+        if (bio === '') {
+            // setError(true)
+        } else {
+            console.log('bioooo', bio)
+            const data = await updateUserBioAndLevel(bio)
+            reduxStore.dispatch(updateUserBio(data?.data?.bio))
+            console.log('coming data', data)
+            console.log('lllllllllll', data?.data?.bio)
+            setBio('')
+            if (data?.success === true) return setShowToast(true)
+        }
+    }
+    const handleChange = (value) => {
+        setBio(value)
+        if (value.length < 3) {
+            setError('Please input a bio')
+        } else {
+            setError('')
+        }
     }
     return (
         <View style={styles.page}>
             {/* HEADER SECTION */}
+            {showToast &&
+                <Toast type='success' message='Bio Edited successfully' />
+            }
             <View style={{ backgroundColor: COLORS.primary }}>
                 <View style={styles.headerCtn}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: 10, paddingVertical: 4 }}>
@@ -41,19 +78,24 @@ const ChangeBio = ({ }) => {
                 <Text style={{ color: COLORS.black, ...FONTS.body1, fontWeight: 'bold' }}>Change Your Bio</Text>
                 <Text style={{ color: COLORS.chocolate, ...FONTS.body3 }}>Write something about you to share in public.</Text>
                 {/* TEXTINPUT */}
-                <View style={styles.inputCtn}>
+                <View style={[styles.inputCtn,]}>
                     <TextInput
-                        multiline placeholder='Enter your bio'
+                        placeholder='Enter your bio'
+                        // multiline={true}
+                        // onContentSizeChange={handleContentSizeChange}
+                        numberOfLines={3}
                         style={{ ...FONTS.body3a, color: COLORS.black }}
                         value={bio}
-                        onChangeText={value => setBio(value)}
+                        onChangeText={handleChange}
                     />
                 </View>
-
+                <Text style={{ ...FONTS.body4, color: COLORS.red, marginTop: SIZES.base }}>{error}</Text>
+                <View style={{ marginTop: SIZES.h1 * 2 }}>
+                    <FormButton onPress={() => handleSubmit()} title="Update Bio" />
+                </View>
             </View>
-            <View style={{ marginBottom: SIZES.h1 * 2, paddingHorizontal: SIZES.width * 0.03, }}>
-                <FormButton onPress={() => handleSubmit()} title="Update Bio" />
-            </View>
+            {/* <View style={{ marginBottom: SIZES.h1 * 5, paddingHorizontal: SIZES.width * 0.03, }}>
+            </View> */}
         </View>
     )
 }
@@ -73,7 +115,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     inputCtn: {
-        height: SIZES.h1 * 1.7,
+        height: SIZES.h1 * 1.6,
         justifyContent: 'center',
         paddingHorizontal: SIZES.base * 0.9,
         borderWidth: 1.7,

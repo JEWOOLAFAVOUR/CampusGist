@@ -29,19 +29,20 @@ const Setting = () => {
             id: 3,
             title: 'Notification',
             iconName: icons.bell,
-            onPress: () => navigation.navigate('SNotification'),
+            // onPress: () => navigation.navigate('SNotification'),
+            onPress: () => { },
             // onPress: Notification,
         }, {
             id: 4,
             title: 'FAQ',
             iconName: icons.bell,
             // onPress: Notification,
-        }, {
+        },/* {
             id: 5,
             title: 'Dark Mode',
             iconName: icons.bell,
             // onPress: Notification,
-        }, {
+        }, */{
             id: 6,
             title: 'Logout',
             iconName: icons.bell,

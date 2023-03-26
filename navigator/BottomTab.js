@@ -1,13 +1,10 @@
 import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 import React from 'react';
-// import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, FONTS, icons, SIZES } from '../constants';
 
 // Stack Screens
 import HomeStack from '../screens/HomeScreen/HomeStack';
-import SearchStack from '../screens/SearchScreen/SearchStack';
-// import NotificationStack from '../screens/NotificationScreen/NotificationStack';
 import CampusCircleStack from '../screens/CampusCircle/CampusCircleStack';
 import SettingStack from '../screens/SettingScreen/SettingStack';
 
@@ -61,9 +58,7 @@ const BottomTab = () => {
                 })}
             >
                 <Tab.Screen name='HomeP' component={HomeStack} />
-                {/* <Tab.Screen name='SearchP' component={SearchStack} /> */}
                 <Tab.Screen name='CampusCircleP' component={CampusCircleStack} />
-                {/* <Tab.Screen name='Notification' component={NotificationStack} /> */}
                 <Tab.Screen name='AccountP' component={SettingStack} />
             </Tab.Navigator>
         </View>

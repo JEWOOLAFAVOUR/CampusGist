@@ -66,7 +66,59 @@ export const getUserById = async (id) => {
 };
 
 // NOT DONE
-export const updateUserBioAndLevel = async () => {
-    const response = await makeApiRequest('POST', '/user/update-user-bio-level');
+export const updateUserBioAndLevel = async (bio) => {
+    const data = { bio }
+    const response = await makeApiRequest('POST', '/user/update-user-bio-level', data);
     return response;
+};
+
+// export const updateUserProfilePic = async (userId, data) => {
+//     console.log('getttttting', userId, data)
+//     const image = new FormData();
+//     image.append('file', data);
+//     const response = await makeApiRequest('POST', `/user/${userId}/update-avatar`, image);
+//     return response;
+// };
+
+const makeApiRequest2 = async (method, endpoint, data) => {
+    try {
+        const headers = {};
+        if (data instanceof FormData) {
+            headers["Content-Type"] = "multipart/form-data";
+        }
+        const response = await client.request({
+            method,
+            url: endpoint,
+            data,
+            headers
+        });
+        return response.data;
+    } catch (error) {
+        const { response } = error;
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
+};
+
+
+export const updateUserProfilePic = async (userId, image) => {
+    const formData = new FormData();
+    formData.append('file', {
+        uri: image.path,
+        type: image.mime,
+        name: image.path.split('/').pop()
+    });
+
+    try {
+        const response = await makeApiRequest2('POST', `/user/${userId}/update-avatar`, formData);
+        return response;
+    } catch (error) {
+        const { response } = error;
+        if (response?.data) {
+            return response.data;
+        }
+        return { error: error.message || error };
+    }
 };

@@ -12,7 +12,15 @@ const ProfilePage = ({ route }) => {
     // console.log('This is the account props', props)
     const data = route.params?.data;
     console.log('data from route', data)
+    const avatar = data?.avatar?.url
     const navigation = useNavigation()
+
+    const getImage = (uri) => {
+        if (uri) return { uri };
+
+        return images.image2
+    }
+
     return (
         <View style={styles.page}>
             <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h4 }}>
@@ -21,7 +29,7 @@ const ProfilePage = ({ route }) => {
                 </TouchableOpacity>
                 <View style={styles.container}>
                     <View style={styles.imageRadius}>
-                        <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
+                        <Image source={getImage(avatar)} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                     </View>
                     <View style={{ marginLeft: SIZES.h3 }}>
                         <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
@@ -32,7 +40,7 @@ const ProfilePage = ({ route }) => {
                     </TouchableOpacity> */}
                 </View>
                 <View style={{ marginTop: SIZES.h3, }}>
-                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>{data?.level} Level</Text>
+                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>{data?.level} Level - {data?.gender}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         {/* <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text> */}
                         <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>bio - {data.bio}</Text>

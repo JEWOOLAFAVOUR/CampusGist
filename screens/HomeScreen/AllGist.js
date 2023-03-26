@@ -225,9 +225,9 @@ const fetchLatestPosts = async () => {
                         <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
                             <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
                                 <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
-                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>gist</Text>
+                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.orange, marginLeft: SIZES.base}}>gist</Text>
                             </View>
-                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>{formattedTime}</Text>
+                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.orange}}>{formattedTime}</Text>
                         </View>
                     </View>
                     <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>

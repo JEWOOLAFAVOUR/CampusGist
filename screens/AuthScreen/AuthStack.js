@@ -37,9 +37,9 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="YourGender" component={YourGender} />
       <Stack.Screen name="LevelBio" component={LevelBio} />
       {/* home  */}
-      {/* <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="PostDetail" component={PostDetail} />
       <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
-      <Stack.Screen name="ProfilePage" component={ProfilePage} /> */}
+      <Stack.Screen name="ProfilePage" component={ProfilePage} />
       {/* home  */}
       <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />

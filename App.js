@@ -206,27 +206,36 @@ const App = () => {
 
 export default App
 
-const styles = StyleSheet.create({})
+// const styles = StyleSheet.create({})
 
 
 
 
-// import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+// import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native'
 // import React, { useState } from 'react'
 // import { NavigationContainer } from '@react-navigation/native'
 // import { createNativeStackNavigator } from '@react-navigation/native-stack'
+// import icons from './constants/icons'
 
 // const App = () => {
-
-//     const TextInputView = ({ title, value, setValue }) => {
+//     const TextInputView = ({ title, value, setValue, eye }) => {
+//         const [press, setPress] = useState(false)
 //         return (
 //             <View style={{ marginBottom: 10 }}>
 //                 <Text style={{ fontSize: 16, color: '#000', marginBottom: 5 }}>{title}</Text>
-//                 <View style={styles.textInput}>
+//                 <View style={[styles.textInput, { flexDirection: 'row', alignItems: 'center' }]}>
 //                     <TextInput
 //                         value={value}
 //                         onChangeText={(value) => setValue(value)}
+//                         style={{ flex: 1 }}
+//                         secureTextEntry={press}
 //                     />
+//                     {eye ?
+//                         <TouchableOpacity onPress={() => setPress(!press)}>
+//                             <Image source={icons.eye} style={{ height: 20, width: 20 }} />
+//                         </TouchableOpacity>
+//                         : null
+//                     }
 //                 </View>
 //             </View>
 //         )
@@ -234,6 +243,7 @@ const styles = StyleSheet.create({})
 
 //     const Home = ({ navigation }) => {
 //         const [phone, setPhone] = useState('')
+//         const [e, setE] = useState('')
 //         const [password, setPassword] = useState('')
 //         const [firstName, setFirstName] = useState('')
 //         const [lastName, setLastName] = useState('')
@@ -256,11 +266,10 @@ const styles = StyleSheet.create({})
 //             <ScrollView style={{ flex: 1, backgroundColor: '#fff', paddingHorizontal: 16, paddingTop: 20 }}>
 //                 <Text style={{ fontSize: 30, color: '#000', marginBottom: 20, fontWeight: 'bold' }}>FORM CLASS </Text>
 //                 <TextInputView title='Mobile number or email' value={phone} setValue={setPhone} />
-//                 <TextInputView title='Password' value={password} setValue={setPassword} />
+//                 <TextInputView title='Password' value={password} setValue={setPassword} eye={true} />
 //                 <TextInputView title='FirstName' value={firstName} setValue={setFirstName} />
 //                 <TextInputView title='LastName' value={lastName} setValue={setLastName} />
 //                 <TextInputView title='Age' value={age} setValue={setAge} />
-
 //                 <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
 //                     <Text style={{ fontSize: 17, color: '#fff', fontWeight: 'bold' }}>Submit</Text>
 //                 </TouchableOpacity>
@@ -269,16 +278,93 @@ const styles = StyleSheet.create({})
 //         )
 
 //     }
-//     const AboutMe = ({ route }) => {
-//         console.log('data coming from route', route)
-//         const data = route.params.data
+//     const AboutMe = ({ route, navigation }) => {
+//         const [name, setName] = useState('')
+//         const [error, setError] = useState(false)
+//         const [pE, setPE] = useState(false)
+
+//         const [i, setI] = useState('')
+//         const [password, setPassword] = useState('')
+//         // console.log(name)
+
+//         const handleSubmit = () => {
+//             if (name.trim() === '' || password.trim() === '') {
+//                 setError(true)
+//             } else if (name.length < 5 || password.length < 5) {
+//                 setError(false)
+//                 setPE(true)
+//             } else {
+//                 setPE(false)
+//                 const data = {
+//                     name,
+//                     password
+//                 }
+//                 navigation.navigate('Succes', { data })
+//             }
+//         }
+
+//         const handleName = (text) => {
+//             if (text.length < 3) {
+//                 setName(text)
+//                 setI('Please name must be up to 3 letters')
+//             } else {
+//                 setName(text)
+//                 setI('')
+//             }
+//         }
+
 //         return (
-//             <View>
-//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>Phone - {data.phone}</Text>
-//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>Password - {data.password}</Text>
-//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>FirstName - {data.firstName}</Text>
-//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>LastName - {data.lastName}</Text>
-//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>Age - {data.age}</Text>
+//             <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+//                 {/* NAME  */}
+//                 <View style={{ marginBottom: 10 }}>
+//                     <Text style={{ fontSize: 16, color: '#000', marginBottom: 5 }}>Name</Text>
+//                     <View style={[styles.textInput]}>
+//                         <TextInput
+//                             placeholder='Enter name'
+//                             placeholderTextColor={'brown'}
+//                             value={name}
+//                             onChangeText={handleName}
+//                             keyboardType='email-address'
+//                         />
+//                     </View>
+//                 </View>
+//                 {/* PASSWORD  */}
+//                 {/* <View style={{ marginBottom: 10 }}>
+//                     <Text style={{ fontSize: 16, color: '#000', marginBottom: 5 }}>Password</Text>
+//                     <View style={[styles.textInput]}>
+//                         <TextInput
+//                             placeholder='Enter name'
+//                             placeholderTextColor={'brown'}
+//                             value={password}
+//                             onChangeText={(text) => setPassword(text)}
+//                             keyboardType='phone-pad'
+//                         />
+//                     </View>
+//                 </View> */}
+
+//                 <Text style={{ fontSize: 13, color: 'red' }}>{i}</Text>
+
+//                 {error ?
+//                     // <Text style={{ fontSize: 13, color: 'red' }}>Please input a name/password!</Text>
+//                     <Text style={{ fontSize: 13, color: 'red' }}>Please name must be up to 10 letters</Text>
+//                     : null
+//                 }
+//                 {pE ?
+//                     <Text style={{ fontSize: 13, color: 'red' }}>Please input name/password greater than 5</Text>
+//                     : null
+//                 }
+//                 <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
+//                     <Text style={{ fontSize: 17, color: '#fff', fontWeight: 'bold' }}>Submit</Text>
+//                 </TouchableOpacity>
+//             </View>
+//         )
+//     }
+
+//     const Succes = ({ route }) => {
+//         const data = route.params.data.name
+//         return (
+//             <View style={{ flex: 1, backgroundColor: '#0fff', justifyContent: 'center' }}>
+//                 <Text style={{ fontSize: 30, color: '#000', fontWeight: 'bold', textAlign: 'center' }}>WELCOME {data}</Text>
 //             </View>
 //         )
 //     }
@@ -289,6 +375,7 @@ const styles = StyleSheet.create({})
 //             <Stack.Navigator>
 //                 <Stack.Screen name='Homedd' component={Home} />
 //                 <Stack.Screen name='AboutMe' component={AboutMe} />
+//                 <Stack.Screen name='Succes' component={Succes} />
 //             </Stack.Navigator>
 //         </NavigationContainer>
 //     )
@@ -311,3 +398,10 @@ const styles = StyleSheet.create({})
 //         marginTop: 30
 //     },
 // })
+
+
+// <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>Phone - {data.phone}</Text>
+//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>Password - {data.password}</Text>
+//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>FirstName - {data.firstName}</Text>
+//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>LastName - {data.lastName}</Text>
+//                 <Text style={{ fontSize: 16, color: 'red', fontWeight: 'bold' }}>Age - {data.age}</Text>

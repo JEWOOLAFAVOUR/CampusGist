@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const Roller = ({ visible }) => {
-    // const [loading, setLoading] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {

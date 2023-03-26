@@ -141,7 +141,6 @@ const CampusCircle = () => {
         return (
             <View>
                 <View style={{ paddingHorizontal: SIZES.width * 0.03, paddingTop: SIZES.base * 0.9 }}>
-                    <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h5 }}>Campus Circle</Text>
                     {/* BANNER  */}
                     <Image source={images.image6} style={{ height: SIZES.width / 2.3, width: SIZES.width }} />
                     {/* BANNER CLOSE  */}
@@ -188,7 +187,7 @@ const CampusCircle = () => {
                         }}
                     />
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h5, marginBottom: SIZES.base / 1.5 }}>
                     <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary, }}>Old Market</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('MarketMore')} style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ ...FONTS.body3a, color: COLORS.orange }}>visit market</Text>
@@ -230,6 +229,7 @@ const CampusCircle = () => {
         <View style={{ backgroundColor: COLORS.white, flex: 1, }}>
             {load ? <Roller visible={true} /> : null}
             {k ? <Roller visible={true} /> : null}
+            <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginLeft: SIZES.width * 0.03, marginBottom: SIZES.base * 0.8, marginTop: SIZES.base }}>Campus Circle</Text>
             <FlatList
                 ListHeaderComponent={CampusHeader}
                 ListFooterComponent={_renderFooter}

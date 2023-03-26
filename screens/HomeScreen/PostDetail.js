@@ -61,6 +61,8 @@ const PostDetail = ({ route, ...props }) => {
     console.log('new possst', postData)
 
     const accessToken = props.accessToken
+    const avatar = props.user?.avatar?.url
+    console.log(avatar, 'kdkdkk')
     // console.log('first', accessToken)
     // console.log('first', token)
 
@@ -136,7 +138,7 @@ const PostDetail = ({ route, ...props }) => {
             <View style={{ backgroundColor: COLORS.primary }}>
                 <View style={styles.headerCtn}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: SIZES.h2, paddingVertical: SIZES.h5 }}>
-                        <Image source={icons.arrowleft} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
+                        <Image source={icons.arrowleft2} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ paddingLeft: 10, paddingVertical: 4 }}>
                         <Image source={icons.verticalmenu} style={{ tintColor: COLORS.white, height: SIZES.h1 * 0.8, width: SIZES.h1 * 0.8 }} />
@@ -259,7 +261,7 @@ const PostDetail = ({ route, ...props }) => {
                             <>
                                 <View style={styles.commentSection}>
                                     <View style={styles.textInputCtn}>
-                                        <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
+                                        <Image source={getImage(avatar)} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
                                         <TextInput
                                             name='comment'
                                             onChangeText={handleChange('comment')}
