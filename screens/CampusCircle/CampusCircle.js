@@ -35,7 +35,6 @@ const CampusCircle = () => {
 
     }
 
-
     // const fetchMarket = async () => {
     //     const { error, markets } = await getMarket(limit, pageNo);
     //     console.log('this is the market data', markets)

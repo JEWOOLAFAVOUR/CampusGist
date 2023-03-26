@@ -76,14 +76,11 @@ const Account = ({ ...props }) => {
         });
     }
 
-
-
     const getImage = (uri) => {
         if (uri) return { uri };
 
         return images.image2
     }
-
 
     return (
         <View style={styles.page}>
