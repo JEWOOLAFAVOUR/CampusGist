@@ -19,6 +19,8 @@ import LevelBio from './LevelBio';
 import RegistrationSuccessful from './RegistrationSuccessful';
 import ViewAllComment from '../HomeScreen/ViewAllComment';
 import ProfilePage from '../HomeScreen/ProfilePage';
+import MarketDetail from '../CampusCircle/MarketDetail';
+import MarketMore from '../CampusCircle/MarketMore';
 
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
@@ -43,6 +45,9 @@ const AuthStack = ({ ...props }) => {
       {/* home  */}
       <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
+      {/* campus circle  */}
+      <Stack.Screen name="MarketDetail" component={MarketDetail} />
+      <Stack.Screen name="MarketMore" component={MarketMore} />
     </Stack.Navigator>
   );
 };

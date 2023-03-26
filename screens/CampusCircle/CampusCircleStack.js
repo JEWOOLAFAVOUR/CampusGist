@@ -46,14 +46,14 @@ const CampusCircleStack = () => {
                     name='RestaurantDetail'
                     component={RestaurantDetail}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='MarketDetail'
                     component={MarketDetail}
                 />
                 <Stack.Screen
                     name='MarketMore'
                     component={MarketMore}
-                />
+                /> */}
             </Stack.Navigator>
         </View>
     );
