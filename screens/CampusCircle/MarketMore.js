@@ -79,7 +79,7 @@ const MarketMore = () => {
                         return (
                             <View style={{ marginRight: SIZES.base * 0.8 }}>
                                 <Image source={item.image} style={{
-                                    height: SIZES.h1 * 2.5, width: SIZES.h1 * 3.5, borderRadius: SIZES.base
+                                    height: SIZES.h1 * 2.4, width: SIZES.h1 * 3.4, borderRadius: SIZES.base
                                 }} />
                                 <Text style={{ ...FONTS.body4, textAlign: 'center', color: COLORS.black }}>{item.title}</Text>
                             </View>
@@ -119,7 +119,7 @@ const MarketMore = () => {
                         <TouchableOpacity onPress={() => fetchMarketById(item._id)} style={styles.container}>
                             <Image source={getImage(item.pictures?.url)} style={styles.marketImg} />
                             <View style={{ marginLeft: SIZES.h5 }}>
-                                <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>N{item.price}</Text>
+                                <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>₦{item.price}</Text>
                                 <Text numberOfLines={1} style={{ ...FONTS.body3b, color: COLORS.black }}>{item.title}</Text>
                             </View>
                         </TouchableOpacity>

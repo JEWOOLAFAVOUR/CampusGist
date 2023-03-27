@@ -8,6 +8,7 @@ import { handleLike, handleUnlike } from '../../api/post';
 import { connect } from 'react-redux'
 // import moment from 'moment/moment';
 import moment from 'moment';
+import Roller from '../../components/Roller';
 
 
 
@@ -19,6 +20,8 @@ const PostList = ({ data, ...props }) => {
     const { thumbnail } = data;
     const [liked, setLiked] = useState(data.like);
     const [likeCount, setLikeCount] = useState(data.like);
+    const [k, setK] = useState(false)
+
     // access token
     const accessToken = props.accessToken
 
@@ -44,12 +47,19 @@ const PostList = ({ data, ...props }) => {
     }
 
     const fetchSinglePost = async (slug) => {
-        const { error, post } = await getSinglePost(slug)
-        console.log('first jv', post)
+        try {
+            setK(true)
+            const { error, post } = await getSinglePost(slug)
+            console.log('first jv', post)
 
+            setK(false)
 
-        if (error) console.log('singlepost error', error)
-        navigation.navigate('PostDetail', { post })
+            if (error) console.log('singlepost error', error)
+            navigation.navigate('PostDetail', { post })
+        } catch (error) {
+            // Log any errors that occur during the fetch
+            console.error('Error fetching single post: ', error);
+        }
     }
     // useEffect(() => {
     //     fetchSinglePost()
@@ -91,6 +101,7 @@ const PostList = ({ data, ...props }) => {
 
     return (
         <TouchableOpacity key={data.id} activeOpacity={1} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
+            {k ? <Roller visible={true} /> : null}
             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>

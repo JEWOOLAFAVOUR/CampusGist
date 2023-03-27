@@ -23,6 +23,7 @@ const CampusCircle = () => {
     const [showSpinner, setShowSpinner] = useState(false);
     const [load, setLoad] = useState(true)
     const [k, setk] = useState(true)
+    const [m, setM] = useState(false)
     const [refreshing, setRefreshing] = useState(false);
 
 
@@ -105,10 +106,10 @@ const CampusCircle = () => {
 
     const fetchMarketById = async (marketId) => {
         try {
-            setk(true)
+            setM(true)
             const response = await getMarketById(marketId)
             console.log('single market data', response)
-            setk(false)
+            setM(false)
             navigation.navigate('MarketDetail', { response })
         } catch (err) {
             console.log('fetch-mark-id erro', err)
@@ -156,7 +157,7 @@ const CampusCircle = () => {
                 <View style={{ marginLeft: SIZES.h5 * 1.2 }}>
                     <FlatList
                         // data={hotFoodData}
-                        data={restaurant}
+                        data={restaurant.slice(0, 10)}
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         ListEmptyComponent={_renderEmpty}
@@ -200,6 +201,7 @@ const CampusCircle = () => {
     const _renderFooter = () => {
         return (
             <View style={{ paddingHorizontal: SIZES.width * 0.02, }}>
+                {m ? <Roller visible={true} /> : null}
                 <FlatList
                     // data={oldMarketData.slice(1, 11)}
                     data={market.slice(0, 10)}
@@ -211,7 +213,7 @@ const CampusCircle = () => {
                             <TouchableOpacity onPress={() => fetchMarketById(item._id)} style={styles.container}>
                                 <Image source={getImage(item.pictures?.url)} style={styles.marketImg} />
                                 <View style={{ marginLeft: SIZES.h5 }}>
-                                    <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>N{item.price}</Text>
+                                    <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>₦{item.price}</Text>
                                     <Text numberOfLines={1} style={{ ...FONTS.body3b, color: COLORS.black }}>{item.title}</Text>
                                 </View>
                             </TouchableOpacity>

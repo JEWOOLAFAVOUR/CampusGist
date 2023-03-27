@@ -13,6 +13,7 @@ let middleware = [thunk];
 const handleStoreUpdate = (store) => {
     const newsState = store.getState().news;
     console.log(`Number of posts: ${newsState.posts.length}`);
+    console.log(`Number of featuredPost: ${newsState.featuredPost.length}`);
 };
 // const refreshToken = (store) => {
 //     const rF = store.getState().auth.refreshToken

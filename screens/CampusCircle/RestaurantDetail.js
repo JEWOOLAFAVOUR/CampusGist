@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 
 
 const RestaurantDetail = ({ route, ...props }) => {
+    console.log('hhhhhhhhhhhhhh', route.params)
     const [select, setSelect] = useState(true)
     const [favourite, setFavourite] = useState(true)
     const data = route.params.restaurant;
@@ -180,7 +181,7 @@ const RestaurantDetail = ({ route, ...props }) => {
                                         <Text style={{ ...FONTS.body5, color: COLORS.black, marginLeft: SIZES.base / 2 }}>{item.cookingTime}</Text>
                                     </View>
                                 </View>
-                                <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>N{item.price}</Text>
+                                <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>₦{item.price}</Text>
                             </View>
                             <TouchableOpacity onPress={() => handleToogle(restaurantId, hello = item._id, accessToken)} style={{ alignItems: 'center', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
                                 <Text style={{ ...FONTS.body3, color: COLORS.black }}>{item.likeCount}</Text>

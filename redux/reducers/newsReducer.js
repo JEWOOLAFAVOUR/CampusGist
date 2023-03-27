@@ -1,13 +1,14 @@
-import { UPDATE_POST_DETAILS, CLEAR_NEWS } from "../constants/constants";
+import { UPDATE_POST_DETAILS, UPDATE_FEATURED_POST, CLEAR_NEWS } from "../constants/constants";
 
 const initialState = {
     posts: [],
+    featuredPost: [],
 };
 
 const MAX_POSTS = 100;
 
 const newsReducer = (state = initialState, action) => {
-    const { type, posts } = action;
+    const { type, posts, featuredPost } = action;
 
     switch (type) {
         case UPDATE_POST_DETAILS:
@@ -19,15 +20,26 @@ const newsReducer = (state = initialState, action) => {
                 ...state,
                 posts: [...state.posts, ...newPosts] // Add the new posts to the existing ones
             };
+        case UPDATE_FEATURED_POST:
+            // Create a new array with only the posts that don't already exist
+            const freshPost = featuredPost.filter(
+                (post) => !state.featuredPost.some((existingPost) => existingPost.id === post.id)
+            );
+            return {
+                ...state,
+                featuredPost: [...state.featuredPost, ...freshPost] // Add the new posts to the existing ones
+            };
         case CLEAR_NEWS:
             return {
                 ...state,
                 posts: [],
+                featuredPost: [],
             };
         default:
             return state;
     }
 };
+
 
 export default newsReducer;
 

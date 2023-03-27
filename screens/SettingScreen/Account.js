@@ -103,10 +103,10 @@ const Account = ({ ...props }) => {
                     </TouchableOpacity> */}
                 </View>
                 <View style={{ marginTop: SIZES.h3, }}>
-                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level</Text>
+                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level - {data?.gender}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         {/* <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text> */}
-                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.black }}>bio - {data.bio} - {data?.gender}</Text>
+                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.black }}>bio - {data.bio}</Text>
                         {/* <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('ChangeBio')}>
                             <Text style={{ ...FONTS.body4, color: COLORS.black }}>Change Bio</Text>
                         </TouchableOpacity> */}

@@ -39,73 +39,65 @@ const dispatch = useDispatch()
     const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
     const [loading, setLoading] = useState(true)
+    const [k, setK] = useState(false)
 
     const fetchFeaturePost = async () =>{
+        try{
+    const { isConnected } = await NetInfo.fetch();
+    const state = reduxStore.getState();
+    const existingPosts = await state.news.featuredPost;
+    if(!isConnected){
+        setFeaturedPosts(existingPosts)
+    }
         const { error, posts } = await getFeaturedPosts();
         console.log('this is featured post', posts)
-        if (error) return console.log('feature-post-error',error)
+        if (error)  console.log('feature-post-error',error)
+
+        if(isConnected){
         setFeaturedPosts(posts)
+        console.log('.........featured online')
+        }
+
+
+        if(isConnected){
+            const filterFeaturedPost = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+            if (filterFeaturedPost.length > 0) {
+                const allPosts = [...existingPosts, ...filterFeaturedPost];
+                dispatch(newActions.updateFeaturedPost(allPosts));
+              }
+        }
+
+    } catch (error) {
+        console.error('Error fetching featured post: ', error);
+      }
     }
-
-    
-
-    // const fetchLatestPosts = async () => {
-    //     try{
-    //     const { error, posts } = await getLatestPosts(limit, pageNo);
-    //     console.log('this is latest post', posts)
-    //     if (error) return console.log(error)
-      
-    //     // setLatestPost(posts)
-      
-    //     const state = reduxStore.getState();
-    //     const existingPosts = state.news.posts;
-    //     setLatestPost(existingPosts)
-
-
-    //     console.log('existing post fetched from async ', existingPosts)
-    //     // Filter out any posts that already exist in the store
-    //     const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
-      
-    //     // Add the filtered posts to the store
-    //     if (filteredPosts.length > 0) {
-    //       const allPosts = [...existingPosts, ...filteredPosts];
-    //       dispatch(newActions.updatePostDetails(allPosts));
-    //     }
-      
-    //     // Update the latest posts in the store
-    // //    reduxStore.dispatch(newActions.updateLatestPosts(posts));
-    // }catch(error){
-    //     console.error('Error fetching latest post: ', error);
-        
-    // }
-    //   }
-
 
 const fetchLatestPosts = async () => {
   try {
+    const { isConnected } = await NetInfo.fetch();
     const state = reduxStore.getState();
         const existingPosts = await state.news.posts;
         // console.log('existingggggggggg',existingPosts)
-
+    if(!isConnected){
+        setLatestPost(existingPosts)
+    }
     const { error, posts } = await getLatestPosts(limit, pageNo);
     console.log('this is latest post', posts);
     // if (error) return console.log('djjdjd',error);
-    if (error) return console.log('djjdjd',error);
+    if (error)  console.log('djjdjd',error);
 
-    // Check if the device is online
-    const { isConnected } = await NetInfo.fetch();
     if (isConnected) {
-      // If online, update the post state with the fetched posts
       setLatestPost(posts);
       console.log('online....................')
-    } else {
+    } /* else {
       // If offline, update the post state with the existing posts from the store
       setLatestPost(existingPosts);
-      console.log('offline...................')
-    }
+      console.log('offline...................', existingPosts)
+    }*/
 
-    console.log('existing post fetched from async ', existingPosts);
+    // console.log('existing post fetched from async ', existingPosts);
     // Filter out any posts that already exist in the store
+    if(isConnected){
     const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
 
     // Add the filtered posts to the store
@@ -113,6 +105,7 @@ const fetchLatestPosts = async () => {
       const allPosts = [...existingPosts, ...filteredPosts];
       dispatch(newActions.updatePostDetails(allPosts));
     }
+}
 
     // Update the latest posts in the store
     // reduxStore.dispatch(newActions.updateLatestPosts(posts));
@@ -120,6 +113,10 @@ const fetchLatestPosts = async () => {
     console.error('Error fetching latest post: ', error);
   }
 };
+
+    useEffect(()=>{
+        fetchLatestPosts()
+    },[])
 
       
       const handleRefresh = () => {
@@ -132,11 +129,10 @@ const fetchLatestPosts = async () => {
     const fetchSinglePost = async (slug) => {
         try {
           // Set the loading state to true
-          setLoading(true);
-          
+          setK(true)
           // Call the API to get the post
           const { error, post } = await getSinglePost(slug);
-          
+          setK(false)
           // If there was an error, log it
           if (error) {
             console.log('fetch-single-post-error', error);
@@ -148,10 +144,12 @@ const fetchLatestPosts = async () => {
         } catch (error) {
           // Log any errors that occur during the fetch
           console.error('Error fetching single post: ', error);
-        } finally {
+        }/* finally {
           // Set the loading state to false, regardless of whether the fetch succeeded or failed
-          setLoading(false);
+          setK(false)
+          
         }
+        */
       }
 
     //   useEffect(()=>{
@@ -219,7 +217,7 @@ const fetchLatestPosts = async () => {
         formattedTime = 'just now';
     }
             return(
-                <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)} activeOpacity={0.7} style={styles.latestCtn}>
+                <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)}  activeOpacity={0.7} style={styles.latestCtn}>
                     <View>
                         <Image source={getImage(item.thumbnail)} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
                         <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
@@ -314,6 +312,7 @@ const fetchLatestPosts = async () => {
             {/* <Slider /> */}
             {load ?<Roller visible={true}/> : null}
             {loading &&<Roller visible={true}/> }
+            {k ? <Roller visible={true} /> : null}
             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
                 <FlatList
                     // ListHeaderComponent={Slider}
