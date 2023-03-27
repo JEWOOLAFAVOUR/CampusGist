@@ -66,8 +66,8 @@ export const getUserById = async (id) => {
 };
 
 // NOT DONE
-export const updateUserBioAndLevel = async (bio) => {
-    const data = { bio }
+export const updateUserBioAndLevel = async (bio, level, gender) => {
+    const data = { bio, level, gender }
     const response = await makeApiRequest('POST', '/user/update-user-bio-level', data);
     return response;
 };

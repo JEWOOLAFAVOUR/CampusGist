@@ -5,7 +5,36 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { updateUserBioAndLevel } from '../../api/auth';
 
 const LevelBio = ({ navigation, route }) => {
-    console.log('coing route', route.params)
+    console.log('coming route', route.params)
+    const userGender = route.params?.selectedGender;
+    const [bio, setBio] = useState('')
+    const [bioErr, setBioErr] = useState('')
+    const [level, setLevel] = useState('')
+    const [levelErr, setLevelErr] = useState('')
+    console.log('levelllll', level)
+
+    const handleSubmit = async () => {
+        try {
+            if (bio === '' || bio.length < 3) {
+                setBioErr('min bio length 3')
+
+            } else if (level === '') {
+                setBioErr('')
+                setLevelErr('Please select a level')
+            } else if (bio.length > 2) {
+                // console.log('entered bio', bio)
+                setBioErr('')
+                setLevelErr('')
+                console.log(userGender, bio, level)
+                // const response = await updateUserBioAndLevel()
+                // console.log('user info', response)
+                // navigation.navigate('RegistrationSuccessful')
+            }
+        } catch (error) {
+            console.log('error from bio and gender', error)
+        }
+    }
+
     const data = [
         { label: '100 Level', value: '1' },
         { label: '200 Level', value: '2' },
@@ -13,8 +42,8 @@ const LevelBio = ({ navigation, route }) => {
         { label: '400 Level', value: '4' },
         { label: '500 Level', value: '5' },
         { label: 'Graduate', value: '6' },
-        { label: 'Others', value: '7' },
-        { label: 'Aspirant', value: '8' },
+        { label: 'Aspirant', value: '7' },
+        { label: 'Others', value: '8' },
     ];
 
     const DropdownComponent = () => {
@@ -31,6 +60,7 @@ const LevelBio = ({ navigation, route }) => {
             }
             return null;
         };
+
 
         return (
             <View style={styles.container}>
@@ -50,21 +80,18 @@ const LevelBio = ({ navigation, route }) => {
                     // selectedTextStyle={{ color: COLORS.orange }}
                     placeholder={!isFocus ? 'Select Level' : '...'}
                     searchPlaceholder="Search..."
-                    value={value}
+                    value={level}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     onChange={item => {
-                        setValue(item.value);
+                        setLevel(item.label);
                         setIsFocus(false);
                     }}
                 />
             </View>
         );
     };
-    const handleSubmit = async () => {
-        const data = await updateUserBioAndLevel()
-        navigation.navigate('RegistrationSuccessful')
-    }
+
     return (
         <View style={styles.page}>
             <View style={{ flex: 1 }}>
@@ -74,9 +101,16 @@ const LevelBio = ({ navigation, route }) => {
                 <View style={{ marginTop: SIZES.h2 }}>
                     <Text style={{ ...FONTS.h1, color: COLORS.primary, textAlign: 'center' }}>Enter your bio and level</Text>
                     <View style={styles.inputCtn}>
-                        <TextInput placeholder='Enter your Bio' />
+                        <TextInput
+                            placeholder='Enter your Bio'
+                            placeholderTextColor={COLORS.bio}
+                            value={bio}
+                            onChangeText={value => setBio(value)}
+                        />
                     </View>
+                    <Text style={{ color: COLORS.red, ...FONTS.body4, marginHorizontal: SIZES.width * 0.03 }}>{bioErr}</Text>
                     <DropdownComponent />
+                    <Text style={{ marginHorizontal: SIZES.width * 0.03, color: COLORS.red }}>{levelErr}</Text>
                 </View>
             </View>
             <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { flexDirection: 'row', alignItems: 'center' }]}>
@@ -109,7 +143,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1.5,
         borderRadius: SIZES.radius,
         paddingHorizontal: SIZES.base,
-        marginBottom: SIZES.h1,
+        marginBottom: SIZES.base / 1.7,
         borderColor: COLORS.brown,
         backgroundColor: COLORS.grey2,
         borderRadius: SIZES.h2,

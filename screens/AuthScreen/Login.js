@@ -29,7 +29,10 @@ const Login = ({ ...props }) => {
     const [showToast2, setShowToast2] = useState(false)
     const [notVerify, setNotVerify] = useState(false)
     const [email, setEmail] = useState('')
+    const [emailError, setEmailError] = useState('')
     const [password, setPassword] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+
 
     const handleSubmit = async () => {
         setShowSpinner(true)
