@@ -1,18 +1,32 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Switch, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../../redux/actions/authAction'
 import { clearNews } from '../../redux/actions/newsAction'
+import Modal from 'react-native-modal';
 
 const Setting = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation();
+    const [modalVisible, setModalVisible] = useState(false);
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
+
+    const handleConfirm = () => {
+        dispatch(logoutUser());
+        dispatch(clearNews());
+        setModalVisible(false);
+        navigation.replace('WelcomeScreen');
+    };
+
+    const handleCancel = () => {
+        setModalVisible(false);
+    };
+
     const settingData = [
         {
             id: 1,
@@ -47,10 +61,12 @@ const Setting = () => {
             title: 'Logout',
             iconName: icons.bell,
             onPress: () => {
-                dispatch(logoutUser())
+                setModalVisible(true);
+                /*dispatch(logoutUser())
                 dispatch(clearNews());
 
                 navigation.replace('WelcomeScreen')
+                */
             },
         },
     ];
@@ -87,6 +103,17 @@ const Setting = () => {
                     )
                 }}
             />
+            <Modal isVisible={modalVisible}>
+                <View style={styles.modalContainer}>
+                    <Text style={styles.modalText}>Are you sure you want to log out?</Text>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleConfirm}>
+                        <Text style={styles.modalButtonText}>Yes</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleCancel}>
+                        <Text style={styles.modalButtonText}>No</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -123,5 +150,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: COLORS.primary
+    },
+    modalContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+    },
+    modalText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    modalButton: {
+        backgroundColor: '#e6e6e6',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    modalButtonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+        textAlign: 'center',
     },
 })

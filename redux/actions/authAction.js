@@ -1,5 +1,5 @@
 import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER, UPDATE_USER_REFRESH_TOKEN } from "../constants/constants";
-import { UPDATE_USER_BIO } from "../constants/constants";
+import { UPDATE_USER_BIO, UPDATE_USER_LEVEL_BIO_GENDER } from "../constants/constants";
 import client from "../../api/client";
 
 export const updateOnboarding = (status) => {
@@ -53,3 +53,10 @@ export const updateUserBio = (bio) => ({
     type: UPDATE_USER_BIO,
     payload: bio,
 });
+
+
+export const updateUserBioAndLevelAndGender = (bio, gender, level) => ({
+    type: UPDATE_USER_LEVEL_BIO_GENDER,
+    payload: { bio, gender, level },
+});
+

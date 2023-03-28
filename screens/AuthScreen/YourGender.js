@@ -24,7 +24,7 @@ const YourGender = ({ navigation, ...props }) => {
                 </TouchableOpacity>
                 <View style={{ marginTop: SIZES.h1 * 2, marginBottom: SIZES.h1 * 2 }}>
                     <Text style={{ ...FONTS.body1, color: COLORS.black, textAlign: 'center', marginBottom: SIZES.base }}>What is your gender?</Text>
-                    <Text style={{ ...FONTS.body4, color: COLORS.black, maxWidth: '50%', textAlign: 'center', alignSelf: 'center' }}>We will use this data to give you a better diet type for you.</Text>
+                    <Text style={{ ...FONTS.body3, color: COLORS.black, maxWidth: '60%', textAlign: 'center', alignSelf: 'center' }}>Select a gender to continue</Text>
                 </View>
                 {/* MALE AND FEMALE BUTTON */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -46,7 +46,7 @@ const YourGender = ({ navigation, ...props }) => {
                         ]}
                         onPress={() => handleGenderSelection("male")}
                     >
-                        <Image source={images.pic1} style={{ height: SIZES.h1, width: SIZES.h1 }} />
+                        <Image source={icons.male} style={{ height: SIZES.h1, width: SIZES.h1 }} />
                         <Text style={{ ...FONTS.body2, fontWeight: "bold", color: COLORS.white, marginTop: SIZES.h4 }}>Male</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -59,11 +59,12 @@ const YourGender = ({ navigation, ...props }) => {
                         ]}
                         onPress={() => handleGenderSelection("female")}
                     >
-                        <Image source={images.pic1} style={{ height: SIZES.h1, width: SIZES.h1 }} />
+                        <Image source={icons.female} style={{ height: SIZES.h1, width: SIZES.h1 }} />
                         <Text style={{ ...FONTS.body2, fontWeight: "bold", color: COLORS.white, marginTop: SIZES.h4 }}>Female</Text>
                     </TouchableOpacity>
                     {/* END HERE  */}
                 </View>
+                {/* <Text>Hello</Text> */}
             </View>
             <TouchableOpacity onPress={() => handleNextButtonPress()} disabled={!selectedGender} style={styles.nextCtn}>
                 <Image source={icons.arrowright} style={{ height: SIZES.h3 * 0.9, width: SIZES.h3 * 0.9, tintColor: COLORS.white }} />

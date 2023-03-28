@@ -19,6 +19,8 @@ export const contact = require('../assets/icons/contact.png')
 export const done = require('../assets/icons/done.png')
 export const entertainment = require('../assets/icons/entertainment.png')
 export const eye = require('../assets/icons/eye.png')
+export const eyeclose = require('../assets/icons/eyeclose.png')
+export const female = require('../assets/icons/female.png')
 export const home = require('../assets/icons/home.png')
 export const horizontalmenu = require('../assets/icons/horizontalmenu.png')
 export const key = require('../assets/icons/key.png')
@@ -29,6 +31,7 @@ export const love = require('../assets/icons/love.png')
 export const love1 = require('../assets/icons/love1.png')
 export const love2 = require('../assets/icons/love2.png')
 export const mail = require('../assets/icons/mail.png')
+export const male = require('../assets/icons/male.png')
 export const moon = require('../assets/icons/moon.png')
 export const notification = require('../assets/icons/notification.png')
 export const person = require('../assets/icons/person.png')
@@ -66,6 +69,8 @@ export default {
     done,
     entertainment,
     eye,
+    eyeclose,
+    female,
     home,
     horizontalmenu,
     key,
@@ -76,6 +81,7 @@ export default {
     love1,
     love2,
     mail,
+    male,
     moon,
     notification,
     person,

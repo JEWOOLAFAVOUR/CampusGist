@@ -1,5 +1,5 @@
 import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER, UPDATE_USER_REFRESH_TOKEN } from "../constants/constants";
-import { UPDATE_USER_BIO } from "../constants/constants";
+import { UPDATE_USER_BIO, UPDATE_USER_LEVEL_BIO_GENDER } from "../constants/constants";
 
 const initialState = {
     isOnboardingDisabled: false,
@@ -38,6 +38,16 @@ const authReducer = (state = initialState, action) => {
                 user: {
                     ...state.user,
                     bio: action.payload,
+                },
+            };
+        case UPDATE_USER_LEVEL_BIO_GENDER:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    bio: action.payload.bio,
+                    gender: action.payload.gender,
+                    level: action.payload.level,
                 },
             };
         case LOGOUT_USER:

@@ -15,6 +15,10 @@ const handleStoreUpdate = (store) => {
     console.log(`Number of posts: ${newsState.posts.length}`);
     console.log(`Number of featuredPost: ${newsState.featuredPost.length}`);
 };
+const handleUser = (store) => {
+    const userState = store.getState().auth?.user
+    console.log('user data .....', userState)
+}
 // const refreshToken = (store) => {
 //     const rF = store.getState().auth.refreshToken
 //     console.log('dddddddd', rF)
@@ -28,6 +32,7 @@ const reduxStore = createStore(
 );
 
 reduxStore.subscribe(() => handleStoreUpdate(reduxStore));
+reduxStore.subscribe(() => handleUser(reduxStore));
 // reduxStore.subscribe(() => refreshToken(reduxStore));
 
 export default reduxStore;

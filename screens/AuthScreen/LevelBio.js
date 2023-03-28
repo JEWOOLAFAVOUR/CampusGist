@@ -3,15 +3,26 @@ import { View, Text, BackHandler, Alert, Image, TouchableOpacity, ScrollView, St
 import { COLORS, icons, images, FONTS, SIZES } from '../../constants';
 import { Dropdown } from 'react-native-element-dropdown';
 import { updateUserBioAndLevel } from '../../api/auth';
+import Roller from '../../components/Roller';
+
+import reduxStore from '../../redux/store';
+import { updateUserBioAndLevelAndGender } from '../../redux/actions/authAction';
+import Toast from '../../components/Toast';
 
 const LevelBio = ({ navigation, route }) => {
     console.log('coming route', route.params)
-    const userGender = route.params?.selectedGender;
+    const gender = route.params?.selectedGender;
     const [bio, setBio] = useState('')
     const [bioErr, setBioErr] = useState('')
     const [level, setLevel] = useState('')
     const [levelErr, setLevelErr] = useState('')
+    const [load, setLoad] = useState(false)
+    const [result, setResult] = useState(false)
+    const [toastErr, setToastErr] = useState(false)
+    const [msg, setMsg] = useState('')
+
     console.log('levelllll', level)
+
 
     const handleSubmit = async () => {
         try {
@@ -25,15 +36,33 @@ const LevelBio = ({ navigation, route }) => {
                 // console.log('entered bio', bio)
                 setBioErr('')
                 setLevelErr('')
-                console.log(userGender, bio, level)
-                // const response = await updateUserBioAndLevel()
-                // console.log('user info', response)
-                // navigation.navigate('RegistrationSuccessful')
+                setLoad(true)
+                console.log(gender, bio, level)
+                const response = await updateUserBioAndLevel(bio, level, gender)
+                if (response?.success === true) {
+                    setBio('')
+                    setLevel('')
+                    reduxStore.dispatch(updateUserBioAndLevelAndGender(response?.data?.bio, response?.data?.gender, response?.data?.level,))
+                    setResult(false)
+                    setResult(true)
+                    setTimeout(() => {
+                        navigation.navigate('RegistrationSuccessful')
+                    }, 1000);
+
+                } else {
+                    setToastErr(false)
+                    setToastErr(true)
+                    setMsg(response?.error)
+                }
+                setLoad(false)
+                console.log('user info', response)
+
             }
         } catch (error) {
             console.log('error from bio and gender', error)
         }
     }
+
 
     const data = [
         { label: '100 Level', value: '1' },
@@ -94,6 +123,7 @@ const LevelBio = ({ navigation, route }) => {
 
     return (
         <View style={styles.page}>
+            {load ? <Roller visible={true} /> : null}
             <View style={{ flex: 1 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
                     <Image source={icons.arrowleft} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.primary }} />
@@ -112,6 +142,8 @@ const LevelBio = ({ navigation, route }) => {
                     <DropdownComponent />
                     <Text style={{ marginHorizontal: SIZES.width * 0.03, color: COLORS.red }}>{levelErr}</Text>
                 </View>
+                {result && <Toast message="Updated successfully" type="success" />}
+                {toastErr && <Toast message={msg} type="success" />}
             </View>
             <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { flexDirection: 'row', alignItems: 'center' }]}>
                 <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Next</Text>

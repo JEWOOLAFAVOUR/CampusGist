@@ -32,7 +32,7 @@ const Login = ({ ...props }) => {
     const [emailError, setEmailError] = useState('')
     const [password, setPassword] = useState('')
     const [passwordError, setPasswordError] = useState('')
-
+    const [press, setPress] = useState(true);
 
     const handleSubmit = async () => {
         setShowSpinner(true)
@@ -104,12 +104,13 @@ const Login = ({ ...props }) => {
                                 placeholder='Enter Password'
                                 placeholderTextColor={COLORS.chocolate}
                                 style={{ ...FONTS.body4, flex: 1 }}
-                                secureTextEntry={showPassword}
+                                secureTextEntry={press}
                                 value={password}
                                 onChangeText={value => setPassword(value)}
+                                keyboardType='visible-password'
                             />
-                            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                <Image source={icons.key} style={{ height: SIZES.h3, width: SIZES.h3 }} />
+                            <TouchableOpacity onPress={() => setPress(!press)}>
+                                <Image source={press ? icons.eyeclose : icons.eye} style={{ height: SIZES.h2, width: SIZES.h2, marginRight: SIZES.base }} />
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity style={{ alignItems: 'center', marginBottom: SIZES.base, marginTop: SIZES.body1 * 1.5 }}>

@@ -112,7 +112,7 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
                     setEv(true)
                     setTimeout(() => {
                         navigation.navigate("YourGender");
-                    }, 2000);
+                    }, 1000);
                     updateUserLogin(data.user, true)
                     updateUserAccessToken(data.user.accessToken)
 

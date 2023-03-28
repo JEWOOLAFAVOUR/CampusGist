@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, BackHandler, Alert, TextInput, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { COLORS, icons, images, FONTS, SIZES } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
+import Modal from 'react-native-modal';
 
 const WelcomeScreen = () => {
     const navigation = useNavigation();
@@ -41,6 +42,23 @@ const WelcomeScreen = () => {
 
         return () => backHandler.remove();
     }, [navigation]);
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleRegisterWithPhone = () => {
+        setModalVisible(true);
+    };
+
+    const handleRegisterWithEmail = () => {
+        setModalVisible(false);
+        navigation.navigate('Register');
+    };
+
+    const handleLogin = () => {
+        setModalVisible(false);
+        navigation.navigate('Login');
+    };
+
     return (
         <View style={styles.page}>
             <Image source={images.pic4} style={{ height: SIZES.height * 0.5, width: SIZES.width * 1, }} />
@@ -66,6 +84,17 @@ const WelcomeScreen = () => {
                     <Text style={{ ...FONTS.body4, color: COLORS.white, textAlign: 'center' }}>Continue with Phone number</Text>
                 </TouchableOpacity>
             </View>
+            <Modal isVisible={modalVisible}>
+                <View style={styles.modalContainer}>
+                    <Text style={styles.modalText}>Registration with phone number is not available.</Text>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleRegisterWithEmail}>
+                        <Text style={styles.modalButtonText}>Register with Email</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleLogin}>
+                        <Text style={styles.modalButtonText}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -87,5 +116,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: SIZES.base,
     },
-
+    modalContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+    },
+    modalText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    modalButton: {
+        backgroundColor: '#e6e6e6',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    modalButtonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+        textAlign: 'center',
+    },
 })

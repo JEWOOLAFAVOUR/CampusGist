@@ -41,6 +41,7 @@ const Register = () => {
     const [existUserName, setExistUserName] = useState(false);
     const [msg, setMsg] = useState('');
     const [vProfile, setVProfile] = useState(false)
+    const [press, setPress] = useState(true)
     const { colors: { background } } = useTheme();
 
 
@@ -94,7 +95,7 @@ const Register = () => {
                                 setVProfile(true)
                                 setTimeout(() => {
                                     navigation.navigate('VerifyEmail', { item: res?.data?._id })
-                                }, 2000);
+                                }, 1000);
                             }
                         }).catch(err => {
                             console.log('signup error', err.response.data)
@@ -175,12 +176,12 @@ const Register = () => {
                                             placeholderTextColor={COLORS.chocolate}
                                             name='password'
                                             onChangeText={handleChange('password')}
-                                            secureTextEntry={showPassword}
+                                            secureTextEntry={press}
                                             style={{ ...FONTS.body4, flex: 1 }}
                                             keyboardType='visible-password'
                                         />
-                                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                            <Image source={icons.key} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.chocolate }} />
+                                        <TouchableOpacity onPress={() => setPress(!press)}>
+                                            <Image source={press ? icons.eyeclose : icons.eye} style={{ height: SIZES.h2, width: SIZES.h2, }} />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
