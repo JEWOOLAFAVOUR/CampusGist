@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { View, Text, BackHandler, Alert, Image, TouchableOpacity, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { COLORS, icons, images, FONTS, SIZES } from '../../constants';
+import { useNavigation } from '@react-navigation/native';
 
 const RegistrationSuccessful = () => {
+    const navigation = useNavigation();
     const handleSubmit = () => {
+        navigation.replace("Bottom");
 
     }
     return (

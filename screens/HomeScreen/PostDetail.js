@@ -81,6 +81,12 @@ const PostDetail = ({ route, ...props }) => {
     const [liked, setLiked] = useState(like);
     const [likeCount, setLikeCount] = useState(like);
     const [seeMore, setSeeMore] = useState(false)
+    const [comment, setComment] = useState('')
+
+    const handleSubmit = async () => {
+        console.log('submitted comment', comment)
+        const response = await addComment()
+    }
 
     // console.log('post details', post)
 
@@ -233,7 +239,7 @@ const PostDetail = ({ route, ...props }) => {
             {/* </View> */}
             {/* COMMENT BOX SECTION */}
             <View style={{}}>
-                <Formik
+                {/* <Formik
                     validationSchema={commentValidationSchema}
                     initialValues={{
                         comment: ''
@@ -258,27 +264,27 @@ const PostDetail = ({ route, ...props }) => {
                         }, [touched])
 
                         return (
-                            <>
-                                <View style={styles.commentSection}>
-                                    <View style={styles.textInputCtn}>
-                                        <Image source={getImage(avatar)} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
-                                        <TextInput
-                                            name='comment'
-                                            onChangeText={handleChange('comment')}
-                                            numberOfLines={3}
-                                            placeholder='Well, I think...'
-                                            style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }}
-                                        />
-                                        {/* BUTTON */}
-                                        <TouchableOpacity onPress={handleSubmit}>
-                                            <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </>
+                            <> */}
+                <View style={styles.commentSection}>
+                    <View style={styles.textInputCtn}>
+                        <Image source={getImage(avatar)} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
+                        <TextInput
+                            value={comment}
+                            onChangeText={value => setComment(value)}
+                            numberOfLines={3}
+                            placeholder='Well, I think...'
+                            style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }}
+                        />
+                        {/* BUTTON */}
+                        <TouchableOpacity onPress={() => handleSubmit(postId)}>
+                            <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                {/* </>
                         )
                     }}
-                </Formik>
+                </Formik> */}
 
             </View>
         </View>

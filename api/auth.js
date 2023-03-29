@@ -21,23 +21,32 @@ const makeApiRequest = async (method, endpoint, data) => {
 };
 
 
+// export const registerUser = async (values) => {
+//     try {
+//         // const { data } = await client.post('/post/featured-posts', values)
+//         // return data
+//         const url = 'user/create'
+
+//         return axios.post(url, values)
+//             .then(response => response.data)
+//     } catch (error) {
+//         const { response } = error
+//         if (response?.data) {
+//             return response?.data;
+//         }
+//         return { error: error.message || error };
+//     }
+
+// }
+
 export const registerUser = async (values) => {
-    try {
-        // const { data } = await client.post('/post/featured-posts', values)
-        // return data
-        const url = 'user/create'
-
-        return axios.post(url, values)
-            .then(response => response.data)
-    } catch (error) {
-        const { response } = error
-        if (response?.data) {
-            return response.data;
-        }
-        return { error: error.message || error };
-    }
-
-}
+    console.log('djjjjjjjjjjjjj', values)
+    // console.log('passing otp', otp, userId)
+    //   const data = { firstName, lastName, username, email, password };
+    const data = values;
+    const response = await makeApiRequest('POST', '/user/create', data);
+    return response;
+};
 
 export const loginUser = async (email, password) => {
     // console.log('passing otp', otp, userId)

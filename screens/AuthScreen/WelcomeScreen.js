@@ -79,7 +79,7 @@ const WelcomeScreen = () => {
                     <Image source={icons.mail} style={{ tintColor: '#ad554b', width: SIZES.h2 * 0.9, height: SIZES.h2 * 0.9, position: 'absolute', left: 17, }} />
                     <Text style={{ ...FONTS.body4, color: COLORS.white, textAlign: 'center' }}>Register with email</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('RegisterWithPhone')} style={[styles.clickBtn, { backgroundColor: '#1774eb' }]}>
+                <TouchableOpacity onPress={() => handleRegisterWithPhone()} style={[styles.clickBtn, { backgroundColor: '#1774eb' }]}>
                     <Image source={icons.call} style={{ tintColor: COLORS.white, width: SIZES.h2 * 0.8, height: SIZES.h2 * 0.8, position: 'absolute', left: 17, }} />
                     <Text style={{ ...FONTS.body4, color: COLORS.white, textAlign: 'center' }}>Continue with Phone number</Text>
                 </TouchableOpacity>
@@ -122,9 +122,9 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     modalText: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        ...FONTS.h3,
         marginBottom: 20,
+        color: COLORS.orange
     },
     modalButton: {
         backgroundColor: '#e6e6e6',
@@ -134,9 +134,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     modalButtonText: {
-        fontSize: 16,
+        ...FONTS.body3,
         fontWeight: 'bold',
-        color: '#333',
+        color: COLORS.black,
         textAlign: 'center',
     },
 })

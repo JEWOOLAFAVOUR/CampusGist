@@ -43,6 +43,10 @@ const Register = () => {
     const [vProfile, setVProfile] = useState(false)
     const [press, setPress] = useState(true)
     const { colors: { background } } = useTheme();
+    const [toastMsg, setToastMsg] = useState('')
+    const [showToast, setShowToast] = useState(false)
+
+
 
 
     return (
@@ -58,6 +62,7 @@ const Register = () => {
                 )
             }
             {vProfile && <Toast message={"Account Created, Please Verify!"} type="success" />}
+            {showToast && <Toast message={toastMsg} type="fail" />}
 
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
                 <Image source={icons.arrowleft} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.primary }} />
@@ -83,8 +88,13 @@ const Register = () => {
                         registerUser(values).then(res => {
                             console.log('responssse', res)
                             setShowSpinner(false);
-                            // setShowSpinner(true);
-                            if (res.status === "Email not verified") {
+                            setShowSpinner(true);
+                            if (res.error) {
+                                setToastMsg(res.error)
+                                // setToastMsg('Network Error')
+                                setShowToast(false)
+                                setShowToast(true)
+                            } else if (res.status === "Email not verified") {
                                 setShowError(false)
 
                                 setShowError(true)
@@ -98,7 +108,7 @@ const Register = () => {
                                 }, 1000);
                             }
                         }).catch(err => {
-                            console.log('signup error', err.response.data)
+                            console.log('signup error', err)
                             setShowSpinner(false);
                             setMsg(err?.response.data?.error)
                             setExistUserName(false)

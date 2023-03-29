@@ -11,7 +11,7 @@ const Toast = ({ message, type }) => {
         setIsVisible(true);
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 1500);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
 

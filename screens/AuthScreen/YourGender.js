@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 
 const YourGender = ({ navigation, ...props }) => {
+
     // console.log('comig props n gender from resux', props)
     const [selectedGender, setSelectedGender] = useState('');
 
