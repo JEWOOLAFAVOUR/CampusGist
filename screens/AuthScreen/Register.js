@@ -11,12 +11,15 @@ import Roller from '../../components/Roller';
 const signUpValidationSchema = yup.object().shape({
     firstName: yup
         .string()
+        .trim()
         .required('Firstname is missing'),
     lastName: yup
         .string()
+        .trim()
         .required('Lastname is missing'),
     username: yup
         .string()
+        .trim()
         .required('Username is missing')
         .min(5, ({ min }) => `Username must be at least ${min} characters`),
     email: yup
@@ -25,6 +28,7 @@ const signUpValidationSchema = yup.object().shape({
         .required('Email is required'),
     password: yup
         .string()
+        .trim()
         .matches(/\w*[a-z]\w*/, 'Password must have a small letter')
         .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
         // .matches(/\d/, 'Password must have a number')

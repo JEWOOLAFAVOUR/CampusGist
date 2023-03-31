@@ -38,36 +38,19 @@ const PostDetail = ({ route, ...props }) => {
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
     }, [navigation]);
 
-    // useEffect(() => {
-    //     navigation.setOptions({
-    //         tabBarVisible: false,
-    //     });
 
-    //     return () => {
-    //         navigation.setOptions({
-    //             tabBarVisible: true,
-    //         });
-    //     };
-    // }, [navigation]);
-
-    // Your PostDetails screen content goes here
-
-
-    // console.log('this is props', props)
-    // const post = route.params?.post;
     const { post } = route.params;
 
     const [postData, setPostData] = useState([post])
+
+    const [comment3, setComment3] = useState(post?.comments)
+    // console.log('iiiiiiiiiiiiiiiii', comment3)
+
     console.log('new possst', postData)
 
     const accessToken = props.accessToken
     const avatar = props.user?.avatar?.url
     console.log(avatar, 'kdkdkk')
-    // console.log('first', accessToken)
-    // console.log('first', token)
-
-    // const [post, setPost] = useState({})
-    // console.log('token', accessToken)
 
     const getImage = (uri) => {
         if (uri) return { uri };
@@ -82,10 +65,19 @@ const PostDetail = ({ route, ...props }) => {
     const [likeCount, setLikeCount] = useState(like);
     const [seeMore, setSeeMore] = useState(false)
     const [comment, setComment] = useState('')
+    const [select, setSelect] = useState(false)
+    const [pop, setPop] = useState(false)
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (postId) => {
         console.log('submitted comment', comment)
-        const response = await addComment()
+
+        if (comment.trim() === '') {
+            setSelect(false)
+        }
+        const response = await addComment(postId, comment)
+        setComment('')
+        setComment3(current => [...comment3, response?.data])
+        console.log('comment response', response)
     }
 
     // console.log('post details', post)
@@ -93,17 +85,12 @@ const PostDetail = ({ route, ...props }) => {
     const postId = id;
     // console.log('first', postId)
 
-    const handleToggle = async (postId, accessToken) => {
-        // console.log('access token testing', accessToken)
-        // console.log('firstdddddddd', postId)
-
-        const data = await handleLike(postId, accessToken)
-        // setLiked(!liked + 1)
+    const handleToggle = async (postId) => {
+        const data = await handleLike(postId)
         setLiked(!liked)
         setLikeCount(liked ? likeCount - 1 : likeCount + 1)
 
         console.log('data from toogle', data)
-        // console.log('data hhhh', message)
     }
 
     // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
@@ -202,7 +189,7 @@ const PostDetail = ({ route, ...props }) => {
                                 </Markdown>
 
                                 {/* TOGGLE LIKE */}
-                                <TouchableOpacity onPress={() => handleToggle(postId, accessToken)} style={styles.tooglelikeCtn}>
+                                <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
                                     <Image source={icons.thumb} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
                                     <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>{likeCount}</Text>
                                 </TouchableOpacity>
@@ -227,7 +214,7 @@ const PostDetail = ({ route, ...props }) => {
                                     commentData.map((data, index) => <CommentSection item={data} index />)
                                 } */}
                                 <FlatList
-                                    data={item.comments}
+                                    data={comment3}
                                     renderItem={({ item }) => <CommentSection data={item} />}
                                 />
                             </View>
@@ -239,53 +226,38 @@ const PostDetail = ({ route, ...props }) => {
             {/* </View> */}
             {/* COMMENT BOX SECTION */}
             <View style={{}}>
-                {/* <Formik
-                    validationSchema={commentValidationSchema}
-                    initialValues={{
-                        comment: ''
-                    }}
-                    onSubmit={async (values) => {
-                        console.log('comment submitted', values, accessToken)
-                        addComment(postId, values, accessToken)
-                            .then(res => {
-                                console.log('response', res)
-                            })
-                            .catch(err => {
-                                console.log('comment error', err.response.data?.error)
-                                console.log('Error', err.response.data?.error)
-                            })
-                    }}
-                >
-                    {({ handleSubmit, isValid, values, errors, handleChange, touched }) => {
-                        useEffect(() => {
-                            if (touched.comment) {
-                                setTest(!test)
-                            }
-                        }, [touched])
-
-                        return (
-                            <> */}
                 <View style={styles.commentSection}>
                     <View style={styles.textInputCtn}>
                         <Image source={getImage(avatar)} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
                         <TextInput
                             value={comment}
-                            onChangeText={value => setComment(value)}
+                            onChangeText={value => {
+                                setComment(value)
+                                if (value.trim().length > 0) {
+                                    setPop(true)
+                                } else {
+                                    setPop(false)
+                                }
+                            }}
                             numberOfLines={3}
                             placeholder='Well, I think...'
-                            style={{ paddingHorizontal: SIZES.h5, flex: 1, ...FONTS.body3 }}
+                            style={{ paddingHorizontal: SIZES.base, flex: 1, ...FONTS.body3 }}
                         />
                         {/* BUTTON */}
-                        <TouchableOpacity onPress={() => handleSubmit(postId)}>
-                            <Image source={icons.send} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
-                        </TouchableOpacity>
+
+                    </View>
+                    <View>
+                        {pop ?
+                            <TouchableOpacity onPress={() => handleSubmit(postId)} style={styles.sendBox}>
+                                <Image source={icons.send2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.white }} />
+                            </TouchableOpacity>
+                            :
+                            <View style={[styles.sendBox, { backgroundColor: COLORS.chocolate }]}>
+                                <Image source={icons.send2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.white }} />
+                            </View>
+                        }
                     </View>
                 </View>
-                {/* </>
-                        )
-                    }}
-                </Formik> */}
-
             </View>
         </View>
     )
@@ -340,8 +312,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#cdcdcd',
         borderRadius: SIZES.h5,
         width: SIZES.width * 0.8,
-        marginHorizontal: SIZES.h5,
-        paddingHorizontal: SIZES.base
+        marginLeft: SIZES.base,
+        marginRight: SIZES.base / 2,
+        paddingHorizontal: SIZES.base / 2
     },
     sendCtn: {
         height: SIZES.h1 * 1.3,
@@ -364,11 +337,20 @@ const styles = StyleSheet.create({
     },
     followCtn: {
         height: SIZES.h1 * 1.1,
-        width: SIZES.h1 * 3.2,
+        width: SIZES.h1 * 3.3,
         backgroundColor: COLORS.orange,
         borderRadius: SIZES.h1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    sendBox: {
+        height: SIZES.h1 * 1.8,
+        width: SIZES.h1 * 1.8,
+        backgroundColor: COLORS.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: SIZES.h1,
+        marginRight: SIZES.base,
     },
 })
 

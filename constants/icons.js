@@ -41,6 +41,7 @@ export const search = require('../assets/icons/search.png')
 export const setting = require('../assets/icons/setting.png')
 export const sport = require('../assets/icons/sport.png')
 export const send = require('../assets/icons/send.png')
+export const send2 = require('../assets/icons/send2.png')
 export const star = require('../assets/icons/star.png')
 export const technology = require('../assets/icons/technology.png')
 export const thumb = require('../assets/icons/thumb.png')
@@ -91,6 +92,7 @@ export default {
     setting,
     sport,
     send,
+    send2,
     star,
     technology,
     thumb,
