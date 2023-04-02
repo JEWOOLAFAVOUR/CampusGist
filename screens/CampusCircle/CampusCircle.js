@@ -117,14 +117,36 @@ const CampusCircle = () => {
 
     }
 
+
+    // const _renderEmpty = () => {
     const _renderEmpty = () => {
+        const [isLoading, setIsLoading] = useState(true);
+
+        useEffect(() => {
+            const timeout = setTimeout(() => {
+                setIsLoading(false);
+            }, 8000); // Stop loading after 10 seconds
+
+            return () => {
+                clearTimeout(timeout);
+            };
+        }, []);
+
+        if (isLoading) {
+            return (
+                <View style={{}}>
+                    <ActivityIndicator color={COLORS.orange} size={40} />
+                    <Text style={{ ...FONTS.body3a, color: COLORS.black }}>Loading foods...</Text>
+                </View>
+            );
+        }
+
         return (
-            <View style={{}}>
-                <ActivityIndicator color={COLORS.orange} size={40} />
-                <Text style={{ ...FONTS.body3a, }}>Loading foods</Text>
+            <View style={{ marginTop: SIZES.h1, marginBottom: SIZES.h3 }}>
+                <Text style={{ ...FONTS.body2a, color: COLORS.red, }}>You're Offline</Text>
             </View>
-        )
-    }
+        );
+    };
 
     const getImage = (uri) => {
         if (uri) return { uri };
@@ -204,9 +226,9 @@ const CampusCircle = () => {
                 {m ? <Roller visible={true} /> : null}
                 <FlatList
                     // data={oldMarketData.slice(1, 11)}
-                    data={market.slice(0, 10)}
+                    data={market}
                     numColumns={2}
-                    // ListEmptyComponent={_renderEmpty}
+                    ListEmptyComponent={_renderEmpty}
                     columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                     renderItem={({ item }) => {
                         return (
@@ -220,9 +242,11 @@ const CampusCircle = () => {
                         )
                     }}
                 />
-                <TouchableOpacity onPress={() => navigation.navigate('MarketMore')} style={styles.seeMoreCtn}>
-                    <Text style={{ ...FONTS.body3, color: COLORS.white }}>See More</Text>
-                </TouchableOpacity>
+                {/* {!m && (
+                    <TouchableOpacity onPress={() => navigation.navigate('MarketMore')} style={styles.seeMoreCtn}>
+                        <Text style={{ ...FONTS.body3, color: COLORS.white }}>See More</Text>
+                    </TouchableOpacity>
+                )} */}
             </View>
         )
     }

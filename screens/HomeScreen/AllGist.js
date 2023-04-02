@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView, RefreshControl, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import Slider from './Slider'
@@ -35,6 +35,7 @@ const dispatch = useDispatch()
     const [reachedEnd, setReachedEnd] = useState(false)
     const [busy, setBusy] = useState(false)
     const [refreshing, setRefreshing] = useState(false);
+    const [commentErr, setCommentErr] = useState(false)
 
     const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
@@ -125,8 +126,24 @@ const fetchLatestPosts = async () => {
         fetchLatestPosts();
         setRefreshing(false);
       };
-   
-    const fetchSinglePost = async (slug) => {
+    
+      const withNetworkCheck = (fn) => async (...args) => {
+        try {
+            const { isConnected } = await NetInfo.fetch();
+            if (!isConnected) {
+                // Handle the case where the device is offline
+                ToastAndroid.show("You're offline!", ToastAndroid.SHORT);
+
+                return;
+            }
+            return await fn(...args);
+        } catch (error) {
+            console.log('Error checking network connectivity', error);
+
+        }
+    };
+
+    const fetchSinglePost = withNetworkCheck( async (slug) => {
         try {
           // Set the loading state to true
           setK(true)
@@ -150,7 +167,7 @@ const fetchLatestPosts = async () => {
           
         }
         */
-      }
+      })
 
     //   useEffect(()=>{
     //     fetchLatestPosts()
@@ -313,6 +330,7 @@ const fetchLatestPosts = async () => {
             {load ?<Roller visible={true}/> : null}
             {loading &&<Roller visible={true}/> }
             {k ? <Roller visible={true} /> : null}
+            {commentErr && <Toast message="Network Error" type="fail" />}
             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
                 <FlatList
                     // ListHeaderComponent={Slider}

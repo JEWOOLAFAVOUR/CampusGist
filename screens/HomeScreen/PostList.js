@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import dateFormat from 'dateformat'
@@ -9,6 +9,9 @@ import { connect } from 'react-redux'
 // import moment from 'moment/moment';
 import moment from 'moment';
 import Roller from '../../components/Roller';
+import Toast from '../../components/Toast';
+import NetInfo from '@react-native-community/netinfo';
+
 
 
 
@@ -21,6 +24,8 @@ const PostList = ({ data, ...props }) => {
     const [liked, setLiked] = useState(data.like);
     const [likeCount, setLikeCount] = useState(data.like);
     const [k, setK] = useState(false)
+    const [commentErr, setCommentErr] = useState(false)
+
 
     // access token
     const accessToken = props.accessToken
@@ -46,24 +51,45 @@ const PostList = ({ data, ...props }) => {
 
     }
 
-    const fetchSinglePost = async (slug) => {
+    const withNetworkCheck = (fn) => async (...args) => {
+        try {
+            const { isConnected } = await NetInfo.fetch();
+            if (!isConnected) {
+                // Handle the case where the device is offline
+                // setCommentErr(false);
+                // setCommentErr(true);
+                // const ToastMessage = () => {
+                ToastAndroid.show("You're offline!", ToastAndroid.SHORT);
+                // }
+                return;
+            }
+            return await fn(...args);
+        } catch (error) {
+            console.log('Error checking network connectivity', error);
+
+        }
+    };
+
+    const fetchSinglePost = withNetworkCheck(async (slug) => {
         try {
             setK(true)
-            const { error, post } = await getSinglePost(slug)
-            console.log('first jv', post)
+            const { error, post, success } = await getSinglePost(slug)
+            console.log('first jv', post, success)
 
             setK(false)
 
             if (error) console.log('singlepost error', error)
-            navigation.navigate('PostDetail', { post })
+            if (success === true) {
+                navigation.navigate('PostDetail', { post })
+            } else {
+                ToastAndroid.show("You're offline!", ToastAndroid.SHORT);
+            }
         } catch (error) {
             // Log any errors that occur during the fetch
             console.error('Error fetching single post: ', error);
         }
-    }
-    // useEffect(() => {
-    //     fetchSinglePost()
-    // }, [])
+    })
+
 
 
     // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
@@ -102,6 +128,8 @@ const PostList = ({ data, ...props }) => {
     return (
         <TouchableOpacity key={data.id} activeOpacity={1} onPress={() => fetchSinglePost(data.slug)} style={styles.listCtn}>
             {k ? <Roller visible={true} /> : null}
+            {commentErr && <Toast message="Network Error" type="fail" />}
+
             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ToastAndroid } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Modal from 'react-native-modal';
 import Toast from './Toast';
@@ -41,7 +41,7 @@ const NetInfoProvider = () => {
     return (
         <View>
             {isConnected ? (
-                <Toast type="success" message="You are connected to the internet." />
+                ToastAndroid.show("You're back online!", ToastAndroid.SHORT)
             ) : (
                 <Modal isVisible={isModalVisible} onBackdropPress={closeModal}>
                     <View style={{ backgroundColor: 'white', padding: 20 }}>

@@ -15,6 +15,8 @@ const Account = ({ ...props }) => {
     console.log('data from pros', data)
     const navigation = useNavigation()
 
+
+
     // const handleChoosePhoto = async (userId) => {
     //     console.log('post idddd', userId)
     //     const data = await updateUserProfilePic(userId)

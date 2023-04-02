@@ -13,9 +13,13 @@ import * as yup from 'yup';
 import { addComment, getSinglePost, toggleLike } from '../../api/post';
 import { connect } from 'react-redux'
 import moment from 'moment';
+import NetInfo from '@react-native-community/netinfo';
+
 
 import { handleLike, handleUnlike } from '../../api/post';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Toast from '../../components/Toast';
+import NetInfoProvider from '../../components/NetInfoProvider';
 
 const copy = `# h1 Heading 8-)
  
@@ -67,18 +71,94 @@ const PostDetail = ({ route, ...props }) => {
     const [comment, setComment] = useState('')
     const [select, setSelect] = useState(false)
     const [pop, setPop] = useState(false)
+    const [commentErr, setCommentErr] = useState(false)
+    const [p, setP] = useState(false)
 
-    const handleSubmit = async (postId) => {
-        console.log('submitted comment', comment)
 
-        if (comment.trim() === '') {
-            setSelect(false)
+    // const handleSubmit = async (postId) => {
+
+    //     console.log('submitted comment', comment)
+
+    //     if (comment.trim() === '') {
+    //         setSelect(false)
+    //     }
+    //     const response = await addComment(postId, comment)
+    //     if (response?.message === 'Comment added successfully') {
+    //         setComment('')
+    //         setPop(false)
+    //         setComment3(current => [...comment3, response?.data])
+    //     }
+    //     if (response?.error)
+    //         console.log('comment response', response)
+    //     setCommentErr(false)
+    //     setCommentErr(true)
+    // }
+
+    /*  const handleSubmit = async (postId) => {
+          try {
+              const { isConnected } = await NetInfo.fetch();
+              if (isConnected) {
+                  console.log('submitted comment', comment);
+                  if (comment.trim() === '') {
+                      setSelect(false);
+                  }
+                  const response = await addComment(postId, comment);
+                  if (response?.message === 'Comment added successfully') {
+                      setComment('');
+                      setPop(false);
+                      setComment3(current => [...comment3, response?.data]);
+                  }
+                  if (response?.error) {
+                      console.log('comment response', response);
+                  }
+                  setCommentErr(false);
+                  setCommentErr(true);
+              } else {
+                  // Handle the case where the device is offline
+                  setP(false)
+                  setP(true)
+              }
+          } catch (error) {
+              console.log('Error fetching network connectivity status', error);
+              // Handle the error case
+          }
+      };
+  */
+
+    const withNetworkCheck = (fn) => async (...args) => {
+        try {
+            const { isConnected } = await NetInfo.fetch();
+            if (!isConnected) {
+                // Handle the case where the device is offline
+                setCommentErr(false);
+                setCommentErr(true);
+                return;
+            }
+            return await fn(...args);
+        } catch (error) {
+            console.log('Error checking network connectivity', error);
+
         }
-        const response = await addComment(postId, comment)
-        setComment('')
-        setComment3(current => [...comment3, response?.data])
-        console.log('comment response', response)
-    }
+    };
+
+    const handleSubmit = withNetworkCheck(async (postId) => {
+        console.log('submitted comment', comment);
+        if (comment.trim() === '') {
+            setSelect(false);
+        }
+        const response = await addComment(postId, comment);
+        if (response?.message === 'Comment added successfully') {
+            setComment('');
+            setPop(false);
+            setComment3(current => [...comment3, response?.data]);
+        }
+        if (response?.error) {
+            console.log('comment response', response);
+            setCommentErr(false);
+            setCommentErr(true);
+        }
+    });
+
 
     // console.log('post details', post)
 
@@ -128,6 +208,7 @@ const PostDetail = ({ route, ...props }) => {
         <View style={{ flex: 1, paddingBottom: Keyboard.keyboardHeight }}>
             <StatusBar />
             {/* HEADER SECTION */}
+            {p && <Toast message='Please connect to the  internet' type='fail' />}
             <View style={{ backgroundColor: COLORS.primary }}>
                 <View style={styles.headerCtn}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingRight: SIZES.h2, paddingVertical: SIZES.h5 }}>
@@ -152,7 +233,7 @@ const PostDetail = ({ route, ...props }) => {
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.h4 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <TouchableOpacity /* onPress={() => navigation.navigate('ProfilePage')} */ style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <View>
                                                 <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
                                             </View>
@@ -226,6 +307,8 @@ const PostDetail = ({ route, ...props }) => {
             {/* </View> */}
             {/* COMMENT BOX SECTION */}
             <View style={{}}>
+                {commentErr && <Toast message="Network Error" type="fail" />}
+
                 <View style={styles.commentSection}>
                     <View style={styles.textInputCtn}>
                         <Image source={getImage(avatar)} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />

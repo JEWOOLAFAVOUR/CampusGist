@@ -6,8 +6,10 @@ import { useDispatch } from 'react-redux'
 import { logoutUser } from '../../redux/actions/authAction'
 import { clearNews } from '../../redux/actions/newsAction'
 import Modal from 'react-native-modal';
+import { connect } from 'react-redux';
 
-const Setting = () => {
+const Setting = ({ ...props }) => {
+    const data = props?.user
     const dispatch = useDispatch()
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
@@ -77,8 +79,8 @@ const Setting = () => {
                     <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                 </View>
                 <View style={{ marginLeft: SIZES.h3 }}>
-                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>Jewoola Favour Gbemi</Text>
-                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@favour28</Text>
+                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text>
                 </View>
             </View>
         )
@@ -118,7 +120,17 @@ const Setting = () => {
     )
 }
 
-export default Setting
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn,
+        accessToken: state.auth.accessToken,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { return {} }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Setting)
 
 const styles = StyleSheet.create({
     page: {
