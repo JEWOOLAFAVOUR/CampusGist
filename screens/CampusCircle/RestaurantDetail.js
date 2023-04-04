@@ -10,12 +10,13 @@ import { connect } from 'react-redux'
 
 
 const RestaurantDetail = ({ route, ...props }) => {
-    console.log('hhhhhhhhhhhhhh', route.params)
+    console.log('hhhhhhhhhhhhhh', route.params?.restaurant?.menu)
+    const menuLike = route.params?.restaurant?.menu
     const [select, setSelect] = useState(true)
     const [favourite, setFavourite] = useState(true)
     const data = route.params.restaurant;
     const restaurantId = data.id
-    console.log('data', data.menu)
+    // console.log('data', data.menu)
     const [restaurantItem, setRestaurantItem] = useState(data.menu)
     console.log('restaurant menu', restaurantItem)
     // const [menu, setMenu] = useState()
@@ -89,6 +90,7 @@ const RestaurantDetail = ({ route, ...props }) => {
     const [likeCount, setLikeCount] = useState('like');
 
     const handleToogle = async (restaurantId, hello, accessToken) => {
+        setSelect(!select)
         console.log('hekko', hello)
         const data = await likeMenuItem(restaurantId, hello, accessToken)
         console.log('message', data)
@@ -102,30 +104,19 @@ const RestaurantDetail = ({ route, ...props }) => {
                     <View style={{ borderBottomWidth: 1, borderColor: COLORS.chocolateBackground }}>
                         <Image source={getImage(data.thumbnail.url)} style={{ height: SIZES.height * 0.29, width: '100%' }} />
                     </View>
-                    {/* <View style={{}}> */}
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 10, top: 20, }}>
                         <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setFavourite(!favourite)} style={{ position: 'absolute', right: 10, top: 20 }}>
                         <Image source={favourite ? icons.love2 : icons.love1} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
                     </TouchableOpacity>
-                    {/* </View> */}
                 </View>
-                <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h3 }}>
-                    <Text style={{ ...FONTS.body1, color: COLORS.black, fontWeight: 'bold' }}>McDonald's</Text>
-                    <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold' }}>({data.name})</Text>
-                    <View style={{ marginVertical: SIZES.h4 }}>
-                        {/* <FlatList
-                            data={category.slice(0, 3)}
-                            numColumns={3}
-                            renderItem={({ item }) => {
-                                return (
-                                    <View style={styles.categoryCtn}>
-                                        <Text style={{ ...FONTS.body4, color: COLORS.black }}>{item.title}</Text>
-                                    </View>
-                                )
-                            }}
-                        /> */}
+                <View style={{ paddingHorizontal: SIZES.width * 0.03, paddingTop: SIZES.h3 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold' }}>({data.name})</Text>
+                        <Text style={{ ...FONTS.body2c, color: COLORS.orange, fontWeight: 'bold' }}> - {data?.contact?.phone}</Text>
+                    </View>
+                    <View style={{ marginVertical: SIZES.base }}>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -138,7 +129,7 @@ const RestaurantDetail = ({ route, ...props }) => {
                             <Text style={{ ...FONTS.body3a, color: COLORS.black }}>Opens: <Text style={{ fontWeight: 'bold' }}>9:00am - 9:00pm</Text></Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.body3a, color: COLORS.black }}>N</Text>
+                            <Text style={{ ...FONTS.body3a, color: COLORS.black }}>₦</Text>
                         </View>
                     </View>
                     <Text style={{ ...FONTS.body3b, color: COLORS.black, fontWeight: 'bold', marginVertical: SIZES.h5 }}>Your Favorities</Text>
@@ -185,7 +176,7 @@ const RestaurantDetail = ({ route, ...props }) => {
                             </View>
                             <TouchableOpacity onPress={() => handleToogle(restaurantId, hello = item._id, accessToken)} style={{ alignItems: 'center', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
                                 <Text style={{ ...FONTS.body3, color: COLORS.black }}>{item.likeCount}</Text>
-                                <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: COLORS.black }} />
+                                <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: select ? COLORS.red : COLORS.black }} />
                             </TouchableOpacity>
                         </View>
                     )

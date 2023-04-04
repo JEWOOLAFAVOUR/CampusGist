@@ -13,6 +13,8 @@ const Setting = ({ ...props }) => {
     const dispatch = useDispatch()
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [intervalId, setIntervalId] = useState(null);
     useEffect(() => {
         navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
         return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
@@ -35,12 +37,13 @@ const Setting = ({ ...props }) => {
             title: 'Edit Profile',
             iconName: icons.bell,
             onPress: () => navigation.navigate('EditProfile'),
+            onPress: () => setIsModalVisible(true)
+
         }, {
             id: 2,
             title: 'Edit Bio',
             iconName: icons.bell,
             onPress: () => navigation.navigate('ChangeBio'),
-
         }, {
             id: 3,
             title: 'Notification',
@@ -72,6 +75,10 @@ const Setting = ({ ...props }) => {
             },
         },
     ];
+    const closeModal = () => {
+        setIsModalVisible(false);
+        clearInterval(intervalId);
+    };
     const _renderHeader = () => {
         return (
             <View style={styles.container}>
@@ -79,8 +86,8 @@ const Setting = ({ ...props }) => {
                     <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                 </View>
                 <View style={{ marginLeft: SIZES.h3 }}>
-                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
-                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data.username}</Text>
+                    <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data?.firstName} ${data?.lastName} `}</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data?.username}</Text>
                 </View>
             </View>
         )
@@ -116,7 +123,13 @@ const Setting = ({ ...props }) => {
                     </TouchableOpacity>
                 </View>
             </Modal>
-        </View>
+            <Modal isVisible={isModalVisible} onBackdropPress={closeModal}>
+                <View style={{ backgroundColor: 'white', padding: 20 }}>
+                    <Text style={{ marginBottom: 10, ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>Alert</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.black }}>Account can't be edited for now, try again later.</Text>
+                </View>
+            </Modal >
+        </View >
     )
 }
 
@@ -172,6 +185,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: COLORS.black,
     },
     modalButton: {
         backgroundColor: '#e6e6e6',

@@ -1,4 +1,4 @@
-import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity, Text, View, FlatList, ActivityIndicator, RefreshControl, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { circleData, hotFoodData, oldMarketData } from './CampusCircleData'
@@ -89,10 +89,16 @@ const CampusCircle = () => {
 
     const fetchRestaurantById = async (postId) => {
         try {
+            setLoad(false); // Set the loader to be visible
             setLoad(true); // Set the loader to be visible
-            const { error, restaurant } = await getRestaurantById(postId);
+            const { error, restaurant, success } = await getRestaurantById(postId);
+            // console.log('single-restaurant', restaurant);
             console.log('single-restaurant', restaurant);
-            navigation.navigate('RestaurantDetail', { restaurant });
+            if (success === true) {
+                navigation.navigate('RestaurantDetail', { restaurant });
+            } else {
+                ToastAndroid.show("Check Internet Connectivity!", ToastAndroid.SHORT);
+            }
             if (error) {
                 console.log('single-restaurant error', error);
             }
@@ -110,7 +116,11 @@ const CampusCircle = () => {
             const response = await getMarketById(marketId)
             console.log('single market data', response)
             setM(false)
-            navigation.navigate('MarketDetail', { response })
+            if (success === true) {
+                navigation.navigate('MarketDetail', { response })
+            } else {
+                ToastAndroid.show("Check Internet Connectivity!", ToastAndroid.SHORT);
+            }
         } catch (err) {
             console.log('fetch-mark-id erro', err)
         }

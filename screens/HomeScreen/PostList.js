@@ -23,6 +23,7 @@ const PostList = ({ data, ...props }) => {
     const { thumbnail } = data;
     const [liked, setLiked] = useState(data.like);
     const [likeCount, setLikeCount] = useState(data.like);
+
     const [k, setK] = useState(false)
     const [commentErr, setCommentErr] = useState(false)
 
@@ -82,7 +83,7 @@ const PostList = ({ data, ...props }) => {
             if (success === true) {
                 navigation.navigate('PostDetail', { post })
             } else {
-                ToastAndroid.show("You're offline!", ToastAndroid.SHORT);
+                ToastAndroid.show("Check Internet Connectivity!", ToastAndroid.SHORT);
             }
         } catch (error) {
             // Log any errors that occur during the fetch

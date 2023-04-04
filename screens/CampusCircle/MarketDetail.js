@@ -99,13 +99,13 @@ const MarketDetail = ({ route }) => {
                     {/* LOCATION  */}
                     <View>
                         <Image source={images.image2} style={{ height: SIZES.height * 0.12, width: SIZES.width }} />
-                        <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold', position: 'absolute', bottom: 2, left: SIZES.width * 0.35 }}>Ogbomosho</Text>
+                        <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold', position: 'absolute', bottom: 2, left: SIZES.width * 0.35 }}>{data?.location}</Text>
                     </View>
                     {/* DESCRIPTION SECTION  */}
                     <View style={{ marginTop: SIZES.base * 1.3 }}>
                         <View style={{ height: 1, backgroundColor: COLORS.chocolate, marginBottom: SIZES.base }} />
                         <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.black }}>Description</Text>
-                        <Text style={{ ...FONTS.body3b, color: COLORS.black }}>This is 3kg 5kg and 6kg fairly used, not leaking and very reliable.</Text>
+                        <Text style={{ ...FONTS.body3b, color: COLORS.black }}>{data?.description}</Text>
                         <View style={{ height: 1, backgroundColor: COLORS.chocolate, marginTop: SIZES.base }} />
                     </View>
                     {/* SELLERS INFORMATION  */}
@@ -113,8 +113,8 @@ const MarketDetail = ({ route }) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base }}>
                         <Image source={images.pic2} style={{ height: SIZES.h1 * 2.4, width: SIZES.h1 * 2.4, borderRadius: 100 }} />
                         <View style={{ marginLeft: SIZES.h4, }}>
-                            <Text style={{ ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>Edema Cordy</Text>
-                            <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>080123456789</Text>
+                            <Text style={{ ...FONTS.body3, fontWeight: 'bold', color: COLORS.black }}>{data?.contact?.name}</Text>
+                            <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>{data?.contact?.phone}</Text>
                         </View>
                     </View>
                     <View style={{ marginBottom: SIZES.h1 }} />

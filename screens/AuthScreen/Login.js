@@ -35,6 +35,7 @@ const Login = ({ ...props }) => {
     const [press, setPress] = useState(true);
 
     const handleSubmit = async () => {
+        setShowSpinner(false)
         setShowSpinner(true)
         const data = await loginUser(email, password)
         console.log('response', data)
@@ -57,8 +58,8 @@ const Login = ({ ...props }) => {
             }, 1000);
             updateUserLogin(data.user, true)
 
-            updateUserAccessToken(data.user.accessToken)
-            updateUserRefreshToken(data.refreshToken)
+            updateUserAccessToken(data?.user?.accessToken)
+            updateUserRefreshToken(data?.refreshToken)
         }
     }
 

@@ -148,16 +148,18 @@ const fetchLatestPosts = async () => {
           // Set the loading state to true
           setK(true)
           // Call the API to get the post
-          const { error, post } = await getSinglePost(slug);
+          const { error, post, success} = await getSinglePost(slug);
           setK(false)
           // If there was an error, log it
           if (error) {
             console.log('fetch-single-post-error', error);
             return;
           }
-          
-          // Navigate to the PostDetail screen with the post data
-          navigation.navigate('PostDetail', { post });
+          if (success === true) {
+            navigation.navigate('PostDetail', { post });
+        } else {
+            ToastAndroid.show("Check Internet Connectivity!", ToastAndroid.SHORT);
+        }
         } catch (error) {
           // Log any errors that occur during the fetch
           console.error('Error fetching single post: ', error);
@@ -293,7 +295,7 @@ const fetchLatestPosts = async () => {
                 title: 'LifeStyle',
                 iconName: icons.lifestyle,
                 onPress: () =>{
-                    dispatch(newActions.clearNews());
+                    // dispatch(newActions.clearNews());
                 },
                 // onPress: () =>navigation.navigate('Lifestyle'),
             },

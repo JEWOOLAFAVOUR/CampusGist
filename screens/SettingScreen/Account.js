@@ -96,8 +96,8 @@ const Account = ({ ...props }) => {
                         <Image source={getImage(data?.avatar?.url)} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                     </View>
                     <View style={{ marginLeft: SIZES.h3 }}>
-                        <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data.username}</Text>
+                        <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data?.firstName} ${data?.lastName} `}</Text>
+                        <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data?.username}</Text>
                     </View>
                     {/* FOR EDIT PROFILE ICON  */}
                     {/* <TouchableOpacity onPress={() => handleChoosePhoto(data.id)} style={styles.editProfileBtn}>
@@ -108,7 +108,7 @@ const Account = ({ ...props }) => {
                     <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>200 Level - {data?.gender}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         {/* <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text> */}
-                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.black }}>bio - {data.bio}</Text>
+                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.black }}>bio - {data?.bio}</Text>
                         {/* <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('ChangeBio')}>
                             <Text style={{ ...FONTS.body4, color: COLORS.black }}>Change Bio</Text>
                         </TouchableOpacity> */}
@@ -119,16 +119,16 @@ const Account = ({ ...props }) => {
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}> Posts</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{data.followers}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{data?.followers}</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Follower</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary }}>{data.following}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary }}>{data?.following}</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Following</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <Image source={icons.star} style={{ height: SIZES.h2 * 0.7, width: SIZES.h2 * 0.7 }} />
-                            <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>{data.rank}</Text>
+                            <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>{data?.rank}</Text>
                         </View>
                     </View>
                 </View>
