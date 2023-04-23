@@ -12,6 +12,7 @@ import Toast from '../../components/Toast';
 const LevelBio = ({ navigation, route }) => {
     console.log('coming route', route.params)
     const gender = route.params?.selectedGender;
+    // console.log(gender)
     const [bio, setBio] = useState('')
     const [bioErr, setBioErr] = useState('')
     const [level, setLevel] = useState('')
@@ -22,7 +23,7 @@ const LevelBio = ({ navigation, route }) => {
     const [msg, setMsg] = useState('')
 
     console.log('levelllll', level)
-
+    const genderIcon = gender === 'male' ? icons.male : icons.female;
 
     const handleSubmit = async () => {
         try {
@@ -42,7 +43,7 @@ const LevelBio = ({ navigation, route }) => {
                 if (response?.success === true) {
                     setBio('')
                     setLevel('')
-                    reduxStore.dispatch(updateUserBioAndLevelAndGender(response?.data?.bio, response?.data?.gender, response?.data?.level,))
+                    reduxStore.dispatch(updateUserBioAndLevelAndGender(response?.data?.bio, response?.data?.gender, response?.data?.level, genderIcon))
                     setResult(false)
                     setResult(true)
                     setTimeout(() => {

@@ -9,6 +9,7 @@ import Saved from './Saved';
 import AboutUs from './AboutUs';
 import Notification from './Notification';
 import ChangeBio from './ChangeBio';
+import Test from './Test';
 
 const { width, height } = Dimensions.get('window');
 
@@ -57,6 +58,10 @@ const SettingStack = () => {
                 <Stack.Screen
                     name='ChangeBio'
                     component={ChangeBio}
+                />
+                <Stack.Screen
+                    name='Test'
+                    component={Test}
                 />
             </Stack.Navigator>
         </View>

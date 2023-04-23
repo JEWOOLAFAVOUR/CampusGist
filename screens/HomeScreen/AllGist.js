@@ -42,79 +42,159 @@ const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const [k, setK] = useState(false)
 
-    const fetchFeaturePost = async () =>{
-        try{
-    const { isConnected } = await NetInfo.fetch();
-    const state = reduxStore.getState();
-    const existingPosts = await state.news.featuredPost;
-    if(!isConnected){
-        setFeaturedPosts(existingPosts)
-    }
-        const { error, posts } = await getFeaturedPosts();
-        console.log('this is featured post', posts)
-        if (error)  console.log('feature-post-error',error)
+    // const fetchFeaturePost = async () =>{
+    //     try{
+    // const { isConnected } = await NetInfo.fetch();
+    // const state = reduxStore.getState();
+    // const existingPosts = await state.news.featuredPost;
+    // if(!isConnected){
+    //     setFeaturedPosts(existingPosts)
+    // }
+    //     const { error, posts } = await getFeaturedPosts();
+    //     console.log('this is featured post', posts)
+    //     if (error)  console.log('feature-post-error',error)
 
-        if(isConnected){
-        setFeaturedPosts(posts)
-        console.log('.........featured online')
+    //     if(isConnected){
+    //     setFeaturedPosts(posts)
+    //     console.log('.........featured online')
+    //     }
+
+
+    //     if(isConnected){
+    //         const filterFeaturedPost = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+    //         if (filterFeaturedPost.length > 0) {
+    //             const allPosts = [...existingPosts, ...filterFeaturedPost];
+    //             dispatch(newActions.updateFeaturedPost(allPosts));
+    //           }
+    //     }
+
+    // } catch (error) {
+    //     console.error('Error fetching featured post: ', error);
+    //   }
+    // }
+
+// const fetchLatestPosts = async () => {
+//   try {
+//     const { isConnected } = await NetInfo.fetch();
+//     const state = reduxStore.getState();
+//         const existingPosts = await state.news.posts;
+//         // console.log('existingggggggggg',existingPosts)
+//     if(!isConnected){
+//         setLatestPost(existingPosts)
+//     }
+//     const { error, posts } = await getLatestPosts(limit, pageNo);
+//     console.log('this is latest post', posts);
+//     // if (error) return console.log('djjdjd',error);
+//     if (error)  console.log('djjdjd',error);
+
+//     if (isConnected) {
+//       setLatestPost(posts);
+//       console.log('online....................')
+//     }
+
+//     // Filter out any posts that already exist in the store
+//     if(isConnected){
+//     const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+
+//     // Add the filtered posts to the store
+//     if (filteredPosts.length > 0) {
+//       const allPosts = [...existingPosts, ...filteredPosts];
+//       dispatch(newActions.updatePostDetails(allPosts));
+//     }
+// }
+
+//     // Update the latest posts in the store
+//     // reduxStore.dispatch(newActions.updateLatestPosts(posts));
+//   } catch (error) {
+//     console.error('Error fetching latest post: ', error);
+//   }
+// };
+
+const fetchFeaturePost = async () => {
+    try {
+      const { isConnected } = await NetInfo.fetch();
+      const state = reduxStore.getState();
+      const existingPosts = await state.news.featuredPost;
+      if (!isConnected) {
+        setFeaturedPosts(existingPosts);
+      } else {
+        const featurePostsPromise = getFeaturedPosts();
+        const timeoutPromise = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject('Request timed out');
+          }, 10000);
+        });
+        const { error, posts } = await Promise.race([
+          featurePostsPromise,
+          timeoutPromise
+        ]);
+        if (error) {
+          console.log('Error fetching featured post: ', error);
+          // setFeaturedPosts(existingPosts);
+          // Display an error message to the user
+        } else {
+          setFeaturedPosts(posts);
+          const filteredPosts = posts.filter(
+            post => !existingPosts.some(p => p.id === post.id)
+          );
+          if (filteredPosts.length > 0) {
+            const allPosts = [...existingPosts, ...filteredPosts];
+            dispatch(newActions.updateFeaturedPost(allPosts));
+          }
         }
-
-
-        if(isConnected){
-            const filterFeaturedPost = posts.filter(post => !existingPosts.some(p => p.id === post.id));
-            if (filterFeaturedPost.length > 0) {
-                const allPosts = [...existingPosts, ...filterFeaturedPost];
-                dispatch(newActions.updateFeaturedPost(allPosts));
-              }
-        }
-
-    } catch (error) {
-        console.error('Error fetching featured post: ', error);
       }
+    } catch (error) {
+      console.error('Error fetching featured post: ', error);
+    }finally{
+      const state = reduxStore.getState();
+      const existingPosts = state.news.posts;
+
+      setFeaturedPosts(existingPosts);
     }
+  };
+  
 
 const fetchLatestPosts = async () => {
-  try {
-    const { isConnected } = await NetInfo.fetch();
-    const state = reduxStore.getState();
-        const existingPosts = await state.news.posts;
-        // console.log('existingggggggggg',existingPosts)
-    if(!isConnected){
-        setLatestPost(existingPosts)
-    }
-    const { error, posts } = await getLatestPosts(limit, pageNo);
-    console.log('this is latest post', posts);
-    // if (error) return console.log('djjdjd',error);
-    if (error)  console.log('djjdjd',error);
+    try {
+      const { isConnected } = await NetInfo.fetch();
+      const state = reduxStore.getState();
+      const existingPosts = await state.news.posts;
+      if (!isConnected) {
+        setLatestPost(existingPosts);
+      } else {
+        const latestPostsPromise = getLatestPosts(limit, pageNo);
+        const timeoutPromise = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject('Request timed out');
+          }, 10000);
+        });
+        const { error, posts } = await Promise.race([
+          latestPostsPromise,
+          timeoutPromise
+        ]);
+        if (error) {
+          console.log('Error fetching latest posts: ', error);
+          // Display an error message to the user
+        } else {
+          setLatestPost(posts);
+          const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+          if (filteredPosts.length > 0) {
+            const allPosts = [...existingPosts, ...filteredPosts];
+            dispatch(newActions.updatePostDetails(allPosts));
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching latest posts: ', error);
+    } finally {
+      // Set the latest posts to the existing posts if an error occurs or the request times out
+      const state = reduxStore.getState();
+      const existingPosts = state.news.posts;
 
-    if (isConnected) {
-      setLatestPost(posts);
-      console.log('online....................')
-    } /* else {
-      // If offline, update the post state with the existing posts from the store
       setLatestPost(existingPosts);
-      console.log('offline...................', existingPosts)
-    }*/
-
-    // console.log('existing post fetched from async ', existingPosts);
-    // Filter out any posts that already exist in the store
-    if(isConnected){
-    const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
-
-    // Add the filtered posts to the store
-    if (filteredPosts.length > 0) {
-      const allPosts = [...existingPosts, ...filteredPosts];
-      dispatch(newActions.updatePostDetails(allPosts));
     }
-}
-
-    // Update the latest posts in the store
-    // reduxStore.dispatch(newActions.updateLatestPosts(posts));
-  } catch (error) {
-    console.error('Error fetching latest post: ', error);
-  }
-};
-
+  };
+  
     useEffect(()=>{
         fetchLatestPosts()
     },[])
@@ -188,22 +268,27 @@ const fetchLatestPosts = async () => {
           } finally {
             setTimeout(() => {
               setLoad(false); // Set the loader to be hidden after 2 seconds
-            }, 2000);
+            }, 4000);
           }
         };
         fetchAllData();
       }, []);
       
-      
-
-    //     homePostData;
+      const _renderEmpty = () =>{
+        return(
+            <View>
+                <Image source={images.pic3} style={{height: SIZES.h1 * 4, width: SIZES.h1 * 4}}/>
+                <Text style={{...FONTS.body2, color: COLORS.black, fontStyle: 'italic'}}>Loading...</Text>
+            </View>
+        )
+      }
 
     const navigation = useNavigation();
 
     const NewsToday =() => {
         const getImage = (uri) => {
             if (uri) return { uri };
-            return images.image2
+            return images.image6;
         }
         const _renderTemlate =  ({item}) =>{
              // Assume createdAt is the ISO-8601 timestamp string you receive from your backend
@@ -238,13 +323,13 @@ const fetchLatestPosts = async () => {
             return(
                 <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)}  activeOpacity={0.7} style={styles.latestCtn}>
                     <View>
-                        <Image source={getImage(item.thumbnail)} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
+                        <Image source={getImage(item.thumbnail)} style={{resizeMode:'contain',height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
                         <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
                             <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
                                 <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
-                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.orange, marginLeft: SIZES.base}}>gist</Text>
+                                <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white, marginLeft: SIZES.base}}>gist</Text>
                             </View>
-                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.orange}}>{formattedTime}</Text>
+                            <Text style={{...FONTS.body4, fontWeight: 'bold', color: COLORS.white}}>{formattedTime}</Text>
                         </View>
                     </View>
                     <Text numberOfLines={2} style={{marginTop: SIZES.base * 0.7,color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600', marginHorizontal: SIZES.base,}}>{item.title}</Text>
@@ -259,6 +344,7 @@ const fetchLatestPosts = async () => {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={featuredPosts}
+                    ListEmptyComponent={_renderEmpty}
                      renderItem={({item})=> <_renderTemlate item={item}/>}
                 />
                 <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.base * 0.7, marginBottom: SIZES.base * 0.05}}>Latest Gists</Text>
@@ -279,17 +365,17 @@ const fetchLatestPosts = async () => {
                 iconName: icons.entertainment,
                 onPress: () =>navigation.navigate('Entertainment'),
             },{
-                id: 3,
+              id: 3,
+              title: 'Campus',  
+              iconName: icons.campus,
+              test: true,
+              onPress: () =>navigation.navigate('Campuses'),
+          },{
+                id: 4,
                 title: 'Sport',
                 iconName: icons.sport,
-                test: true,
-                onPress: () =>navigation.navigate('Sport'),
-            },{
-                id: 4,
-                title: 'Campus',
-                iconName: icons.campus,
                 // test: true,
-                onPress: () =>{},
+                onPress: () =>navigation.navigate('Sport'),
             },{
                 id: 5,
                 title: 'LifeStyle',
@@ -303,7 +389,7 @@ const fetchLatestPosts = async () => {
         return (
             <View style={{}}>
                 {/* <NetInfoProvider/> */}
-                <Text style={{...FONTS.h3, color: COLORS.orange, marginBottom: SIZES.base /2}}>Categories</Text>
+                <Text style={{...FONTS.body3, color: COLORS.orange, marginBottom: SIZES.base /2}}>Categories</Text>
                 <FlatList 
                      showsHorizontalScrollIndicator={false}
                     horizontal={true}
@@ -342,6 +428,7 @@ const fetchLatestPosts = async () => {
                     showsVerticalScrollIndicator={false}
                     // data={homePostData}
                     data={latestPost}
+                    ListEmptyComponent={_renderEmpty}
                     // renderItem={({ item }) => <RenderItem data={item} />}
                         // renderItem={({item})=> <NewsToday data={item}/>}
                     renderItem={({ item }) => <PostList data={item} />}

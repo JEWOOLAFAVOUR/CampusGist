@@ -55,8 +55,8 @@ export const updateUserBio = (bio) => ({
 });
 
 
-export const updateUserBioAndLevelAndGender = (bio, gender, level) => ({
+export const updateUserBioAndLevelAndGender = (bio, gender, level, avatar) => ({
     type: UPDATE_USER_LEVEL_BIO_GENDER,
-    payload: { bio, gender, level },
+    payload: { bio, gender, level, avatar, },
 });
 

@@ -16,7 +16,6 @@ const Account = ({ ...props }) => {
     const navigation = useNavigation()
 
 
-
     // const handleChoosePhoto = async (userId) => {
     //     console.log('post idddd', userId)
     //     const data = await updateUserProfilePic(userId)
@@ -60,28 +59,55 @@ const Account = ({ ...props }) => {
     //         console.log('errrrrrrrrrr', error);
     //     }
     // };
+    // const handleChoosePhoto = async (userId) => {
+    //     ImagePicker.openPicker({
+    //         width: 300,
+    //         height: 400,
+    //         cropping: true
+    //     }).then(async (image) => {
+    //         console.log(image);
+    //         const formData = new FormData();
+    //         formData.append("file", {
+    //             uri: image.path,
+    //             type: image.mime,
+    //             name: `photo_${Date.now()}`
+    //         });
+    //         const response = await updateUserProfilePic(userId, formData);
+    //         console.log('response:', response); // handle the response from the server
+    //     });
+    // }
+
+
     const handleChoosePhoto = async (userId) => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 400,
-            cropping: true
-        }).then(async (image) => {
-            console.log(image);
+        try {
+            const image = await ImagePicker.openPicker({
+                width: 300,
+                height: 400,
+                cropping: true
+            });
+
             const formData = new FormData();
+
             formData.append("file", {
                 uri: image.path,
                 type: image.mime,
                 name: `photo_${Date.now()}`
             });
+
+            console.log('image chosen', image)
+
             const response = await updateUserProfilePic(userId, formData);
             console.log('response:', response); // handle the response from the server
-        });
-    }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     const getImage = (uri) => {
         if (uri) return { uri };
 
-        return images.image2
+        return images.avatar;
     }
 
     return (

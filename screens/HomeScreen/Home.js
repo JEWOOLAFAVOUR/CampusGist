@@ -14,42 +14,6 @@ const { width, height } = Dimensions.get('window');
 
 const Home = ({ ...props }) => {
     const navigation = useNavigation();
-    // useEffect(() => {
-    //     const backAction = () => {
-    //         Alert.alert(
-    //             'Exit App',
-    //             'Do you want to exit the app?',
-    //             [
-    //                 {
-    //                     text: 'Cancel',
-    //                     onPress: () => null,
-    //                     style: 'cancel'
-    //                 },
-    //                 {
-    //                     text: 'Exit',
-    //                     onPress: () => BackHandler.exitApp()
-    //                 }
-    //             ],
-    //             { cancelable: false }
-    //         );
-    //         return true;
-    //     };
-
-    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
-    //         e.preventDefault();
-    //         backAction();
-    //     });
-
-    //     const backHandler = BackHandler.addEventListener(
-    //         'hardwareBackPress',
-    //         () => {
-    //             navigation.goBack();
-    //             return true;
-    //         }
-    //     );
-
-    //     return () => backHandler.remove();
-    // }, [navigation]);
 
     const Tab = createMaterialTopTabNavigator();
     return (
@@ -82,22 +46,6 @@ const Home = ({ ...props }) => {
                 </View>
             </View>
             <AllGist />
-            {/* <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    // tabBarShowLabel: true,
-                    tabBarIndicatorStyle: {
-                        backgroundColor: COLORS.orange,
-                        height: 3.5,
-                        borderRadius: SIZES.radius,
-                    },
-                })}
-                
-            >
-                <Tab.Screen name="AllGist" hello={accessToken} component={AllGist} />
-                <Tab.Screen name="Campuses" component={Campuses} />
-                <Tab.Screen name="Entertainment" component={Entertainment} />
-                <Tab.Screen name="Technology" component={Technology} />
-            </Tab.Navigator> */}
         </View>
     )
 }

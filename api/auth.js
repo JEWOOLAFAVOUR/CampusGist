@@ -112,16 +112,40 @@ const makeApiRequest2 = async (method, endpoint, data) => {
 };
 
 
+// export const updateUserProfilePic = async (userId, image) => {
+//     console.log('image coming from clicked from clicked', image)
+//     // const formData = new FormData();
+//     // formData.append('file', {
+//     //     uri: image.path,
+//     //     type: image.mime,
+//     //     name: 'hello'
+//     //     // name: image.path.split('/').pop()
+//     // });
+
+//     try {
+//         const response = await makeApiRequest2('POST', `/user/${userId}/update-avatar`, image);
+//         return response;
+//     } catch (error) {
+//         const { response } = error;
+//         if (response?.data) {
+//             return response.data;
+//         }
+//         return { error: error.message || error };
+//     }
+// };
+
 export const updateUserProfilePic = async (userId, image) => {
     const formData = new FormData();
     formData.append('file', {
         uri: image.path,
         type: image.mime,
-        name: image.path.split('/').pop()
+        name: 'avatar.jpg'
     });
 
     try {
-        const response = await makeApiRequest2('POST', `/user/${userId}/update-avatar`, formData);
+        const response = await makeApiRequest2('POST', `/user/${userId}/update-avatar`, image, {
+            'Content-Type': 'multipart/form-data'
+        });
         return response;
     } catch (error) {
         const { response } = error;

@@ -161,7 +161,7 @@ const Notification = () => {
                 <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1 }} />
             </TouchableOpacity>
             <Text style={{ fontSize: SIZES.h1 * 0.9, color: COLORS.primary, fontWeight: 'bold' }}>Notification</Text>
-            <Text style={{ color: COLORS.black, fontSize: SIZES.body3a, fontFamily: 'Roboto-Medium' }}>You have <Text style={{ color: COLORS.orange }}>4 notifications</Text> today.</Text>
+            <Text style={{ color: COLORS.black, fontSize: SIZES.body3a, fontFamily: 'Roboto-Medium' }}>You have <Text style={{ color: COLORS.orange }}>0 notifications</Text> today.</Text>
             {/* LIST  */}
             <View style={{}}>
                 <FlatList
@@ -181,10 +181,11 @@ const Notification = () => {
                 <Text style={{ ...FONTS.body2, fontWeight: 'bold', color: COLORS.primary }}>Today</Text>
                 <FlatList
                     data={notificationData1}
-                    renderItem={({ item }) => <NotificationDraft data={item} />}
+                // renderItem={({ item }) => <NotificationDraft data={item} />}
                 />
+                <Text style={{ ...FONTS.body3, color: COLORS.black }}>You have 0 notification.</Text>
             </ScrollView>
-        </View >
+        </View>
     )
 }
 

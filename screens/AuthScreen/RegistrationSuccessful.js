@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 const RegistrationSuccessful = () => {
     const navigation = useNavigation();
     const handleSubmit = () => {
-        navigation.replace("Bottom");
+        navigation.navigate("Bottom");
 
     }
     return (
@@ -16,7 +16,7 @@ const RegistrationSuccessful = () => {
                 <Text style={{ maxWidth: '80%', ...FONTS.body3, color: COLORS.primary, alignSelf: 'center', textAlign: 'center', marginTop: SIZES.h2, }}>Congratulation! Your account is registered in this application.</Text>
             </View>
             <TouchableOpacity onPress={handleSubmit} style={styles.btnCtn}>
-                <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Thank You</Text>
+                <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Continue</Text>
             </TouchableOpacity>
         </View>
     )

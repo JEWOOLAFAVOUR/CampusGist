@@ -65,34 +65,34 @@ const CommentSection = ({ data }) => {
     const getImage = (uri) => {
         if (uri) return { uri };
 
-        return images.image2
+        return images.avatar;
     }
 
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => getUserClick(userId)} style={styles.imageCtn}>
-                <Image source={getImage(avatar)} style={{ height: SIZES.h1 * 1.8, width: SIZES.h1 * 1.8, borderRadius: 100 }} />
+                <Image source={getImage(avatar)} style={{ resizeMode: 'contain', height: SIZES.h1 * 1.5, width: SIZES.h1 * 1.5, borderRadius: 100 }} />
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-start' }}>
                 <View style={{ flex: 1, marginLeft: SIZES.h5 }}>
                     {/* <TouchableOpacity onPress={() => navigation.navigate('ProfilePage')}> */}
-                    {/* <TouchableOpacity style={{}} onPress={() => getUserClick(userId)}> */}
-                    <Text style={{ ...FONTS.body4, color: COLORS.black, fontWeight: '700' }}>{data?.user_id?.username}</Text>
-                    {/* </TouchableOpacity> */}
+                    <TouchableOpacity style={{}} onPress={() => getUserClick(userId)}>
+                        <Text style={{ ...FONTS.body4, color: COLORS.black, fontWeight: '700' }}>{data?.user_id?.username}</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => setSeeMore(!seeMore)}>
                         <Text numberOfLines={seeMore ? 0 : 2} style={{ ...FONTS.body3a, color: COLORS.black, fontWeight: '600' }}>{data?.comment}</Text>
                     </TouchableOpacity>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base * 0.8, }}>
                         <Text style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}>{formattedTime}</Text>
                         <TouchableOpacity style={styles.replyCtn}>
                             <Text style={{ color: COLORS.black }}>Reply</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity onPress={() => setLoveRec(loveRec + 1) & setClick(!click)} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {/* <TouchableOpacity onPress={() => setLoveRec(loveRec + 1) & setClick(!click)} style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ ...FONTS.body3, color: COLORS.black, marginRight: SIZES.base * 0.9, fontWeight: 'bold' }}>{loveRec}</Text>
                     <Image source={click ? icons.love1 : icons.love2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.orange }} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZES.width * 0.05
     },
     imageCtn: {
-        height: SIZES.h1 * 1.8,
-        width: SIZES.h1 * 1.8,
+        height: SIZES.h1 * 1.5,
+        width: SIZES.h1 * 1.5,
         borderWidth: 1,
         borderRadius: 100,
         justifyContent: 'center',

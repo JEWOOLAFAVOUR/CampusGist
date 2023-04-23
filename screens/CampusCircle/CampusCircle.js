@@ -92,6 +92,7 @@ const CampusCircle = () => {
             setLoad(false); // Set the loader to be visible
             setLoad(true); // Set the loader to be visible
             const { error, restaurant, success } = await getRestaurantById(postId);
+
             // console.log('single-restaurant', restaurant);
             console.log('single-restaurant', restaurant);
             if (success === true) {
@@ -114,9 +115,10 @@ const CampusCircle = () => {
         try {
             setM(true)
             const response = await getMarketById(marketId)
-            console.log('single market data', response)
+            // console.log('single market data', response)
+            console.log('lllllllllllllllll', response)
             setM(false)
-            if (success === true) {
+            if (response?.success === true) {
                 navigation.navigate('MarketDetail', { response })
             } else {
                 ToastAndroid.show("Check Internet Connectivity!", ToastAndroid.SHORT);
@@ -124,7 +126,6 @@ const CampusCircle = () => {
         } catch (err) {
             console.log('fetch-mark-id erro', err)
         }
-
     }
 
 

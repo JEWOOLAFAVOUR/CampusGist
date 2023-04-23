@@ -8,7 +8,6 @@ import { color } from 'react-native-reanimated';
 import { likeMenuItem } from '../../api/campuscircle';
 import { connect } from 'react-redux'
 
-
 const RestaurantDetail = ({ route, ...props }) => {
     console.log('hhhhhhhhhhhhhh', route.params?.restaurant?.menu)
     const menuLike = route.params?.restaurant?.menu
@@ -33,7 +32,6 @@ const RestaurantDetail = ({ route, ...props }) => {
 
         return images.restaurant2
     }
-
     const favouritesFoodData = [
         {
             id: 1,
@@ -174,10 +172,10 @@ const RestaurantDetail = ({ route, ...props }) => {
                                 </View>
                                 <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>₦{item.price}</Text>
                             </View>
-                            <TouchableOpacity onPress={() => handleToogle(restaurantId, hello = item._id, accessToken)} style={{ alignItems: 'center', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
+                            {/* <TouchableOpacity onPress={() => handleToogle(restaurantId, hello = item._id, accessToken)} style={{ alignItems: 'center', marginTop: SIZES.base * 1.6, marginLeft: SIZES.base }}>
                                 <Text style={{ ...FONTS.body3, color: COLORS.black }}>{item.likeCount}</Text>
                                 <Image source={select ? icons.love2 : icons.love1} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: select ? COLORS.red : COLORS.black }} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
                     )
 

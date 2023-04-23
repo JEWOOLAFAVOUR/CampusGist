@@ -48,8 +48,8 @@ const Setting = ({ ...props }) => {
             id: 3,
             title: 'Notification',
             iconName: icons.bell,
-            // onPress: () => navigation.navigate('SNotification'),
-            onPress: () => { },
+            onPress: () => navigation.navigate('Test'),
+            // onPress: () => { },
             // onPress: Notification,
         }, {
             id: 4,
@@ -79,11 +79,16 @@ const Setting = ({ ...props }) => {
         setIsModalVisible(false);
         clearInterval(intervalId);
     };
+    const getImage = (uri) => {
+        if (uri) return { uri };
+
+        return images.avatar
+    }
     const _renderHeader = () => {
         return (
             <View style={styles.container}>
                 <View style={styles.imageRadius}>
-                    <Image source={images.profile2} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
+                    <Image source={getImage(data?.avatar?.url)} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                 </View>
                 <View style={{ marginLeft: SIZES.h3 }}>
                     <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data?.firstName} ${data?.lastName} `}</Text>

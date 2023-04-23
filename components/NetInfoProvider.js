@@ -3,6 +3,7 @@ import { View, Text, ToastAndroid } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Modal from 'react-native-modal';
 import Toast from './Toast';
+import { COLORS, FONTS } from '../constants';
 
 const NetInfoProvider = () => {
     const [isConnected, setIsConnected] = useState(true);
@@ -45,8 +46,8 @@ const NetInfoProvider = () => {
             ) : (
                 <Modal isVisible={isModalVisible} onBackdropPress={closeModal}>
                     <View style={{ backgroundColor: 'white', padding: 20 }}>
-                        <Text style={{ marginBottom: 10 }}>No internet connection</Text>
-                        <Text>Please check your internet connection and try again.</Text>
+                        <Text style={{ marginBottom: 10, ...FONTS.h3, color: COLORS.black }}>No internet connection</Text>
+                        <Text style={{ ...FONTS.body4, color: COLORS.black }}>Please check your internet connection and try again.</Text>
                     </View>
                 </Modal>
             )}

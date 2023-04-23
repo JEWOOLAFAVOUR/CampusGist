@@ -1,3 +1,4 @@
+export const avatar = require('../assets/images/avatar.png');
 export const electronics = require('../assets/images/electronics.jpg');
 export const fashion = require('../assets/images/fashion.jpg');
 export const hostel = require('../assets/images/hostel.jpg');
@@ -33,6 +34,7 @@ export const successful = require('../assets/images/successful.jpg');
 
 
 export default {
+    avatar,
     electronics,
     fashion,
     hostel,

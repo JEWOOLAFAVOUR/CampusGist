@@ -6,42 +6,42 @@ import Modal from 'react-native-modal';
 
 const WelcomeScreen = () => {
     const navigation = useNavigation();
-    useEffect(() => {
-        const backAction = () => {
-            Alert.alert(
-                'Exit App',
-                'Do you want to exit the app?',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => null,
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'Exit',
-                        onPress: () => BackHandler.exitApp()
-                    }
-                ],
-                { cancelable: false }
-            );
-            return true;
-        };
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         Alert.alert(
+    //             'Exit App',
+    //             'Do you want to exit the app?',
+    //             [
+    //                 {
+    //                     text: 'Cancel',
+    //                     onPress: () => null,
+    //                     style: 'cancel'
+    //                 },
+    //                 {
+    //                     text: 'Exit',
+    //                     onPress: () => BackHandler.exitApp()
+    //                 }
+    //             ],
+    //             { cancelable: false }
+    //         );
+    //         return true;
+    //     };
 
-        const removeListener = navigation.addListener('beforeRemove', (e) => {
-            e.preventDefault();
-            backAction();
-        });
+    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
+    //         e.preventDefault();
+    //         backAction();
+    //     });
 
-        const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
-            () => {
-                navigation.goBack();
-                return true;
-            }
-        );
+    //     const backHandler = BackHandler.addEventListener(
+    //         'hardwareBackPress',
+    //         () => {
+    //             navigation.goBack();
+    //             return true;
+    //         }
+    //     );
 
-        return () => backHandler.remove();
-    }, [navigation]);
+    //     return () => backHandler.remove();
+    // }, [navigation]);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -64,7 +64,7 @@ const WelcomeScreen = () => {
             <Image source={images.pic4} style={{ height: SIZES.height * 0.5, width: SIZES.width * 1, }} />
             {/* SECOND PART */}
             <View style={{ marginTop: SIZES.h1 * 1.5, flex: 1 }}>
-                <Text style={{ ...FONTS.navTitle, color: COLORS.primary, textAlign: 'center', marginBottom: SIZES.base / 2 }}>Welcome!</Text>
+                <Text style={{ ...FONTS.navTitle, color: COLORS.primary, textAlign: 'center', marginBottom: SIZES.base / 1.8 }}>Welcome!</Text>
                 <Text style={{ ...FONTS.body3a, color: COLORS.primary, textAlign: 'center' }}>You are only a few steps away from Gist</Text>
             </View>
             <View style={{ marginBottom: SIZES.h4 }}>

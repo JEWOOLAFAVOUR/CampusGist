@@ -8,10 +8,11 @@ import dateFormat from 'dateformat'
 import { connect } from 'react-redux'
 import PostList from './PostList'
 import { getCampusesPosts } from '../../api/post2'
+import GoBack from '../../components/GoBack'
 
 
 let pageNo = 0;
-const limit = 5;
+const limit = 7;
 
 const Campuses = ({ ...props }) => {
     const { accessToken, user } = props;
@@ -55,24 +56,27 @@ const Campuses = ({ ...props }) => {
     const navigation = useNavigation();
 
     return (
-        <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
-            {/* <Slider /> */}
-            <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
-                <FlatList
-                    // ListHeaderComponent={Slider}
-                    keyExtractor={(item) => item.id}
-                    ListHeaderComponentStyle={{ marginBottom: SIZES.h5 }}
-                    showsVerticalScrollIndicator={false}
-                    data={latestPost}
-                    // renderItem={({ item }) => <RenderItem data={item} />}
-                    renderItem={({ item }) => <PostList data={item} />}
-                    onEndReached={async () => await fetchMorePosts()}
-                    onEndReachedThreshold={1}
-                    ListFooterComponent={() => {
-                        return reachedEnd ? <Text style={{ color: COLORS.orange, textAlign: 'center', paddingVertical: 50 }}>You reached to end!</Text> : null
-                    }}
-                />
+        <View style={styles.page}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <GoBack />
+                <Text style={{ marginLeft: SIZES.h1, ...FONTS.h1, color: COLORS.primary }}><Text style={{ color: COLORS.orange }}>CG </Text>Campus</Text>
             </View>
+            <View style={{ marginBottom: SIZES.base * 0.8 }} />
+            <FlatList
+                // ListHeaderComponent={Slider}
+                keyExtractor={(item) => item.id}
+                ListHeaderComponentStyle={{ marginBottom: SIZES.h5 }}
+                ListHeaderComponent={<Text numberOfLines={3} style={{ ...FONTS.body3, color: COLORS.black, marginVertical: SIZES.base }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text>}
+                showsVerticalScrollIndicator={false}
+                data={latestPost}
+                // renderItem={({ item }) => <RenderItem data={item} />}
+                renderItem={({ item }) => <PostList data={item} />}
+                onEndReached={async () => await fetchMorePosts()}
+                onEndReachedThreshold={1}
+                ListFooterComponent={() => {
+                    return reachedEnd ? <Text style={{ color: COLORS.orange, textAlign: 'center', paddingVertical: 50 }}>You reached to end!</Text> : null
+                }}
+            />
         </View>
     )
 }
@@ -102,5 +106,11 @@ const styles = StyleSheet.create({
         // justifyContent: 'center'
         // alignItems: 'center',
 
-    }
+    },
+    page: {
+        flex: 1,
+        backgroundColor: COLORS.white,
+        paddingTop: SIZES.h5,
+        paddingHorizontal: SIZES.width * 0.05
+    },
 })

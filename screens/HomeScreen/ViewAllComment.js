@@ -14,8 +14,8 @@ const ViewAllComment = ({ navigation, route }) => {
         return (
             <View style={{ marginBottom: SIZES.h1, paddingHorizontal: SIZES.width * 0.05, }}>
 
-                <Text style={{ ...FONTS.body1, color: COLORS.primary, fontWeight: 'bold' }}>Comments</Text>
-                <Text style={{ ...FONTS.body3b, color: COLORS.orange }}>26 Comments</Text>
+                <Text style={{ ...FONTS.body1, color: COLORS.primary, fontWeight: 'bold', textDecorationLine: 'underline' }}>Comments</Text>
+                {/* <Text style={{ ...FONTS.body3b, color: COLORS.orange }}>26 Comments</Text> */}
             </View>
         )
     }

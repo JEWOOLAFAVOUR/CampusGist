@@ -21,6 +21,9 @@ import ViewAllComment from '../HomeScreen/ViewAllComment';
 import ProfilePage from '../HomeScreen/ProfilePage';
 import MarketDetail from '../CampusCircle/MarketDetail';
 import MarketMore from '../CampusCircle/MarketMore';
+import HomeStack from '../HomeScreen/HomeStack';
+import Technology from '../HomeScreen/Technology';
+import Campuses from '../HomeScreen/Campuses';
 
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
@@ -42,12 +45,19 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="PostDetail" component={PostDetail} />
       <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
       <Stack.Screen name="ProfilePage" component={ProfilePage} />
+      <Stack.Screen name='Technology' component={Technology} />
+      <Stack.Screen name='Campuses' component={Campuses} />
       {/* home  */}
       <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
       {/* campus circle  */}
       <Stack.Screen name="MarketDetail" component={MarketDetail} />
       <Stack.Screen name="MarketMore" component={MarketMore} />
+
+
+      {/* jjjj */}
+      {/* <Stack.Screen name="HomeStack" component={HomeStack} /> */}
+
     </Stack.Navigator>
   );
 };

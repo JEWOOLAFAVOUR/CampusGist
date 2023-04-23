@@ -7,6 +7,7 @@ import { COLORS, FONTS, icons, SIZES } from '../constants';
 import HomeStack from '../screens/HomeScreen/HomeStack';
 import CampusCircleStack from '../screens/CampusCircle/CampusCircleStack';
 import SettingStack from '../screens/SettingScreen/SettingStack';
+import Home from '../screens/HomeScreen/Home';
 
 const { width, height } = Dimensions.get('window');
 
@@ -57,7 +58,7 @@ const BottomTab = () => {
                     headerShown: false
                 })}
             >
-                <Tab.Screen name='HomeP' component={HomeStack} />
+                <Tab.Screen name='HomeP' component={Home} />
                 <Tab.Screen name='CampusCircleP' component={CampusCircleStack} />
                 <Tab.Screen name='AccountP' component={SettingStack} />
             </Tab.Navigator>

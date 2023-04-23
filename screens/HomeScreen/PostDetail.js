@@ -59,7 +59,7 @@ const PostDetail = ({ route, ...props }) => {
     const getImage = (uri) => {
         if (uri) return { uri };
 
-        return images.image2
+        return images.image6;
     }
 
     if (!post) return null;
@@ -235,7 +235,7 @@ const PostDetail = ({ route, ...props }) => {
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <TouchableOpacity /* onPress={() => navigation.navigate('ProfilePage')} */ style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <View>
-                                                <Image source={images.profile4} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
+                                                <Image source={images.avatar} style={{ width: SIZES.h1, height: SIZES.h1, borderRadius: 100 }} />
                                             </View>
                                             <View onPress={() => navigation.navigate('ProfilePage')}>
                                                 <Text style={{ marginLeft: SIZES.h5, ...FONTS.body3b, color: COLORS.black }}>{item.author}</Text>
@@ -262,7 +262,7 @@ const PostDetail = ({ route, ...props }) => {
 
                                 </View>
                                 <View style={{ marginTop: SIZES.h4, marginBottom: SIZES.h4, }}>
-                                    <Image source={getImage(item.thumbnail)} style={{ height: SIZES.height / 2.9, width: SIZES.width * 0.94 }} />
+                                    <Image source={getImage(item.thumbnail)} style={{ resizeMode: 'cover', height: SIZES.height / 2.9, width: SIZES.width * 0.94 }} />
                                 </View>
 
                                 <Markdown>
@@ -270,16 +270,16 @@ const PostDetail = ({ route, ...props }) => {
                                 </Markdown>
 
                                 {/* TOGGLE LIKE */}
-                                <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
+                                {/* <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
                                     <Image source={icons.thumb} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
                                     <Text style={{ color: COLORS.white, ...FONTS.h3, marginLeft: SIZES.base }}>{likeCount}</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                                 {/* RELATED POST  */}
                                 {/* <RelatedPost postId={post.id} /> */}
                             </View>
 
                             {/* COMMENT SECTION */}
-                            <View style={{ marginBottom: SIZES.h3 }}>
+                            <View style={{ marginBottom: SIZES.h3, marginTop: SIZES.h1 }}>
                                 <View style={{ paddingHorizontal: SIZES.width * 0.05, flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.h4 * 1.3 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
@@ -311,7 +311,7 @@ const PostDetail = ({ route, ...props }) => {
 
                 <View style={styles.commentSection}>
                     <View style={styles.textInputCtn}>
-                        <Image source={getImage(avatar)} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
+                        <Image source={images.avatar} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
                         <TextInput
                             value={comment}
                             onChangeText={value => {

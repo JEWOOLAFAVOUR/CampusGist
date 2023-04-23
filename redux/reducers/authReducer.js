@@ -48,6 +48,7 @@ const authReducer = (state = initialState, action) => {
                     bio: action.payload.bio,
                     gender: action.payload.gender,
                     level: action.payload.level,
+                    avatar: action.payload.avatar,
                 },
             };
         case LOGOUT_USER:

@@ -18,7 +18,7 @@ const ProfilePage = ({ route }) => {
     const getImage = (uri) => {
         if (uri) return { uri };
 
-        return images.image2
+        return images.avatar;
     }
 
     return (
@@ -35,12 +35,9 @@ const ProfilePage = ({ route }) => {
                         <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
                         <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data?.username}</Text>
                     </View>
-                    {/* <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('EditProfile', { data })}>
-                        <Text style={{ color: COLORS.white, ...FONTS.body4 }}>Edit Profile</Text>
-                    </TouchableOpacity> */}
                 </View>
                 <View style={{ marginTop: SIZES.h3, }}>
-                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>{data?.level} Level - {data?.gender}</Text>
+                    <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>{data?.level} - {data?.gender}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         {/* <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text> */}
                         <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>bio - {data.bio}</Text>
