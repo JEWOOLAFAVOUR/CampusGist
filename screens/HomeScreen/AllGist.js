@@ -15,6 +15,7 @@ import reduxStore from '../../redux/store'
 import moment from 'moment'
 import NetInfoProvider from '../../components/NetInfoProvider'
 import NetInfo from '@react-native-community/netinfo';
+import RenderEmpty from '../../components/RenderEmpty'
 
 
 
@@ -37,6 +38,7 @@ const dispatch = useDispatch()
     const [refreshing, setRefreshing] = useState(false);
     const [commentErr, setCommentErr] = useState(false)
 
+    console.log('latest postttttt', latestPost)
     const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
     const [loading, setLoading] = useState(true)
@@ -323,7 +325,7 @@ const fetchLatestPosts = async () => {
             return(
                 <TouchableOpacity onPress={()=>fetchSinglePost(item.slug)}  activeOpacity={0.7} style={styles.latestCtn}>
                     <View>
-                        <Image source={getImage(item.thumbnail)} style={{resizeMode:'contain',height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
+                        <Image source={getImage(item.thumbnail)} style={{height: SIZES.height * 0.23, width: SIZES.width*0.649, borderTopLeftRadius: SIZES.h4, borderTopRightRadius: SIZES.h4}}/>
                         <View style={{position: 'absolute', bottom: 5, flexDirection: 'row', alignItems:'center', paddingHorizontal: SIZES.base}}>
                             <View style={{flexDirection:'row', alignItems: 'center', flex: 1}}>
                                 <View style={{height: SIZES.base, width: SIZES.base, backgroundColor: 'yellow', borderRadius: 100,}}/>
@@ -344,7 +346,7 @@ const fetchLatestPosts = async () => {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     data={featuredPosts}
-                    ListEmptyComponent={_renderEmpty}
+                    ListEmptyComponent={RenderEmpty}
                      renderItem={({item})=> <_renderTemlate item={item}/>}
                 />
                 <Text style={{...FONTS.body2b, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.h5, marginTop: SIZES.base * 0.7, marginBottom: SIZES.base * 0.05}}>Latest Gists</Text>
@@ -358,12 +360,14 @@ const fetchLatestPosts = async () => {
                 id: 1,
                 title: 'Technology',
                 iconName: icons.technology,
-                onPress: () =>navigation.navigate('Technology'),
+                onPress: () =>{},
+                // onPress: () =>navigation.navigate('Technology'),
             },{
                 id: 2,
                 title: 'Entertainment',
                 iconName: icons.entertainment,
-                onPress: () =>navigation.navigate('Entertainment'),
+                onPress: () =>{},
+                // onPress: () =>navigation.navigate('Entertainment'),
             },{
               id: 3,
               title: 'Campus',  
@@ -375,7 +379,8 @@ const fetchLatestPosts = async () => {
                 title: 'Sport',
                 iconName: icons.sport,
                 // test: true,
-                onPress: () =>navigation.navigate('Sport'),
+                onPress: () =>{},
+                // onPress: () =>navigation.navigate('Sport'),
             },{
                 id: 5,
                 title: 'LifeStyle',
@@ -428,7 +433,7 @@ const fetchLatestPosts = async () => {
                     showsVerticalScrollIndicator={false}
                     // data={homePostData}
                     data={latestPost}
-                    ListEmptyComponent={_renderEmpty}
+                    ListEmptyComponent={RenderEmpty}
                     // renderItem={({ item }) => <RenderItem data={item} />}
                         // renderItem={({item})=> <NewsToday data={item}/>}
                     renderItem={({ item }) => <PostList data={item} />}

@@ -23,7 +23,7 @@ const BottomTab = () => {
             <Tab.Navigator
                 // initialRouteName="AccountHome"
                 screenOptions={({ route }) => ({
-                    tabBarShowLabel: true,
+                    tabBarShowLabel: false,
                     tabBarStyle: {
                         ...FONTS.h5,
                     },
@@ -44,8 +44,8 @@ const BottomTab = () => {
                                 colour = focused ? COLORS.orange : COLORS.brown
                         }*/
                         else if (route.name === 'CampusCircleP') {
-                            iconName = focused ? icons.about : icons.about
-                            size = focused ? SIZES.h1 : SIZES.h1,
+                            iconName = focused ? icons.circle : icons.circle
+                            size = focused ? SIZES.h1 * 1 : SIZES.h1 * 1,
                                 colour = focused ? COLORS.orange : COLORS.brown
                         }
                         else if (route.name === 'AccountP') {

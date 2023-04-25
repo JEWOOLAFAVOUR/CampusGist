@@ -162,7 +162,7 @@ const PostList = ({ data, ...props }) => {
                     <Text style={{ ...FONTS.body5, color: COLORS.orange }}>Following</Text>
                 </TouchableOpacity> */}
                 <View style={{ justifyContent: 'center', marginLeft: SIZES.base * 1.1, borderWidth: 1, borderRadius: SIZES.h4 * 0.9, borderColor: COLORS.chocolateBackground }}>
-                    <Image source={getThumbnail(data.thumbnail)} style={{ resizeMode: 'contain', height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
+                    <Image source={getThumbnail(data.thumbnail)} style={{ height: SIZES.h1 * 2.7, width: SIZES.h1 * 3.4, borderRadius: SIZES.h4 * 0.9 }} />
                 </View>
             </View>
         </TouchableOpacity>

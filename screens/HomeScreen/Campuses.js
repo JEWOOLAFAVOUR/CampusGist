@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { COLORS, SIZES, images, icons, FONTS } from '../../constants'
 import Slider from './Slider'
@@ -9,21 +9,27 @@ import { connect } from 'react-redux'
 import PostList from './PostList'
 import { getCampusesPosts } from '../../api/post2'
 import GoBack from '../../components/GoBack'
+import Roller from '../../components/Roller'
+import RenderEmpty from '../../components/RenderEmpty'
 
 
 let pageNo = 0;
-const limit = 7;
+const limit = 15;
 
-const Campuses = ({ ...props }) => {
-    const { accessToken, user } = props;
+const Campuses = () => {
     const [featuredPosts, setFeaturedPosts] = useState([])
     const [latestPost, setLatestPost] = useState([])
     const [reachedEnd, setReachedEnd] = useState(false)
-    const [busy, setBusy] = useState(false)
+    const [busy, setBusy] = useState(false);
+    const [load, setLoad] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+
 
     const fetchLatestPosts = async () => {
+        setLoad(true)
         const { error, posts } = await getCampusesPosts(limit, pageNo);
-        console.log('this is latest post', posts)
+        setLoad(false)
+        console.log('this is campus post', posts)
         if (error) return console.log(error)
 
         // console.log('post', posts)
@@ -45,18 +51,40 @@ const Campuses = ({ ...props }) => {
         setLatestPost([...latestPost, ...posts])
     }
 
-    const handlePostPress = (post) => {
-        navigation.navigate('PostDetail', {})
-    }
+    useEffect(() => {
+        const fetchAllData = async () => {
+            try {
+                setLoad(true); // Set the loader to be visible
+                await Promise.all([
+                    fetchLatestPosts(),
+                ]);
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+            } finally {
+                setTimeout(() => {
+                    setLoad(false); // Set the loader to be hidden after 2 seconds
+                }, 5000);
+            }
+        };
+        fetchAllData();
+    }, []);
+
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        await fetchLatestPosts();
+        setRefreshing(false);
+    };
 
     useEffect(() => {
-        fetchLatestPosts()
-    }, [])
-
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchLatestPosts();
+        });
+        return unsubscribe;
+    }, [navigation]);
     const navigation = useNavigation();
-
     return (
         <View style={styles.page}>
+            {load ? <Roller visible={true} /> : null}
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <GoBack />
                 <Text style={{ marginLeft: SIZES.h1, ...FONTS.h1, color: COLORS.primary }}><Text style={{ color: COLORS.orange }}>CG </Text>Campus</Text>
@@ -66,16 +94,24 @@ const Campuses = ({ ...props }) => {
                 // ListHeaderComponent={Slider}
                 keyExtractor={(item) => item.id}
                 ListHeaderComponentStyle={{ marginBottom: SIZES.h5 }}
-                ListHeaderComponent={<Text numberOfLines={3} style={{ ...FONTS.body3, color: COLORS.black, marginVertical: SIZES.base }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text>}
+                ListHeaderComponent={<Text numberOfLines={3} style={{ ...FONTS.body3, color: COLORS.black, marginVertical: SIZES.base }}>Campus -- See all what is happening in several campuses</Text>}
                 showsVerticalScrollIndicator={false}
+                ListEmptyComponent={RenderEmpty}
                 data={latestPost}
                 // renderItem={({ item }) => <RenderItem data={item} />}
                 renderItem={({ item }) => <PostList data={item} />}
-                onEndReached={async () => await fetchMorePosts()}
-                onEndReachedThreshold={1}
+                // onEndReached={async () => await fetchMorePosts()}
+                // onEndReachedThreshold={1}
                 ListFooterComponent={() => {
                     return reachedEnd ? <Text style={{ color: COLORS.orange, textAlign: 'center', paddingVertical: 50 }}>You reached to end!</Text> : null
                 }}
+                refreshControl={
+                    <RefreshControl
+                        colors={[COLORS.primary, COLORS.blue]}
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                    />
+                }
             />
         </View>
     )

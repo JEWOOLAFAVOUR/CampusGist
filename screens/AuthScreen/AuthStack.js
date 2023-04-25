@@ -24,6 +24,7 @@ import MarketMore from '../CampusCircle/MarketMore';
 import HomeStack from '../HomeScreen/HomeStack';
 import Technology from '../HomeScreen/Technology';
 import Campuses from '../HomeScreen/Campuses';
+import Notification from '../HomeScreen/Notification';
 
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
@@ -47,6 +48,7 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="ProfilePage" component={ProfilePage} />
       <Stack.Screen name='Technology' component={Technology} />
       <Stack.Screen name='Campuses' component={Campuses} />
+      <Stack.Screen name='Notification' component={Notification} />
       {/* home  */}
       <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />

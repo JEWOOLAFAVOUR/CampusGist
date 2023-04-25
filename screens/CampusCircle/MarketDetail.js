@@ -57,7 +57,11 @@ const MarketDetail = ({ route }) => {
     }
 
 
+    const getThumbnail = (uri) => {
+        if (uri) return { uri }
 
+        return images.image6
+    }
     return (
         <View style={styles.page}>
             {/* HEADER SECTION  */}
@@ -69,17 +73,17 @@ const MarketDetail = ({ route }) => {
             </View>
             {/* HEADER END */}
             <ScrollView style={styles.page}>
-                <ScrollView horizontal={true}>
+                {/* <ScrollView horizontal={true}>
                     {
                         image.map((data, index) => {
-                            return (
-                                <View key={index} style={{ height: SIZES.height * 0.4, width: SIZES.width * 0.9, borderWidth: 1, borderColor: COLORS.chocolateBackground, marginRight: SIZES.base }}>
-                                    <Image source={data.marketImg} style={{ height: SIZES.height * 0.4, width: SIZES.width * 0.9, }} />
-                                </View>
-                            )
+                            return ( */}
+                <View style={{ height: SIZES.height * 0.4, width: SIZES.width * 0.9, borderWidth: 1, borderColor: COLORS.chocolateBackground, marginRight: SIZES.base }}>
+                    <Image source={getThumbnail(data?.pictures?.url)} style={{ height: SIZES.height * 0.4, width: SIZES.width * 0.9, }} />
+                </View>
+                {/* )
                         })
                     }
-                </ScrollView>
+                </ScrollView> */}
                 <View style={{ marginTop: SIZES.base, paddingHorizontal: SIZES.width * 0.03 }}>
                     <TouchableOpacity onPress={() => setMore(!more)}>
                         <Text numberOfLines={more ? 4 : 3} style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.black }}>{data.title}</Text>

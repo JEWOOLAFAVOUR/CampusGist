@@ -8,6 +8,7 @@ import { SliderBox } from 'react-native-image-slider-box';
 import Slide from './Slide'
 import { getAllMarket, getAllRestaurant, getMarketById, getRestaurantById } from '../../api/campuscircle'
 import Roller from '../../components/Roller'
+import RenderEmpty from '../../components/RenderEmpty'
 
 let pageNo = 0;
 const limit = 10;
@@ -193,7 +194,7 @@ const CampusCircle = () => {
                         data={restaurant.slice(0, 10)}
                         showsHorizontalScrollIndicator={false}
                         horizontal
-                        ListEmptyComponent={_renderEmpty}
+                        ListEmptyComponent={RenderEmpty}
                         renderItem={({ item }) => {
                             return (
                                 <TouchableOpacity onPress={() => fetchRestaurantById(item.id)} key={item.id} style={styles.hotCtn}>
@@ -239,7 +240,7 @@ const CampusCircle = () => {
                     // data={oldMarketData.slice(1, 11)}
                     data={market}
                     numColumns={2}
-                    ListEmptyComponent={_renderEmpty}
+                    ListEmptyComponent={RenderEmpty}
                     columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                     renderItem={({ item }) => {
                         return (

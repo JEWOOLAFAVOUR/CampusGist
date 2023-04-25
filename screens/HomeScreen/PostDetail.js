@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList, Platform, Keyboard } from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput, FlatList, Platform, Keyboard, ActivityIndicator } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { COLORS, FONTS, icons, images, SIZES } from '../../constants';
@@ -20,6 +20,7 @@ import { handleLike, handleUnlike } from '../../api/post';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from '../../components/Toast';
 import NetInfoProvider from '../../components/NetInfoProvider';
+import { styless } from './cool';
 
 const copy = `# h1 Heading 8-)
  
@@ -73,6 +74,7 @@ const PostDetail = ({ route, ...props }) => {
     const [pop, setPop] = useState(false)
     const [commentErr, setCommentErr] = useState(false)
     const [p, setP] = useState(false)
+    const [processing, setProcessing] = useState(false)
 
 
     // const handleSubmit = async (postId) => {
@@ -142,6 +144,7 @@ const PostDetail = ({ route, ...props }) => {
     };
 
     const handleSubmit = withNetworkCheck(async (postId) => {
+        setProcessing(true)
         console.log('submitted comment', comment);
         if (comment.trim() === '') {
             setSelect(false);
@@ -157,6 +160,7 @@ const PostDetail = ({ route, ...props }) => {
             setCommentErr(false);
             setCommentErr(true);
         }
+        setProcessing(false)
     });
 
 
@@ -265,9 +269,10 @@ const PostDetail = ({ route, ...props }) => {
                                     <Image source={getImage(item.thumbnail)} style={{ resizeMode: 'cover', height: SIZES.height / 2.9, width: SIZES.width * 0.94 }} />
                                 </View>
 
-                                <Markdown>
+                                <Markdown style={{ ...styless, paragraph: { marginTop: 0, marginBottom: 0 }, text: { fontFamily: 'Roboto-Regular', color: COLORS.grey, lineHeight: SIZES.h1, } }}>
                                     {item.content}
                                 </Markdown>
+
 
                                 {/* TOGGLE LIKE */}
                                 {/* <TouchableOpacity onPress={() => handleToggle(postId)} style={styles.tooglelikeCtn}>
@@ -330,16 +335,43 @@ const PostDetail = ({ route, ...props }) => {
 
                     </View>
                     <View>
-                        {pop ?
-                            <TouchableOpacity onPress={() => handleSubmit(postId)} style={styles.sendBox}>
-                                <Image source={icons.send2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.white }} />
-                            </TouchableOpacity>
-                            :
+                        {processing ? (
                             <View style={[styles.sendBox, { backgroundColor: COLORS.chocolate }]}>
-                                <Image source={icons.send2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.white }} />
+                                <ActivityIndicator color={COLORS.white} size={SIZES.h1 * 0.9} />
                             </View>
-                        }
+                        ) : (
+                            <View>
+                                {
+                                    pop ?
+                                        <TouchableOpacity
+                                            onPress={() => handleSubmit(postId)}
+                                            style={[styles.sendBox,]}
+                                        // disabled={!commentText} // Disable the button if the comment input is empty
+                                        >
+                                            <Image source={icons.send2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.white }} />
+                                        </TouchableOpacity>
+                                        :
+                                        <View
+                                            // onPress={() => handleSubmit(postId)}
+                                            style={[styles.sendBox, { backgroundColor: COLORS.chocolate }]}
+                                        // disabled={!commentText} // Disable the button if the comment input is empty
+                                        >
+                                            <Image source={icons.send2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.white }} />
+                                        </View>
+
+
+                                }
+                            </View>
+                        )}
                     </View>
+                    {/* Note that I added the disabled prop to the TouchableOpacity component to disable the button if the comment input is empty. You may want to modify this behavior depending on your requirements. */}
+
+
+
+
+
+
+
                 </View>
             </View>
         </View>
