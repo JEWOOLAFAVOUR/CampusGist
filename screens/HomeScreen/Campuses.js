@@ -34,7 +34,7 @@ const Campuses = () => {
 
         // console.log('post', posts)
 
-        setLatestPost(posts)
+        setLatestPost(posts.slice(0, 25))
     }
 
     const fetchMorePosts = async () => {
@@ -94,7 +94,7 @@ const Campuses = () => {
                 // ListHeaderComponent={Slider}
                 keyExtractor={(item) => item.id}
                 ListHeaderComponentStyle={{ marginBottom: SIZES.h5 }}
-                ListHeaderComponent={<Text numberOfLines={3} style={{ ...FONTS.body3, color: COLORS.black, marginVertical: SIZES.base }}>Campus -- See all what is happening in several campuses</Text>}
+                ListHeaderComponent={<Text numberOfLines={3} style={{ ...FONTS.body3, color: COLORS.black, marginVertical: SIZES.base }}>Campus -- See all what is happening in several campuses.</Text>}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={RenderEmpty}
                 data={latestPost}

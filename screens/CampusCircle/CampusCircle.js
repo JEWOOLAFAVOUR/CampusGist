@@ -191,7 +191,7 @@ const CampusCircle = () => {
                 <View style={{ marginLeft: SIZES.h5 * 1.2 }}>
                     <FlatList
                         // data={hotFoodData}
-                        data={restaurant.slice(0, 10)}
+                        data={restaurant.slice(0, 6)}
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         ListEmptyComponent={RenderEmpty}
@@ -213,7 +213,7 @@ const CampusCircle = () => {
                                                 <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: COLORS.orange }} />
                                                 <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: COLORS.orange }} />
                                             </View>
-                                            <Text style={{ color: COLORS.black, ...FONTS.body4, marginLeft: SIZES.base }}>32 Reviews</Text>
+                                            <Text style={{ color: COLORS.black, ...FONTS.body4, marginLeft: SIZES.base }}>0 Reviews</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>

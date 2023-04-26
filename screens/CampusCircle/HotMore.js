@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { getPopularFood, getRecommendedFood } from '../../api/campuscircle';
 import Roller from '../../components/Roller';
+import RenderEmpty from '../../components/RenderEmpty';
 
 
 const HotMore = ({ navigation }) => {
@@ -104,7 +105,10 @@ const HotMore = ({ navigation }) => {
     }
     const RenderTemplate = ({ item }) => {
         return (
-            <View style={{ marginRight: 10, borderColor: COLORS.chocolateBackground, borderWidth: 1, borderRadius: SIZES.base * 0.9 }}>
+            <View style={{
+                marginRight: 10, borderColor: COLORS.chocolateBackground, borderWidth: 1, borderRadius: SIZES.base * 0.9,
+                width: SIZES.width * 0.805
+            }}>
                 <View>
                     <Image source={getThumbnail(item.thumbnail)} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.8, borderRadius: SIZES.base }} />
                     <View style={{ position: 'absolute', left: SIZES.base, top: SIZES.base * 0.8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -123,11 +127,11 @@ const HotMore = ({ navigation }) => {
                 </View>
                 {/* FIRST FLEX  */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base, justifyContent: 'space-between' }}>
-                    <Text style={{ color: COLORS.black, ...FONTS.body3b, fontWeight: 'bold' }}>{item.menuName}</Text>
+                    <Text numberOfLines={1} style={{ maxWidth: '80%', color: COLORS.black, ...FONTS.body3b, fontWeight: 'bold' }}>{item.menuName}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image source={icons.star} style={{ height: SIZES.h5, width: SIZES.h5, tintColor: 'green', marginRight: SIZES.base * 0.3 }} />
                         <Text style={{ color: COLORS.black, ...FONTS.body4, fontWeight: 'bold' }}>4.7</Text>
-                        <Text style={{ color: COLORS.black, ...FONTS.body4 }}>(190)</Text>
+                        <Text style={{ color: COLORS.black, ...FONTS.body4 }}>(0)</Text>
                     </View>
                 </View>
                 {/* SECOND FLEX  */}
@@ -163,7 +167,7 @@ const HotMore = ({ navigation }) => {
                 {/* RECOMMENDED FOOD LIST  */}
                 <FlatList
                     horizontal
-                    ListEmptyComponent={_renderEmpty}
+                    ListEmptyComponent={RenderEmpty}
                     showsHorizontalScrollIndicator={false}
                     data={recommend}
                     renderItem={({ item }) => <RenderTemplate item={item} />}
@@ -177,7 +181,7 @@ const HotMore = ({ navigation }) => {
                 </View >
                 <FlatList
                     horizontal
-                    ListEmptyComponent={_renderEmpty}
+                    ListEmptyComponent={RenderEmpty}
                     showsHorizontalScrollIndicator={false}
                     data={popular}
                     // data={trendingData}

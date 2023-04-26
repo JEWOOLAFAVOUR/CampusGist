@@ -60,7 +60,7 @@ const ProfilePage = ({ route }) => {
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <Image source={icons.star} style={{ height: SIZES.h2 * 0.7, width: SIZES.h2 * 0.7 }} />
-                            <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>{data.rank}kk</Text>
+                            <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>{data.rank}</Text>
                         </View>
                     </View>
                 </View>

@@ -27,6 +27,7 @@ export const horizontalmenu = require('../assets/icons/horizontalmenu.png')
 export const key = require('../assets/icons/key.png')
 export const lifestyle = require('../assets/icons/lifestyle.png')
 export const location = require('../assets/icons/location.png')
+export const loader1 = require('../assets/icons/loader1.png')
 export const logout = require('../assets/icons/logout.png')
 export const love = require('../assets/icons/love.png')
 export const love1 = require('../assets/icons/love1.png')
@@ -78,6 +79,7 @@ export default {
     horizontalmenu,
     key,
     lifestyle,
+    loader1,
     location,
     logout,
     love,

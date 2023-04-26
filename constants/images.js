@@ -7,6 +7,7 @@ export const image2 = require('../assets/images/image2.jpg');
 export const image5 = require('../assets/images/image5.jpg');
 export const image6 = require('../assets/images/image6.jpg');
 export const image8 = require('../assets/images/image8.jpg');
+export const map = require('../assets/images/map.png');
 export const otp = require('../assets/images/otp.jpg');
 export const pic1 = require('../assets/images/pic1.jpg');
 export const pic2 = require('../assets/images/pic2.jpg');
@@ -43,6 +44,7 @@ export default {
     image5,
     image6,
     image8,
+    map,
     otp,
     pic1,
     pic2,

@@ -150,6 +150,7 @@ const PostDetail = ({ route, ...props }) => {
             setSelect(false);
         }
         const response = await addComment(postId, comment);
+        console.log('comment-responseeeeeeeeeeeee', response)
         if (response?.message === 'Comment added successfully') {
             setComment('');
             setPop(false);

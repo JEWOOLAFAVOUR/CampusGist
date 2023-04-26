@@ -100,7 +100,7 @@ const RestaurantDetail = ({ route, ...props }) => {
             <View>
                 <View>
                     <View style={{ borderBottomWidth: 1, borderColor: COLORS.chocolateBackground }}>
-                        <Image source={getImage(data.thumbnail.url)} style={{ height: SIZES.height * 0.29, width: '100%' }} />
+                        <Image source={getImage(data.thumbnail.url)} style={{ resizeMode: 'stretch', height: SIZES.height * 0.35, width: '100%' }} />
                     </View>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 10, top: 20, }}>
                         <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />
@@ -114,13 +114,20 @@ const RestaurantDetail = ({ route, ...props }) => {
                         <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold' }}>({data.name})</Text>
                         <Text style={{ ...FONTS.body2c, color: COLORS.orange, fontWeight: 'bold' }}> - {data?.contact?.phone}</Text>
                     </View>
-                    <View style={{ marginVertical: SIZES.base }}>
+                    <View style={{ marginBottom: SIZES.base * 0.7 }}>
+                        {/* <Text style={{ ...FONTS.body4, color: COLORS.black, fontWeight: 'bold' }}>{data?.contact?.email}</Text> */}
+                        <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.primary, marginBottom: SIZES.base }}>{data?.description}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image source={icons.location} style={{ height: SIZES.h5, width: SIZES.h5, marginRight: SIZES.base * 0.7 }} />
+                            <Text numberOfLines={1} style={{ ...FONTS.body4, color: COLORS.black }}>{data?.location}</Text>
+                        </View>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={icons.star} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.chocolate }} />
+                            <Image source={icons.star} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.orange }} />
+
                             <Text style={{ ...FONTS.body3a, color: COLORS.black, marginLeft: SIZES.base / 2 }}>4.5</Text>
-                            <Text style={{ ...FONTS.body3a, color: COLORS.black, marginLeft: SIZES.base / 2 }}>(370)</Text>
+                            <Text style={{ ...FONTS.body3a, color: COLORS.black, marginLeft: SIZES.base / 2 }}>(0)</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Image source={icons.clock} style={{ marginRight: SIZES.base / 2, height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.chocolate }} />

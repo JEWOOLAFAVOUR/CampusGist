@@ -48,7 +48,7 @@ const Setting = ({ ...props }) => {
             id: 3,
             title: 'Notification',
             iconName: icons.bell,
-            onPress: () => navigation.navigate('Test'),
+            // onPress: () => navigation.navigate('Test'),
             // onPress: () => { },
             // onPress: Notification,
         }, {
@@ -187,10 +187,11 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     modalText: {
-        fontSize: 18,
+        ...FONTS.body3,
         fontWeight: 'bold',
         marginBottom: 20,
-        color: COLORS.black,
+        color: COLORS.orange,
+        textAlign: 'center',
     },
     modalButton: {
         backgroundColor: '#e6e6e6',
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     modalButtonText: {
-        fontSize: 16,
+        ...FONTS.body4,
         fontWeight: 'bold',
         color: '#333',
         textAlign: 'center',

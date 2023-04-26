@@ -102,7 +102,7 @@ const MarketDetail = ({ route }) => {
                     </View>
                     {/* LOCATION  */}
                     <View>
-                        <Image source={images.image2} style={{ height: SIZES.height * 0.12, width: SIZES.width }} />
+                        <Image source={images.map} style={{ height: SIZES.height * 0.12, width: SIZES.width }} />
                         <Text style={{ ...FONTS.body2c, color: COLORS.primary, fontWeight: 'bold', position: 'absolute', bottom: 2, left: SIZES.width * 0.35 }}>{data?.location}</Text>
                     </View>
                     {/* DESCRIPTION SECTION  */}

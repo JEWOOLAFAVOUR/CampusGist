@@ -4,6 +4,7 @@ import { COLORS, SIZES, FONTS, icons, images } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 import { getUserById } from '../../api/auth'
 import moment from 'moment'
+import Roller from '../../components/Roller'
 
 const CommentSection = ({ data }) => {
     console.log('itemcccccccc', data?.user_id)
@@ -19,15 +20,19 @@ const CommentSection = ({ data }) => {
     const [loveRec, setLoveRec] = useState(2)
     const [click, setClick] = useState(false)
     const [seeMore, setSeeMore] = useState(false)
+    const [load, setLoad] = useState(false)
 
     const getUserClick = async (userId) => {
+        setLoad(true)
         console.log('userrrrrrrrr', userId)
         const data = await getUserById(userId)
         console.log('result from user fetch', data)
         if (data.verified === true) {
             navigation.navigate('ProfilePage', { data })
+            setLoad(false)
         } else {
             console.log('hellooo')
+            setLoad(false)
         }
 
     }
@@ -70,6 +75,7 @@ const CommentSection = ({ data }) => {
 
     return (
         <View style={styles.container}>
+            {load ? <Roller visible={true} /> : null}
             <TouchableOpacity onPress={() => getUserClick(userId)} style={styles.imageCtn}>
                 <Image source={getImage(avatar)} style={{ resizeMode: 'contain', height: SIZES.h1 * 1.5, width: SIZES.h1 * 1.5, borderRadius: 100 }} />
             </TouchableOpacity>

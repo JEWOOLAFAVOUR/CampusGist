@@ -38,7 +38,8 @@ const dispatch = useDispatch()
     const [refreshing, setRefreshing] = useState(false);
     const [commentErr, setCommentErr] = useState(false)
 
-    console.log('latest postttttt', latestPost)
+    // console.log('latest postttttt', latestPost)
+    // console.log('featured postttttt', featuredPosts)
     const [load, setLoad] = useState(true);
     // const [load, setLoad] = useState(true);
     const [loading, setLoading] = useState(true)
@@ -116,9 +117,11 @@ const fetchFeaturePost = async () => {
     try {
       const { isConnected } = await NetInfo.fetch();
       const state = reduxStore.getState();
-      const existingPosts = await state.news.featuredPost;
+      const existingPosts = await state.news.featuredPost || [];
       if (!isConnected) {
-        setFeaturedPosts(existingPosts);
+        // Sort the existing posts in descending order based on their creation date
+        existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setFeaturedPosts(existingPosts.slice(0,4));
       } else {
         const featurePostsPromise = getFeaturedPosts();
         const timeoutPromise = new Promise((resolve, reject) => {
@@ -130,39 +133,54 @@ const fetchFeaturePost = async () => {
           featurePostsPromise,
           timeoutPromise
         ]);
+        // console.log('kkkkkkkkkkkkkkkkkkkk', posts)
+
         if (error) {
           console.log('Error fetching featured post: ', error);
           // setFeaturedPosts(existingPosts);
           // Display an error message to the user
         } else {
-          setFeaturedPosts(posts);
+          posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setFeaturedPosts(posts.slice(0,4));
+          // console.log('kkkkkkkkkkkkkkkkkkkk', posts)
+           // Sort the existing posts in descending order based on their creation date
+           existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
           const filteredPosts = posts.filter(
             post => !existingPosts.some(p => p.id === post.id)
           );
           if (filteredPosts.length > 0) {
             const allPosts = [...existingPosts, ...filteredPosts];
+            allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             dispatch(newActions.updateFeaturedPost(allPosts));
           }
         }
       }
     } catch (error) {
       console.error('Error fetching featured post: ', error);
-    }finally{
       const state = reduxStore.getState();
-      const existingPosts = state.news.posts;
+      const existingPosts = state.news.featuredPost;
 
-      setFeaturedPosts(existingPosts);
-    }
+      setFeaturedPosts(existingPosts.slice(0,4));
+    } /* finally{
+      const state = reduxStore.getState();
+      const existingPosts = state.news.featuredPost;
+
+      setFeaturedPosts(existingPosts.slice(0,4));
+    } */
   };
   
 
-const fetchLatestPosts = async () => {
+  const fetchLatestPosts = async () => {
     try {
       const { isConnected } = await NetInfo.fetch();
       const state = reduxStore.getState();
-      const existingPosts = await state.news.posts;
+      const existingPosts = state.news.posts || [];
+  
       if (!isConnected) {
-        setLatestPost(existingPosts);
+        // Sort the existing posts in descending order based on their creation date
+        existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setLatestPost(existingPosts.slice(0,20));
       } else {
         const latestPostsPromise = getLatestPosts(limit, pageNo);
         const timeoutPromise = new Promise((resolve, reject) => {
@@ -170,35 +188,96 @@ const fetchLatestPosts = async () => {
             reject('Request timed out');
           }, 10000);
         });
-        const { error, posts } = await Promise.race([
-          latestPostsPromise,
-          timeoutPromise
-        ]);
+        const { error, posts } = await Promise.race([latestPostsPromise, timeoutPromise]);
         if (error) {
           console.log('Error fetching latest posts: ', error);
           // Display an error message to the user
         } else {
-          setLatestPost(posts);
-          const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+          // Sort the fetched posts in descending order based on their creation date
+          posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setLatestPost(posts.slice(0,25));
+  
+          // Sort the existing posts in descending order based on their creation date
+          existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+          const filteredPosts = posts.filter((post) => !existingPosts.some((p) => p.id === post.id));
+  
           if (filteredPosts.length > 0) {
             const allPosts = [...existingPosts, ...filteredPosts];
+            allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             dispatch(newActions.updatePostDetails(allPosts));
           }
         }
       }
     } catch (error) {
       console.error('Error fetching latest posts: ', error);
-    } finally {
+      const state = reduxStore.getState();
+      const existingPosts = state.news.posts || [];
+      setLatestPost(existingPosts.slice(0,20));
+    }
+  /* finally {
       // Set the latest posts to the existing posts if an error occurs or the request times out
       const state = reduxStore.getState();
       const existingPosts = state.news.posts;
 
       setLatestPost(existingPosts);
-    }
+    } */
   };
   
+// const fetchLatestPosts = async () => {
+//   try {
+//     const { isConnected } = await NetInfo.fetch();
+//     const state = reduxStore.getState();
+//     const existingPosts = await state.news.posts;
+//     if (!isConnected) {
+//       // Sort the existing posts in descending order based on their creation date
+//       existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+//       setLatestPost(existingPosts);
+//     } else {
+//       const latestPostsPromise = getLatestPosts(limit, pageNo);
+//       const timeoutPromise = new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//           reject('Request timed out');
+//         }, 10000);
+//       });
+//       const { error, posts } = await Promise.race([
+//         latestPostsPromise,
+//         timeoutPromise
+//       ]);
+//       if (error) {
+//         // console.log('Error fetching latest posts: ', error);
+//         setLatestPost(existingPosts)
+//         // Display an error message to the user
+//       } else {
+//         // Sort the fetched posts in descending order based on their creation date
+//         posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+//         setLatestPost(posts);
+    
+//         // Sort the existing posts in descending order based on their creation date
+//         existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+//         const filteredPosts = posts.filter(post => !existingPosts.some(p => p.id === post.id));
+    
+//         if (filteredPosts.length > 0) {
+//             const allPosts = [...existingPosts, ...filteredPosts];
+    
+//             // Sort all the posts in descending order based on their creation date
+//             allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+//             dispatch(newActions.updatePostDetails(allPosts));
+//         }
+//       }
+//     }
+//   } catch (error) {
+//     console.error('Error fetching latest posts: ', error);
+//   }
+// };
+
+
     useEffect(()=>{
         fetchLatestPosts()
+        fetchFeaturePost()
     },[])
 
       
@@ -276,15 +355,6 @@ const fetchLatestPosts = async () => {
         fetchAllData();
       }, []);
       
-      const _renderEmpty = () =>{
-        return(
-            <View>
-                <Image source={images.pic3} style={{height: SIZES.h1 * 4, width: SIZES.h1 * 4}}/>
-                <Text style={{...FONTS.body2, color: COLORS.black, fontStyle: 'italic'}}>Loading...</Text>
-            </View>
-        )
-      }
-
     const navigation = useNavigation();
 
     const NewsToday =() => {
