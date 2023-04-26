@@ -30,50 +30,40 @@ const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
   const Stack = createNativeStackNavigator();
 
-  const StackOne = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-        <Stack.Screen name="Bottom" component={BottomTab} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="RegisterWithPhone" component={RegisterWithPhone} />
-        <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
-        <Stack.Screen name="YourGender" component={YourGender} />
-        <Stack.Screen name="LevelBio" component={LevelBio} />
-      </Stack.Navigator>
-    )
-  }
+  // const StackOne = () =>{
+  //   return(
+  //     <Stack.Navigator>
 
-  const StackTwo = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="PostDetail" component={PostDetail} />
-        <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
-        <Stack.Screen name="ProfilePage" component={ProfilePage} />
-        <Stack.Screen name='Technology' component={Technology} />
-        <Stack.Screen name='Campuses' component={Campuses} />
-        <Stack.Screen name='Notification' component={Notification} />
-        {/* home  */}
-        <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
-        <Stack.Screen name="Onboarding" component={Onboarding} />
-        {/* campus circle  */}
-        <Stack.Screen name="MarketDetail" component={MarketDetail} />
-        <Stack.Screen name="MarketMore" component={MarketMore} />
-      </Stack.Navigator>
-    )
-  }
+  //     </Stack.Navigator>
+  //   )
+  // }
 
   return (
     <Stack.Navigator
       initialRouteName={isOnboardingDisabled ? 'Splash' : 'Onboarding'}
-      // screenOptions={{ headerShown: false }}
       /* initialRouteName='Login' */ screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='StackOne' component={StackOne} />
-      <Stack.Screen name='StackTwo' component={StackTwo} />
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+      <Stack.Screen name="Bottom" component={BottomTab} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="RegisterWithPhone" component={RegisterWithPhone} />
+      <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
+      <Stack.Screen name="YourGender" component={YourGender} />
+      <Stack.Screen name="LevelBio" component={LevelBio} />
       {/* home  */}
-
+      <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
+      <Stack.Screen name="ProfilePage" component={ProfilePage} />
+      <Stack.Screen name='Technology' component={Technology} />
+      <Stack.Screen name='Campuses' component={Campuses} />
+      <Stack.Screen name='Notification' component={Notification} />
+      {/* home  */}
+      <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+      {/* campus circle  */}
+      <Stack.Screen name="MarketDetail" component={MarketDetail} />
+      <Stack.Screen name="MarketMore" component={MarketMore} />
 
 
       {/* jjjj */}
