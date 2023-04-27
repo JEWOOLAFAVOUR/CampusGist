@@ -191,7 +191,7 @@ const CampusCircle = () => {
                 <View style={{ marginLeft: SIZES.h5 * 1.2 }}>
                     <FlatList
                         // data={hotFoodData}
-                        data={restaurant.slice(0, 6)}
+                        data={restaurant.length > 0 ? restaurant.slice(0, 6) : []}
                         showsHorizontalScrollIndicator={false}
                         horizontal
                         ListEmptyComponent={RenderEmpty}
@@ -238,7 +238,7 @@ const CampusCircle = () => {
                 {m ? <Roller visible={true} /> : null}
                 <FlatList
                     // data={oldMarketData.slice(1, 11)}
-                    data={market}
+                    data={market.length > 0 ? market.slice(0, 10) : []}
                     numColumns={2}
                     ListEmptyComponent={RenderEmpty}
                     columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}

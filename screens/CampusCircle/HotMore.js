@@ -146,7 +146,8 @@ const HotMore = ({ navigation }) => {
                 <FlatList
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    data={categoryData}
+                    // data={categoryData}
+                    data={categoryData.length > 0 ? categoryData.slice(0, 5) : []}
                     renderItem={({ item }) => {
                         return (
                             <View style={{ marginRight: SIZES.base }}>
@@ -169,7 +170,8 @@ const HotMore = ({ navigation }) => {
                     horizontal
                     ListEmptyComponent={RenderEmpty}
                     showsHorizontalScrollIndicator={false}
-                    data={recommend}
+                    // data={recommend}
+                    data={recommend.length > 0 ? recommend.slice(0, 5) : []}
                     renderItem={({ item }) => <RenderTemplate item={item} />}
                 />
                 {/* POPULAR FOOD LIST  */}

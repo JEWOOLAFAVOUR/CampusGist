@@ -5,6 +5,7 @@ import { oldMarketData } from './CampusCircleData';
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { getAllMarket, getMarketById } from '../../api/campuscircle';
 import Roller from '../../components/Roller';
+import RenderEmpty from '../../components/RenderEmpty';
 
 
 
@@ -111,7 +112,7 @@ const MarketMore = () => {
                 data={market}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={_renderHeader}
-                ListEmptyComponent={_renderEmpty}
+                ListEmptyComponent={RenderEmpty}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: SIZES.h4 }}
                 renderItem={({ item }) => {
