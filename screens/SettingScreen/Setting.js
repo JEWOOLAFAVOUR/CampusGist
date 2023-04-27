@@ -92,7 +92,7 @@ const Setting = ({ ...props }) => {
                 </View>
                 <View style={{ marginLeft: SIZES.h3 }}>
                     <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data?.firstName} ${data?.lastName} `}</Text>
-                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>@{data?.username}</Text>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data?.username}</Text>
                 </View>
             </View>
         )

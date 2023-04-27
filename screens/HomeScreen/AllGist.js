@@ -180,7 +180,7 @@ const fetchFeaturePost = async () => {
       if (!isConnected) {
         // Sort the existing posts in descending order based on their creation date
         existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setLatestPost(existingPosts.slice(0,20));
+        setLatestPost(existingPosts.slice(0,30));
       } else {
         const latestPostsPromise = getLatestPosts(limit, pageNo);
         const timeoutPromise = new Promise((resolve, reject) => {
@@ -195,7 +195,7 @@ const fetchFeaturePost = async () => {
         } else {
           // Sort the fetched posts in descending order based on their creation date
           posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          setLatestPost(posts.slice(0,25));
+          setLatestPost(posts.slice(0,30));
   
           // Sort the existing posts in descending order based on their creation date
           existingPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -213,7 +213,7 @@ const fetchFeaturePost = async () => {
       console.error('Error fetching latest posts: ', error);
       const state = reduxStore.getState();
       const existingPosts = state.news.posts || [];
-      setLatestPost(existingPosts.slice(0,20));
+      setLatestPost(existingPosts.slice(0,30));
     }
   /* finally {
       // Set the latest posts to the existing posts if an error occurs or the request times out

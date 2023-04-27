@@ -47,9 +47,11 @@ const CampusCircle = () => {
 
     const getMarket = async () => {
         const response = await getAllMarket()
+        const { market, error } = response;
+        if (error) return console.log('market-error', error)
+
         console.log('market data', response)
-        setMarket(response?.market)
-        // if (error) return console.log('market-error', error)
+        setMarket(market)
     }
 
     const fetchBanner = async () => {

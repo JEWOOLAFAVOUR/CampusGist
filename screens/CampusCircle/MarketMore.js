@@ -109,7 +109,8 @@ const MarketMore = () => {
                 <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5 }}>CG Market</Text>
             </View>
             <FlatList
-                data={market}
+                // data={market}
+                data={market.length > 0 ? market.slice(0, 26) : []}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={_renderHeader}
                 ListEmptyComponent={RenderEmpty}
