@@ -169,8 +169,8 @@
 // const styles = StyleSheet.create({})
 
 
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { StatusBar, BackHandler } from 'react-native';
+import React, { useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from './screens/AuthScreen/AuthStack';
 import { Provider } from 'react-redux'
@@ -192,11 +192,37 @@ const App = () => {
     useEffect(() => {
         setUrlConfig();
     })
+    const navigationRef = useRef(null);
+
+    const backAction = () => {
+        const currentRoute = navigationRef.current.getCurrentRoute();
+        console.log('current route:', currentRoute);
+
+        const isHomeTab = currentRoute.name === 'HomeP';
+        console.log('isHomeTab:', isHomeTab);
+
+        const routes = navigationRef.current.getRootState().routeNames;
+        console.log('routes in stack:', routes);
+
+        if (isHomeTab) {
+            BackHandler.exitApp();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        return () =>
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
+    }, []);
     return (
         <Provider store={reduxStore}>
             <PersistGate persistor={reduxPersistStore}>
                 <StatusBar backgroundColor={COLORS.primary} />
-                <NavigationContainer theme={MyLightTheme}>
+                <NavigationContainer ref={navigationRef} theme={MyLightTheme}>
                     <AuthStack />
                 </NavigationContainer>
             </PersistGate>

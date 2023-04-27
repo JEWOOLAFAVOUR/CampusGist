@@ -1,14 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, BackHandler, Alert, Image, TouchableOpacity, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { COLORS, icons, images, FONTS, SIZES } from '../../constants';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import * as authActions from '../../redux/actions/authAction'
 
-const RegistrationSuccessful = () => {
+
+const RegistrationSuccessful = ({ ...props }) => {
+
     const navigation = useNavigation();
-    const handleSubmit = () => {
-        navigation.navigate("Bottom");
 
-    }
+    useEffect(() => {
+        const backAction = () => {
+            BackHandler.exitApp();
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
+
+    const handleSubmit = () => {
+        navigation.navigate('Bottom');
+    };
+
     return (
         <View style={styles.page}>
             <View style={{ flex: 1 }}>
@@ -22,7 +42,25 @@ const RegistrationSuccessful = () => {
     )
 }
 
-export default RegistrationSuccessful
+// RegistrationSuccessful.propTypes = {
+//     isLoggedIn: PropTypes.bool.isRequired,
+//     updateUserLogin: PropTypes.func.isRequired,
+// };
+
+// const mapStateToProps = (state) => {
+//     return {
+//         user: state.auth.user,
+//         isLoggedIn: state.auth.isLoggedIn,
+//         // refreshToken: state.auth.refreshToken,
+//     }
+// }
+
+// const mapDispatchToProps = (dispatch) => ({
+//     updateLoggedInStatus: (isLoggedIn) => dispatch(authActions.updateLoggedInStatus(isLoggedIn))
+// })
+
+// export default connect(mapStateToProps, mapDispatchToProps)(RegistrationSuccessful)
+export default RegistrationSuccessful;
 
 const styles = StyleSheet.create({
     page: {

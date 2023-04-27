@@ -1,4 +1,4 @@
-import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER, UPDATE_USER_REFRESH_TOKEN } from "../constants/constants";
+import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER, UPDATE_USER_REFRESH_TOKEN, UPDATE_LOGGED_IN_STATUS } from "../constants/constants";
 import { UPDATE_USER_BIO, UPDATE_USER_LEVEL_BIO_GENDER } from "../constants/constants";
 import client from "../../api/client";
 
@@ -17,6 +17,12 @@ export const updateUserLogin = (user, isLoggedIn) => {
     }
 }
 
+export const updateLoggedInStatus = (isLoggedIn) => {
+    return {
+        type: UPDATE_LOGGED_IN_STATUS,
+        isLoggedIn,
+    };
+};
 export const updateUserAccessToken = (accessToken) => {
     // Set the authentication token in your Axios instance
     client.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;

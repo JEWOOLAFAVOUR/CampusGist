@@ -1,4 +1,4 @@
-import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER, UPDATE_USER_REFRESH_TOKEN } from "../constants/constants";
+import { UPDATE_ONBOARDING_STATUS, UPDATE_USER_LOGIN, UPDATE_USER_ACCESS_TOKEN, LOGOUT_USER, UPDATE_USER_REFRESH_TOKEN, UPDATE_LOGGED_IN_STATUS } from "../constants/constants";
 import { UPDATE_USER_BIO, UPDATE_USER_LEVEL_BIO_GENDER } from "../constants/constants";
 
 const initialState = {
@@ -22,6 +22,10 @@ const authReducer = (state = initialState, action) => {
         case UPDATE_USER_LOGIN:
             return {
                 ...state, user, isLoggedIn
+            };
+        case UPDATE_LOGGED_IN_STATUS:
+            return {
+                ...state, isLoggedIn
             };
 
         case UPDATE_USER_ACCESS_TOKEN:

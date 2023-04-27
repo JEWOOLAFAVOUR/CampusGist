@@ -44,13 +44,17 @@ const AuthStack = ({ ...props }) => {
       /* initialRouteName='Login' */ screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-      <Stack.Screen name="Bottom" component={BottomTab} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
+
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="RegisterWithPhone" component={RegisterWithPhone} />
       <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
       <Stack.Screen name="YourGender" component={YourGender} />
       <Stack.Screen name="LevelBio" component={LevelBio} />
+
+      <Stack.Screen name="Bottom" component={BottomTab} />
+
       {/* home  */}
       <Stack.Screen name="PostDetail" component={PostDetail} />
       <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
@@ -59,7 +63,6 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name='Campuses' component={Campuses} />
       <Stack.Screen name='Notification' component={Notification} />
       {/* home  */}
-      <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
       {/* campus circle  */}
       <Stack.Screen name="MarketDetail" component={MarketDetail} />

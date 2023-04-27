@@ -70,12 +70,12 @@ const WelcomeScreen = () => {
             <View style={{ marginBottom: SIZES.h4 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: SIZES.h4 }}>
                     <Text style={{ ...FONTS.body3a, color: COLORS.primary }}>Already a member? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                    <TouchableOpacity onPress={() => navigation.replace('Login')}>
                         <Text style={{ ...FONTS.body2, color: COLORS.primary, fontWeight: 'bold' }}>Login</Text>
                     </TouchableOpacity>
                 </View>
                 {/* THE BUTTON */}
-                <TouchableOpacity onPress={() => navigation.navigate('Register')} style={styles.clickBtn}>
+                <TouchableOpacity onPress={() => navigation.replace('Register')} style={styles.clickBtn}>
                     <Image source={icons.mail} style={{ tintColor: '#ad554b', width: SIZES.h2 * 0.9, height: SIZES.h2 * 0.9, position: 'absolute', left: 17, }} />
                     <Text style={{ ...FONTS.body4, color: COLORS.white, textAlign: 'center' }}>Register with email</Text>
                 </TouchableOpacity>

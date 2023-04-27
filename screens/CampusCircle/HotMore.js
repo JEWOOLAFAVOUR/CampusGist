@@ -51,12 +51,12 @@ const HotMore = ({ navigation }) => {
     ];
 
     const categoryData = [
-        { id: 1, image: images.restaurant1, title: 'Jollof Rice', },
-        { id: 2, image: images.restaurant2, title: 'Pizza', },
-        { id: 3, image: images.restaurant3, title: 'Todas', },
-        { id: 4, image: images.restaurant4, title: 'Burger', },
-        { id: 5, image: images.restaurant1, title: 'Meat', },
-        { id: 6, image: images.restaurant2, title: 'Noddles', },
+        { id: 1, image: images.jollof, title: 'Jollof Rice', },
+        { id: 2, image: images.pizza, title: 'Pizza', },
+        { id: 3, image: images.amala, title: 'Amala', },
+        { id: 4, image: images.noodles, title: 'Noddles', },
+        { id: 5, image: images.meat, title: 'Meat', },
+        // { id: 6, image: images.restaurant2, title: 'Noddles', },
     ];
 
     const fetchRecommendedFood = async () => {
@@ -151,7 +151,7 @@ const HotMore = ({ navigation }) => {
                         return (
                             <View style={{ marginRight: SIZES.base }}>
                                 <Image source={item.image} style={{
-                                    height: SIZES.h1 * 2.5, width: SIZES.h1 * 3.6, borderRadius: SIZES.base
+                                    resizeMode: 'stretch', height: SIZES.h1 * 2.5, width: SIZES.h1 * 3.6, borderRadius: SIZES.base
                                 }} />
                                 <Text style={{ ...FONTS.body4, textAlign: 'center', color: COLORS.black }}>{item.title}</Text>
                             </View>
