@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PropTypes from 'prop-types';
 
@@ -29,9 +29,15 @@ import Notification from '../HomeScreen/Notification';
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
   const Stack = createNativeStackNavigator();
+  const [isFirstTimeOpen, setIsFirstTimeOpen] = useState(true);
+
+  const handleOnboardingScreenShown = () => {
+    setIsFirstTimeOpen(false);
+  };
   return (
     <Stack.Navigator
       initialRouteName={isOnboardingDisabled ? 'Splash' : 'Onboarding'}
+      // initialRouteName={'Splash' || isOnboardingDisabled ? 'Splash' : 'Onboarding'}
       /* initialRouteName='Login' */ screenOptions={{ headerShown: false }}>
 
       <Stack.Screen name="Splash" component={SplashScreen} />

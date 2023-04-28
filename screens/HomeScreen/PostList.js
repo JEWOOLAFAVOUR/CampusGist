@@ -133,8 +133,8 @@ const PostList = ({ data, ...props }) => {
 
             <View style={{ flex: 1, marginLeft: SIZES.h4, marginRight: SIZES.base * 0.3, marginTop: SIZES.base, }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={images.avatar} style={{ height: SIZES.h1 * 0.95, width: SIZES.h1 * 0.95, borderRadius: 100 }} />
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.base / 2 }}>
+                        <Image source={images.avatar} style={{ height: SIZES.h1 * 0.85, width: SIZES.h1 * 0.85, borderRadius: 100 }} />
                         <Text style={{ color: COLORS.grey, fontSize: SIZES.body4, fontFamily: 'Roboto-Medium', marginBottom: 2, marginLeft: SIZES.base }}>Admin</Text>
                     </View>
 
@@ -144,8 +144,8 @@ const PostList = ({ data, ...props }) => {
                     <Text numberOfLines={3} style={{ color: COLORS.black, fontSize: SIZES.body4 * 1.1, fontFamily: 'Roboto-Medium', fontWeight: '600' }}>{data.title}</Text>
                 </View>
                 {/* REACTION  */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: SIZES.base * 0.9 }}>
-                    <Text style={{ ...FONTS.body4 }}>{formattedTime}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: SIZES.base * 0.5 }}>
+                    <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>{formattedTime}</Text>
                     {/* <Text style={{ marginHorizontal: SIZES.base }}>-</Text>
                     <TouchableOpacity onPress={() => setCommentRec(commentRec + 1)} style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.base * 1.5 }}>
                         <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
@@ -185,11 +185,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(PostList)
 const styles = StyleSheet.create({
     listCtn: {
         flex: 1,
-        height: SIZES.h1 * 4.1,
+        height: SIZES.h1 * 3.95,
         borderWidth: 2,
         backgroundColor: COLORS.grey2,
         borderColor: COLORS.grey2,
-        marginBottom: SIZES.h5,
+        marginBottom: SIZES.base,
         flexDirection: 'row',
         borderRadius: SIZES.h5,
         alignItems: 'center',

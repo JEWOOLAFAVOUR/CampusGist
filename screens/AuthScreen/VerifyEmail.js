@@ -51,7 +51,9 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
     //     };
     // }, [navigation]);
 
-    const [userId, setUserId] = useState(route.params.item)
+    const [userId, setUserId] = useState(route.params.item);
+    const [email, setEmail] = useState(route.params?.emailSubmitted);
+    console.log('email', email)
     const [otp, setOtp] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showSpinner, setShowSpinner] = useState(false);
@@ -166,10 +168,10 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
             {eV && <Toast message={"Your email is verified"} type="success" />}
             <View style={{}}>
                 <View style={{ alignItems: 'center', marginTop: SIZES.h1 * 2 }}>
-                    <Image source={images.otp} style={{ height: SIZES.height * 0.3, width: SIZES.width * 0.6 }} />
+                    <Image source={images.otp} style={{ height: SIZES.height * 0.27, width: SIZES.width * 0.6 }} />
                 </View>
                 <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h1, marginBottom: SIZES.h2 }}>
-                    <Text style={{ ...FONTS.navTitle, color: COLORS.blue, textAlign: 'center' }}>Verify OTP</Text>
+                    <Text style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.blue, textAlign: 'center' }}>Verify OTP</Text>
                     {/* <Text style={{ ...FONTS.body4, color: COLORS.primary, maxWidth: '70%', marginBottom: SIZES.h4 }}>Lorem ipsum dolor sir amet, consectutur actiprincin eit.</Text> */}
                     {/* <Text style={{ ...FONTS.body3, letterSpacing: 1, fontWeight: 'bold', color: COLORS.primary, marginBottom: SIZES.base }}>OTP</Text> */}
                 </View>
@@ -177,6 +179,7 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
                     {/* OTP BOX DESIGN  */}
                     <View style={{ marginHorizontal: SIZES.width * 0.05 }}>
                         <Text style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold', marginBottom: SIZES.base }}>Enter Otp Sent To You Email</Text>
+                        <Text style={{ ...FONTS.body3a, color: COLORS.black, fontWeight: 'bold', marginBottom: SIZES.base }}>{email}</Text>
                         <Text style={{ ...FONTS.body4, color: COLORS.red, marginBottom: SIZES.base }}>If not seen check spam folder.</Text>
                         <View style={styles.inputCtn}>
                             <TextInput

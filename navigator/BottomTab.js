@@ -28,7 +28,7 @@ const BottomTab = () => {
                         ...FONTS.h5,
                     },
                     tabBarStyle: {
-                        height: SIZES.h1 * 2.05,
+                        height: SIZES.h1 * 2,
                         backgroundColor: COLORS.white,
                         borderTopWidth: 1,
                     },

@@ -48,8 +48,8 @@ const Login = ({ ...props }) => {
             setNotVerify(false)
             setNotVerify(true)
             setTimeout(() => {
-                navigation.navigate("VerifyEmail", { item: data.user.id });
-            }, 1000);
+                navigation.navigate("VerifyEmail", { item: data.user.id, emailSubmitted: data.user?.emailSubmitted });
+            }, 1500);
         } else {
             setShowToast2(false)
             setShowToast2(true)
@@ -114,7 +114,7 @@ const Login = ({ ...props }) => {
                                 <Image source={press ? icons.eyeclose : icons.eye} style={{ height: SIZES.h2, width: SIZES.h2, marginRight: SIZES.base }} />
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={{ alignItems: 'center', marginBottom: SIZES.base, marginTop: SIZES.body1 * 1.5 }}>
+                        <TouchableOpacity style={{ alignItems: 'center', marginBottom: SIZES.base, marginTop: SIZES.body1 * 1. }}>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Forget Password?</Text>
                         </TouchableOpacity>
                     </View>

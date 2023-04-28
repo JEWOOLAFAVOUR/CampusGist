@@ -154,7 +154,7 @@ const PostDetail = ({ route, ...props }) => {
         if (response?.message === 'Comment added successfully') {
             setComment('');
             setPop(false);
-            setComment3(current => [...comment3, response?.data]);
+            setComment3(current => [response?.data, ...comment3]);
         }
         if (response?.error) {
             console.log('comment response', response);

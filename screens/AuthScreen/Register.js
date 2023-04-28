@@ -217,11 +217,9 @@ const Register = () => {
                         </>
                     )}
                 </Formik>
-
-
                 {/* BUTTON  */}
                 <View style={{}}>
-                    <View style={{ marginTop: SIZES.h1 * 1.3 }}>
+                    <View style={{ marginTop: SIZES.h1 * 1.3, marginBottom: SIZES.h5 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ ...FONTS.body3b, color: COLORS.primary }}>I am already a member,</Text>
                             <TouchableOpacity onPress={() => navigation.navigate('Login')} >
