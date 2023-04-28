@@ -132,7 +132,7 @@ const Register = () => {
                                         placeholderTextColor={COLORS.chocolate}
                                         name='firstName'
                                         onChangeText={handleChange('firstName')}
-                                        style={{ ...FONTS.body4 }}
+                                        style={{ ...FONTS.body4, color: COLORS.black }}
                                     />
                                     {(errors.firstName && touched.firstName) &&
                                         <Text style={styles.errorText}>{errors.firstName}</Text>}
@@ -143,7 +143,7 @@ const Register = () => {
                                         placeholderTextColor={COLORS.chocolate}
                                         name='lastName'
                                         onChangeText={handleChange('lastName')}
-                                        style={{ ...FONTS.body4 }}
+                                        style={{ ...FONTS.body4, color: COLORS.black }}
                                     />
                                     {(errors.lastName && touched.lastName) &&
                                         <Text style={styles.errorText}>{errors.lastName}</Text>}
@@ -158,7 +158,7 @@ const Register = () => {
                                         placeholderTextColor={COLORS.chocolate}
                                         name='username'
                                         onChangeText={handleChange('username')}
-                                        style={{ ...FONTS.body4, flex: 1 }}
+                                        style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                     />
                                     <Image source={icons.person} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
                                 </View>
@@ -174,7 +174,7 @@ const Register = () => {
                                         name='email'
                                         onChangeText={handleChange('email')}
                                         keyboardType='email-address'
-                                        style={{ ...FONTS.body4, flex: 1 }}
+                                        style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                     />
                                     <Image source={icons.mail} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
                                 </View>
@@ -191,7 +191,7 @@ const Register = () => {
                                             name='password'
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={press}
-                                            style={{ ...FONTS.body4, flex: 1 }}
+                                            style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                             keyboardType='visible-password'
                                         />
                                         <TouchableOpacity onPress={() => setPress(!press)}>

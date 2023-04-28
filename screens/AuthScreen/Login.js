@@ -54,7 +54,7 @@ const Login = ({ ...props }) => {
             setShowToast2(false)
             setShowToast2(true)
             setTimeout(() => {
-                navigation.replace("Bottom");
+                navigation.replace('Main', { screen: 'Bottom' });
             }, 1000);
             updateUserLogin(data.user, true)
 
@@ -91,7 +91,7 @@ const Login = ({ ...props }) => {
                                 placeholder='Enter Email'
                                 placeholderTextColor={COLORS.chocolate}
                                 keyboardType='email-address'
-                                style={{ ...FONTS.body4, flex: 1 }}
+                                style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                 value={email}
                                 onChangeText={value => setEmail(value)}
                             />
@@ -104,7 +104,7 @@ const Login = ({ ...props }) => {
                             <TextInput
                                 placeholder='Enter Password'
                                 placeholderTextColor={COLORS.chocolate}
-                                style={{ ...FONTS.body4, flex: 1 }}
+                                style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                 secureTextEntry={press}
                                 value={password}
                                 onChangeText={value => setPassword(value)}

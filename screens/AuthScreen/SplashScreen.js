@@ -31,7 +31,8 @@ const SplashScreen = ({ ...props }) => {
             }
             hideSplashScreen()
             // navigation.navigate(isLoggedIn ? 'Bottom' : 'Login');
-            navigation.replace(isLoggedIn ? 'Bottom' : 'WelcomeScreen');
+            navigation.replace(isLoggedIn ? 'Main' : 'WelcomeScreen', { screen: 'Bottom' });
+
             // navigation.navigate(isLoggedIn ? 'WelcomeScreen' : 'WelcomeScreen');
         }, 1000);
     }, []);

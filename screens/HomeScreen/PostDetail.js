@@ -330,7 +330,8 @@ const PostDetail = ({ route, ...props }) => {
                             }}
                             numberOfLines={3}
                             placeholder='Well, I think...'
-                            style={{ paddingHorizontal: SIZES.base, flex: 1, ...FONTS.body3 }}
+                            // placeholderTextColor={COLORS.}
+                            style={{ paddingHorizontal: SIZES.base, flex: 1, ...FONTS.body3, color: COLORS.black }}
                         />
                         {/* BUTTON */}
 

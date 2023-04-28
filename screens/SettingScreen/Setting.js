@@ -24,7 +24,7 @@ const Setting = ({ ...props }) => {
         dispatch(logoutUser());
         dispatch(clearNews());
         setModalVisible(false);
-        navigation.replace('WelcomeScreen');
+        navigation.replace('AuthStack', { screen: 'WelcomeScreen' });
     };
 
     const handleCancel = () => {

@@ -54,6 +54,7 @@ const CampusCircle = () => {
         setMarket(market)
     }
 
+
     const fetchBanner = async () => {
         const { error, banners } = await getBanner(limit, pageNo);
         console.log('this is the banner data', banners)

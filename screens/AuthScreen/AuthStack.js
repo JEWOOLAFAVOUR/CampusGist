@@ -29,20 +29,13 @@ import Notification from '../HomeScreen/Notification';
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
   const Stack = createNativeStackNavigator();
-
-  // const StackOne = () =>{
-  //   return(
-  //     <Stack.Navigator>
-
-  //     </Stack.Navigator>
-  //   )
-  // }
-
   return (
     <Stack.Navigator
       initialRouteName={isOnboardingDisabled ? 'Splash' : 'Onboarding'}
       /* initialRouteName='Login' */ screenOptions={{ headerShown: false }}>
+
       <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="RegistrationSuccessful" component={RegistrationSuccessful} />
@@ -52,25 +45,7 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
       <Stack.Screen name="YourGender" component={YourGender} />
       <Stack.Screen name="LevelBio" component={LevelBio} />
-
-      <Stack.Screen name="Bottom" component={BottomTab} />
-
-      {/* home  */}
-      <Stack.Screen name="PostDetail" component={PostDetail} />
-      <Stack.Screen name="ViewAllComment" component={ViewAllComment} />
-      <Stack.Screen name="ProfilePage" component={ProfilePage} />
-      <Stack.Screen name='Technology' component={Technology} />
-      <Stack.Screen name='Campuses' component={Campuses} />
-      <Stack.Screen name='Notification' component={Notification} />
-      {/* home  */}
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-      {/* campus circle  */}
-      <Stack.Screen name="MarketDetail" component={MarketDetail} />
-      <Stack.Screen name="MarketMore" component={MarketMore} />
-
-
-      {/* jjjj */}
-      {/* <Stack.Screen name="HomeStack" component={HomeStack} /> */}
+      {/* <Stack.Screen name="Bottom" component={BottomTab} /> */}
 
     </Stack.Navigator>
   );

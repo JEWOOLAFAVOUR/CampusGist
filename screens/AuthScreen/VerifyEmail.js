@@ -186,6 +186,7 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
                                 value={otp}
                                 onChangeText={handleInputChange}
                                 maxLength={4}
+                                style={{ ...FONTS.body3, color: COLORS.black }}
                             // onBlur={validateInput}
                             />
                             {errorMessage !== '' && <Text style={{ color: 'red', marginTop: SIZES.base }}>{errorMessage}</Text>}

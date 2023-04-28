@@ -32,9 +32,11 @@ const MarketMore = () => {
 
     const getMarket = async () => {
         const response = await getAllMarket()
+        const { market, error } = response;
+        if (error) return console.log('market-error', error)
+
         console.log('market data', response)
-        setMarket(response?.market)
-        // if (error) return console.log('market-error', error)
+        setMarket(market)
     }
 
     const fetchMarketById = async (marketId) => {
@@ -110,7 +112,7 @@ const MarketMore = () => {
             </View>
             <FlatList
                 // data={market}
-                data={market.length > 0 ? market.slice(0, 26) : []}
+                data={market.length > 0 ? market.slice(0, 27) : []}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={_renderHeader}
                 ListEmptyComponent={RenderEmpty}

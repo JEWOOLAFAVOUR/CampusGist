@@ -134,9 +134,10 @@ const LevelBio = ({ navigation, route }) => {
                     <View style={styles.inputCtn}>
                         <TextInput
                             placeholder='Enter your Bio'
-                            placeholderTextColor={COLORS.bio}
+                            placeholderTextColor={COLORS.black}
                             value={bio}
                             onChangeText={value => setBio(value)}
+                            style={{ ...FONTS.body3, color: COLORS.black }}
                         />
                     </View>
                     <Text style={{ color: COLORS.red, ...FONTS.body4, marginHorizontal: SIZES.width * 0.03 }}>{bioErr}</Text>

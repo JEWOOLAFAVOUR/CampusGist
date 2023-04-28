@@ -11,22 +11,8 @@ const RegistrationSuccessful = ({ ...props }) => {
 
     const navigation = useNavigation();
 
-    useEffect(() => {
-        const backAction = () => {
-            BackHandler.exitApp();
-            return true;
-        };
-
-        const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
-            backAction
-        );
-
-        return () => backHandler.remove();
-    }, []);
-
     const handleSubmit = () => {
-        navigation.navigate('Bottom');
+        navigation.replace('Main', { screen: 'Bottom' });
     };
 
     return (

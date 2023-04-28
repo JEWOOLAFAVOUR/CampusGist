@@ -28,7 +28,7 @@ const BottomTab = () => {
                         ...FONTS.h5,
                     },
                     tabBarStyle: {
-                        height: 55,
+                        height: SIZES.h1 * 2.05,
                         backgroundColor: COLORS.white,
                         borderTopWidth: 1,
                     },
@@ -45,7 +45,7 @@ const BottomTab = () => {
                         }*/
                         else if (route.name === 'CampusCircleP') {
                             iconName = focused ? icons.circle : icons.circle
-                            size = focused ? SIZES.h1 * 1 : SIZES.h1 * 1,
+                            size = focused ? SIZES.h1 : SIZES.h1,
                                 colour = focused ? COLORS.orange : COLORS.brown
                         }
                         else if (route.name === 'AccountP') {

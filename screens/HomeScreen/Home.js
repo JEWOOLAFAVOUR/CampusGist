@@ -17,17 +17,17 @@ const Home = ({ ...props }) => {
 
     const Tab = createMaterialTopTabNavigator();
     const navigationRef = React.createRef();
-    const backAction = () => {
-        const currentRoute = navigationRef.current.getCurrentRoute();
-        const isHomeTab = currentRoute.name === 'HomeP';
+    // const backAction = () => {
+    //     const currentRoute = navigationRef.current.getCurrentRoute();
+    //     const isHomeTab = currentRoute.name === 'HomeP';
 
-        if (isHomeTab) {
-            BackHandler.exitApp();
-            return true;
-        } else {
-            return false;
-        }
-    };
+    //     if (isHomeTab) {
+    //         BackHandler.exitApp();
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // };
 
     return (
         <View
