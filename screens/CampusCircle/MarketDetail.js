@@ -69,7 +69,7 @@ const MarketDetail = ({ route }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: SIZES.base / 2 }}>
                     <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, marginRight: SIZES.h4, }} />
                 </TouchableOpacity>
-                <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold', }}>A ROOM SELF CONTAIN HSHS SHSHSH AAHAHAH HAHAH</Text>
+                <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold', }}>{data.title}</Text>
             </View>
             {/* HEADER END */}
             <ScrollView style={styles.page}>

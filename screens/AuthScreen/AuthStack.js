@@ -51,8 +51,6 @@ const AuthStack = ({ ...props }) => {
       <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
       <Stack.Screen name="YourGender" component={YourGender} />
       <Stack.Screen name="LevelBio" component={LevelBio} />
-      {/* <Stack.Screen name="Bottom" component={BottomTab} /> */}
-
     </Stack.Navigator>
   );
 };

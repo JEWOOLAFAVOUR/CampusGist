@@ -32,7 +32,10 @@ const ProfilePage = ({ route }) => {
                         <Image source={getImage(avatar)} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
                     </View>
                     <View style={{ marginLeft: SIZES.h3 }}>
-                        <Text style={{ ...FONTS.h2, color: COLORS.black }}>{`${data.firstName} ${data.lastName} `}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ ...FONTS.h2, color: COLORS.black, textTransform: 'capitalize' }}>{`${data.firstName}`}</Text>
+                            <Text style={{ ...FONTS.h2, color: COLORS.black, textTransform: 'capitalize' }}>{` ${data.lastName}`}</Text>
+                        </View>
                         <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data?.username}</Text>
                     </View>
                 </View>

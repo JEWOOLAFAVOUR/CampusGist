@@ -269,7 +269,7 @@ const CampusCircle = () => {
         <View style={{ backgroundColor: COLORS.white, flex: 1, }}>
             {load ? <Roller visible={true} /> : null}
             {k ? <Roller visible={true} /> : null}
-            <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginLeft: SIZES.width * 0.03, marginBottom: SIZES.base * 0.8, marginTop: SIZES.base }}>Campus Circle</Text>
+            <Text style={{ ...FONTS.h1, fontWeight: 'bold', color: COLORS.orange, marginLeft: SIZES.width * 0.03, marginBottom: SIZES.base * 0.8, marginTop: SIZES.base }}>Campus Circle</Text>
             <FlatList
                 ListHeaderComponent={CampusHeader}
                 ListFooterComponent={_renderFooter}

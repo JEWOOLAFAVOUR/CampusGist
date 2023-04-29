@@ -100,7 +100,7 @@ const RestaurantDetail = ({ route, ...props }) => {
             <View>
                 <View>
                     <View style={{ borderBottomWidth: 1, borderColor: COLORS.chocolateBackground }}>
-                        <Image source={getImage(data.thumbnail.url)} style={{ resizeMode: 'stretch', height: SIZES.height * 0.35, width: '100%' }} />
+                        <Image source={getImage(data.thumbnail.url)} style={{ resizeMode: 'stretch', height: SIZES.height * 0.37, width: '100%' }} />
                     </View>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 10, top: 20, }}>
                         <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1, tintColor: COLORS.white }} />

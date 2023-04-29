@@ -9,7 +9,7 @@ import { setTokenInterceptor } from '../../utils/setTokenInterceptor';
 
 const SplashScreen = ({ ...props }) => {
 
-    const { isLoggedIn, user, accessToken, refreshToken } = props;
+    const { isLoggedIn, user, accessToken, refreshToken, isOnboardingDisabled } = props;
 
 
     const [isVisible, setIsVisible] = useState(true);
@@ -31,6 +31,11 @@ const SplashScreen = ({ ...props }) => {
             }
             hideSplashScreen()
             // navigation.navigate(isLoggedIn ? 'Bottom' : 'Login');
+            // if (isOnboardingDisabled) {
+            //     navigation.navigate('Splash')
+            // } else {
+            //     navigation.navigate('Onboarding')
+            // }
             navigation.replace(isLoggedIn ? 'Main' : 'WelcomeScreen', { screen: 'Bottom' });
 
             // navigation.navigate(isLoggedIn ? 'WelcomeScreen' : 'WelcomeScreen');
@@ -50,10 +55,11 @@ const SplashScreen = ({ ...props }) => {
     }
     return (
         <View style={{
-            flex: 1, justifyContent: 'center', alignItems: 'center', padding: Platform.OS === 'ios' ? 20 : 0,
-            backgroundColor: background,
+            flex: 1, justifyContent: 'center', alignItems: 'center', /* padding: Platform.OS === 'ios' ? 20 : 0,*/
+            backgroundColor: COLORS.primary,
         }}>
-            {isVisible === true ? renderSplash() : null}
+            {/* {isVisible === true ? renderSplash() : null} */}
+            <Text style={{ color: COLORS.white, fontSize: SIZES.h1 * 4.5, fontFamily: 'Roboto-Black' }}>CG</Text>
         </View>
     )
 }
@@ -61,7 +67,7 @@ const SplashScreen = ({ ...props }) => {
 SplashScreen.propTypes = {
     user: PropTypes.object.isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
-
+    isOnboardingDisabled: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -70,6 +76,7 @@ const mapStateToProps = (state) => {
         isLoggedIn: state.auth.isLoggedIn,
         accessToken: state.auth.accessToken,
         refreshToken: state.auth.refreshToken,
+        isOnboardingDisabled: state.auth.isOnboardingDisabled,
     }
 }
 

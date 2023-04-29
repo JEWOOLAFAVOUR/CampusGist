@@ -233,7 +233,7 @@ const PostDetail = ({ route, ...props }) => {
                             {/* BODY  */}
                             <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.base }}>
                                 <TouchableOpacity onPress={() => setSeeMore(!seeMore)}>
-                                    <Text numberOfLines={seeMore ? 5 : 3} style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', }}>{item.title}</Text>
+                                    <Text numberOfLines={seeMore ? 5 : 3} style={{ ...FONTS.h2, color: COLORS.black, fontWeight: 'bold', }}>{item.title}</Text>
                                 </TouchableOpacity>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: SIZES.h4 }}>

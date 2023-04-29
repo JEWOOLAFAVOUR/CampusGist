@@ -40,7 +40,7 @@ const Home = ({ ...props }) => {
             <StatusBar backgroundColor={COLORS.primary} />
             <NetInfoProvider />
             <View style={{ marginBottom: 0, flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base, justifyContent: 'space-between', paddingHorizontal: SIZES.width * 0.05 }}>
-                <Text style={{ ...FONTS.body1, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
+                <Text style={{ ...FONTS.h1, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity style={{ marginRight: SIZES.h3 }}>
                         <Image source={icons.search} style={{ height: SIZES.h2 * 1, width: SIZES.h2 * 1 }} />

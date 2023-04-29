@@ -160,7 +160,7 @@ const Notification = () => {
             <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: SIZES.h5 }}>
                 <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1 }} />
             </TouchableOpacity>
-            <Text style={{ fontSize: SIZES.h1 * 0.9, color: COLORS.primary, fontWeight: 'bold' }}>Notification</Text>
+            <Text style={{ ...FONTS.h2, color: COLORS.primary, fontWeight: 'bold' }}>Notification</Text>
             <Text style={{ color: COLORS.black, fontSize: SIZES.body3a, fontFamily: 'Roboto-Medium' }}>You have <Text style={{ color: COLORS.orange }}>0 notifications</Text> today.</Text>
             {/* LIST  */}
             <View style={{}}>

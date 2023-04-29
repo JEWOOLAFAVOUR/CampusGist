@@ -201,7 +201,7 @@ const HotMore = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()} style={{ flex: 0.5 }}>
                     <Image source={icons.arrowleft2} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9 }} />
                 </TouchableOpacity>
-                <Text style={{ ...FONTS.body1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5 }}>CG Foods</Text>
+                <Text style={{ ...FONTS.h1, color: COLORS.orange, fontWeight: 'bold', marginBottom: SIZES.h5 }}>CG Foods</Text>
             </View>
             <FlatList
                 ListHeaderComponent={_renderHeader}
