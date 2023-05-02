@@ -18,44 +18,41 @@ const BottomTab = () => {
         <Tab.Navigator
             // initialRouteName="AccountHome"
             screenOptions={({ route }) => ({
-                tabBarShowLabel: false,
+                // tabBarShowLabel: false,
                 tabBarStyle: {
                     ...FONTS.h5,
+                    // color: focused ? COLORS.orange : COLORS.brown
                 },
                 tabBarStyle: {
-                    height: SIZES.h1 * 2.13,
+                    height: SIZES.h1 * 1.8,
                     backgroundColor: COLORS.white,
                     borderTopWidth: 1,
                 },
                 tabBarIcon: ({ focused, size, colour }) => {
                     let iconName;
-                    if (route.name === 'HomeP') {
+                    if (route.name === 'Home') {
                         iconName = focused ? icons.home : icons.home
-                        size = focused ? SIZES.h1 : SIZES.h1,
-                            colour = focused ? COLORS.orange : COLORS.brown
-                    }/* else if (route.name === 'SearchP') {
-                            iconName = focused ? icons.search : icons.search
-                            size = focused ? SIZES.h1 : SIZES.h1,
-                                colour = focused ? COLORS.orange : COLORS.brown
-                        }*/
-                    else if (route.name === 'CampusCircleP') {
-                        iconName = focused ? icons.circle : icons.circle
-                        size = focused ? SIZES.h1 : SIZES.h1,
+                        size = focused ? SIZES.h3 : SIZES.h3,
                             colour = focused ? COLORS.orange : COLORS.brown
                     }
-                    else if (route.name === 'AccountP') {
+                    else if (route.name === 'Market') {
+                        iconName = focused ? icons.cart1 : icons.cart1
+                        size = focused ? SIZES.h3 : SIZES.h3,
+                            colour = focused ? COLORS.orange : COLORS.brown
+                    }
+                    else if (route.name === 'Account') {
                         iconName = focused ? icons.person : icons.person
-                        size = focused ? SIZES.h1 : SIZES.h1,
+                        size = focused ? SIZES.h3 : SIZES.h3,
                             colour = focused ? COLORS.orange : COLORS.brown
                     }
-                    return <Image source={iconName} style={{ height: SIZES.h1 * 0.9, width: SIZES.h1 * 0.9, tintColor: colour }} />
+                    return <Image source={iconName} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: colour }} />
                 },
                 headerShown: false
             })}
         >
-            <Tab.Screen name='HomeP' component={Home} />
-            <Tab.Screen name='CampusCircleP' component={CampusCircleStack} />
-            <Tab.Screen name='AccountP' component={SettingStack} />
+            <Tab.Screen name='Home' component={Home} />
+            <Tab.Screen name='Market' component={CampusCircleStack} />
+            <Tab.Screen name='Account' component={SettingStack} />
         </Tab.Navigator>
     )
 }

@@ -8,6 +8,7 @@ import CircleListDetails from './CircleListDetails';
 import RestaurantDetail from './RestaurantDetail';
 import MarketDetail from './MarketDetail';
 import MarketMore from './MarketMore';
+import Market from './Market';
 
 
 const { width, height } = Dimensions.get('window');
@@ -22,13 +23,17 @@ const CampusCircleStack = () => {
                 height,
             }}>
             <Stack.Navigator
-                initialRouteName="CampusCircle"
+                initialRouteName="Marketp"
                 screenOptions={{
                     headerShown: false
                 }}>
                 <Stack.Screen
                     name='CampusCircle'
                     component={CampusCircle}
+                />
+                <Stack.Screen
+                    name='Marketp'
+                    component={Market}
                 />
                 <Stack.Screen
                     name='HotMore'

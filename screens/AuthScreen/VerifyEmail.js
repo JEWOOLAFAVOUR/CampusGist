@@ -14,42 +14,6 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
     // console.log('props', route)
     const useId = route.params.item;
     console.log('dttt', useId)
-    // useEffect(() => {
-    //     const backAction = () => {
-    //         Alert.alert(
-    //             'Exit App',
-    //             'Do you want to exit the app?',
-    //             [
-    //                 {
-    //                     text: 'Cancel',
-    //                     onPress: () => null,
-    //                     style: 'cancel'
-    //                 },
-    //                 {
-    //                     text: 'Exit',
-    //                     onPress: () => BackHandler.exitApp()
-    //                 }
-    //             ],
-    //             { cancelable: false }
-    //         );
-    //         return true;
-    //     };
-
-    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
-    //         e.preventDefault();
-    //         backAction();
-    //     });
-
-    //     const backHandler = BackHandler.addEventListener(
-    //         'hardwareBackPress',
-    //         backAction
-    //     );
-
-    //     return () => {
-    //         removeListener();
-    //         backHandler.remove();
-    //     };
-    // }, [navigation]);
 
     const [userId, setUserId] = useState(route.params.item);
     const [email, setEmail] = useState(route.params?.emailSubmitted);
@@ -178,7 +142,7 @@ const VerifyEmail = ({ navigation, route, ...props }) => {
                 <View style={{}}>
                     {/* OTP BOX DESIGN  */}
                     <View style={{ marginHorizontal: SIZES.width * 0.05 }}>
-                        <Text style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold', marginBottom: SIZES.base }}>Enter Otp Sent To You Email</Text>
+                        <Text style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold', marginBottom: SIZES.base }}>Enter Otp Sent To Your Email</Text>
                         <Text style={{ ...FONTS.body3a, color: COLORS.black, fontWeight: 'bold', marginBottom: SIZES.base }}>{email}</Text>
                         <Text style={{ ...FONTS.body4, color: COLORS.red, marginBottom: SIZES.base }}>If not seen check spam folder.</Text>
                         <View style={styles.inputCtn}>

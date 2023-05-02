@@ -74,8 +74,9 @@ const PostList = ({ data, ...props }) => {
     const fetchSinglePost = withNetworkCheck(async (slug) => {
         try {
             setK(true)
-            const { error, post, success } = await getSinglePost(slug)
-            console.log('first jv', post, success)
+            const { error, post, success, related } = await getSinglePost(slug)
+            console.log('single post fetch', post, success)
+            console.log('related of single-fetch', related)
 
             setK(false)
 

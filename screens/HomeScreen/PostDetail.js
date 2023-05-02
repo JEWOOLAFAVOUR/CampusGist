@@ -29,11 +29,6 @@ const copy = `# h1 Heading 8-)
 This is normal text
 `;
 
-const commentValidationSchema = yup.object().shape({
-    comment: yup
-        .string('Please enter a comment')
-        .required('comment is required'),
-})
 
 const PostDetail = ({ route, ...props }) => {
     const navigation = useNavigation();
@@ -51,11 +46,10 @@ const PostDetail = ({ route, ...props }) => {
     const [comment3, setComment3] = useState(post?.comments)
     // console.log('iiiiiiiiiiiiiiiii', comment3)
 
-    console.log('new possst', postData)
+    // console.log('new possst', postData)
 
     const accessToken = props.accessToken
     const avatar = props.user?.avatar?.url
-    console.log(avatar, 'kdkdkk')
 
     const getImage = (uri) => {
         if (uri) return { uri };

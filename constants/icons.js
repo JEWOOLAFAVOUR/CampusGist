@@ -10,6 +10,8 @@ export const block = require('../assets/icons/block.png')
 export const bookmark = require('../assets/icons/bookmark.png')
 export const call = require('../assets/icons/call.png')
 export const campus = require('../assets/icons/campus.png')
+export const cart1 = require('../assets/icons/cart1.png')
+export const cart2 = require('../assets/icons/cart2.png')
 export const circle = require('../assets/icons/circle.png')
 export const circlecheck = require('../assets/icons/circlecheck.png')
 export const clock = require('../assets/icons/clock.png')
@@ -63,6 +65,8 @@ export default {
     bookmark,
     call,
     campus,
+    cart1,
+    cart2,
     circle,
     circlecheck,
     clock,

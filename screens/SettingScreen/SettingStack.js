@@ -28,7 +28,7 @@ const SettingStack = () => {
                     headerShown: false
                 }}>
                 <Stack.Screen
-                    name='Account'
+                    name='AccountP'
                     component={Account}
                 />
                 <Stack.Screen
