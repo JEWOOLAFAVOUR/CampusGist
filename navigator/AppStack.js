@@ -11,6 +11,7 @@ import Notification from '../screens/HomeScreen/Notification';
 import Onboarding from '../screens/AuthScreen/Onboarding';
 import MarketDetail from '../screens/CampusCircle/MarketDetail';
 import MarketMore from '../screens/CampusCircle/MarketMore';
+import MarketCategory from '../screens/CampusCircle/MarketCategory';
 
 const AppStack = () => {
     const Stack = createNativeStackNavigator();
@@ -29,6 +30,9 @@ const AppStack = () => {
             {/* campus circle  */}
             <Stack.Screen name="MarketDetail" component={MarketDetail} />
             <Stack.Screen name="MarketMore" component={MarketMore} />
+            {/* MARKET BY CATEGORY */}
+            <Stack.Screen name='MarketCategory' component={MarketCategory}
+            />
 
         </Stack.Navigator>
     )

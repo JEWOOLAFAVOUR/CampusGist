@@ -37,14 +37,6 @@ const CampusCircle = () => {
 
     }
 
-    // const fetchMarket = async () => {
-    //     const { error, markets } = await getMarket(limit, pageNo);
-    //     console.log('this is the market data', markets)
-    //     if (error) return console.log('sta-err', error)
-
-    //     setMarket(markets)
-    // }
-
     const getMarket = async () => {
         const response = await getAllMarket()
         const { market, error } = response;
@@ -53,7 +45,6 @@ const CampusCircle = () => {
         console.log('market data', response)
         setMarket(market)
     }
-
 
     const fetchBanner = async () => {
         const { error, banners } = await getBanner(limit, pageNo);

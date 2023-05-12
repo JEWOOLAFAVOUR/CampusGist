@@ -36,7 +36,7 @@ const BottomTab = () => {
                             colour = focused ? COLORS.orange : COLORS.brown
                     }
                     else if (route.name === 'Market') {
-                        iconName = focused ? icons.cart1 : icons.cart1
+                        iconName = focused ? icons.cart2 : icons.cart1
                         size = focused ? SIZES.h3 : SIZES.h3,
                             colour = focused ? COLORS.orange : COLORS.brown
                     }
