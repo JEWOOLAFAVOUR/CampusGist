@@ -3,34 +3,70 @@ import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { getMarketByCategory } from '../../api/campuscircle'
 import { useNavigation } from '@react-navigation/native'
+import MarketTemplate from './MarketTemplate'
+import Roller from '../../components/Roller'
 
 const MarketCategory = ({ route }) => {
     const navigation = useNavigation();
-    const [title, setTitle] = useState(route?.params?.title)
+    const [title, setTitle] = useState(route?.params?.title);
+    const [load, setLoad] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    console.log('title', title)
     const [categoryMarket, setCategoryMarket] = useState([]);
+    console.log('lllllll', categoryMarket)
 
-    const getMarket = async () => {
-        const response = await getMarketByCategory()
-        const { market, error } = response;
+    const getMarkets = async () => {
+        const response = await getMarketByCategory(title)
+        const { markets, error } = response;
         if (error) return console.log('market-error', error)
 
         console.log('market data', response)
-        setCategoryMarket(market)
+        setCategoryMarket(markets)
     }
 
     useEffect(() => {
-        getMarket();
+        const fetchData = async () => {
+            try {
+                setLoad(true)
+                await Promise.all([
+                    getMarkets(),
+                ])
+                setLoad(false)
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+                setLoad(false)
+            }
+        }
+        fetchData()
     }, [])
 
+    const handleRefresh = () => { getMarkets(); }
+
     return (
-        <View style={styles.page}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
-                    <Image source={icons.arrowleft} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.primary }} />
-                </TouchableOpacity>
-                <Text style={{ ...FONTS.h1, color: COLORS.primary, marginLeft: SIZES.h2, }}>CG - {title}</Text>
+        <>
+            {load ? <Roller visible={true} /> : null}
+            <View style={styles.page}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
+                        <Image source={icons.arrowleft} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.primary }} />
+                    </TouchableOpacity>
+                    <Text style={{ ...FONTS.h1, color: COLORS.primary, marginLeft: SIZES.h2, }}>CG - {title}</Text>
+                </View>
+                <FlatList
+                    numColumns={2}
+                    columnWrapperStyle={{ justifyContent: 'space-between' }}
+                    data={categoryMarket.length > 0 ? categoryMarket.slice(0, 10) : []}
+                    renderItem={({ item }) => <MarketTemplate item={item} />}
+                    refreshControl={
+                        <RefreshControl
+                            colors={[COLORS.primary, COLORS.blue]}
+                            refreshing={refreshing}
+                            onRefresh={handleRefresh}
+                        />
+                    }
+                />
             </View>
-        </View>
+        </>
     )
 }
 

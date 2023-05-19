@@ -6,57 +6,28 @@ import Modal from 'react-native-modal';
 
 const WelcomeScreen = () => {
     const navigation = useNavigation();
-    // useEffect(() => {
-    //     const backAction = () => {
-    //         Alert.alert(
-    //             'Exit App',
-    //             'Do you want to exit the app?',
-    //             [
-    //                 {
-    //                     text: 'Cancel',
-    //                     onPress: () => null,
-    //                     style: 'cancel'
-    //                 },
-    //                 {
-    //                     text: 'Exit',
-    //                     onPress: () => BackHandler.exitApp()
-    //                 }
-    //             ],
-    //             { cancelable: false }
-    //         );
-    //         return true;
-    //     };
-
-    //     const removeListener = navigation.addListener('beforeRemove', (e) => {
-    //         e.preventDefault();
-    //         backAction();
-    //     });
-
-    //     const backHandler = BackHandler.addEventListener(
-    //         'hardwareBackPress',
-    //         () => {
-    //             navigation.goBack();
-    //             return true;
-    //         }
-    //     );
-
-    //     return () => backHandler.remove();
-    // }, [navigation]);
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [intervalId, setIntervalId] = useState(null);
 
     const handleRegisterWithPhone = () => {
-        setModalVisible(true);
+        setModalVisible(false);
+        navigation.navigate('RegisterWithPhone');
     };
 
     const handleRegisterWithEmail = () => {
-        setModalVisible(false);
-        navigation.navigate('Register');
+        setModalVisible(true);
+        // navigation.navigate('Register');
     };
 
     const handleLogin = () => {
         setModalVisible(false);
         navigation.navigate('Login');
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+        clearInterval(intervalId);
     };
 
     return (
@@ -67,7 +38,7 @@ const WelcomeScreen = () => {
                 <Text style={{ ...FONTS.navTitle, color: COLORS.primary, textAlign: 'center', marginBottom: SIZES.base / 1.8 }}>Welcome!</Text>
                 <Text style={{ ...FONTS.body3a, color: COLORS.primary, textAlign: 'center' }}>You are only a few steps away from Gist</Text>
             </View>
-            <View style={{ marginBottom: SIZES.h4 }}>
+            <View style={{ marginBottom: SIZES.h2 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: SIZES.h4 }}>
                     <Text style={{ ...FONTS.body3a, color: COLORS.primary }}>Already a member? </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -75,7 +46,7 @@ const WelcomeScreen = () => {
                     </TouchableOpacity>
                 </View>
                 {/* THE BUTTON */}
-                <TouchableOpacity onPress={() => navigation.navigate('Register')} style={styles.clickBtn}>
+                <TouchableOpacity onPress={() => handleRegisterWithEmail()} style={styles.clickBtn}>
                     <Image source={icons.mail} style={{ tintColor: '#ad554b', width: SIZES.h2 * 0.9, height: SIZES.h2 * 0.9, position: 'absolute', left: 17, }} />
                     <Text style={{ ...FONTS.body4, color: COLORS.white, textAlign: 'center' }}>Register with email</Text>
                 </TouchableOpacity>
@@ -84,11 +55,11 @@ const WelcomeScreen = () => {
                     <Text style={{ ...FONTS.body4, color: COLORS.white, textAlign: 'center' }}>Continue with Phone number</Text>
                 </TouchableOpacity>
             </View>
-            <Modal isVisible={modalVisible}>
+            <Modal isVisible={modalVisible} onBackdropPress={closeModal}>
                 <View style={styles.modalContainer}>
-                    <Text style={styles.modalText}>Registration with phone number is not available.</Text>
-                    <TouchableOpacity style={styles.modalButton} onPress={handleRegisterWithEmail}>
-                        <Text style={styles.modalButtonText}>Register with Email</Text>
+                    <Text style={styles.modalText}>Registration with email is not available.</Text>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleRegisterWithPhone}>
+                        <Text style={styles.modalButtonText}>Register with Phone Number</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton} onPress={handleLogin}>
                         <Text style={styles.modalButtonText}>Login</Text>
@@ -114,18 +85,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SIZES.base,
+        marginBottom: SIZES.h5,
     },
     modalContainer: {
         backgroundColor: '#fff',
         borderRadius: 10,
-        padding: 20,
+        padding: SIZES.h2,
     },
     modalText: {
         ...FONTS.body3,
         fontWeight: 'bold',
         marginBottom: 20,
-        color: COLORS.orange
+        color: COLORS.orange,
+        textAlign: 'center',
     },
     modalButton: {
         backgroundColor: '#e6e6e6',

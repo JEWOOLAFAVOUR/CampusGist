@@ -95,7 +95,7 @@ const Login = ({ ...props }) => {
                                 value={email}
                                 onChangeText={value => setEmail(value)}
                             />
-                            <Image source={icons.mail} style={{ height: SIZES.h3, width: SIZES.h3 }} />
+                            <Image source={icons.call} style={{ height: SIZES.h3, width: SIZES.h3 }} />
                         </View>
                     </View>
                     {/* <Text style={{ ...FONTS.body2b, color: COLORS.black, marginBottom: SIZES.base * 0.2 }}>Password</Text> */}
@@ -157,14 +157,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login)
 
 const styles = StyleSheet.create({
     inputCtn: {
-        height: SIZES.h1 * 1.9,
-        // borderWidth: 1.5,
-        borderRadius: SIZES.radius,
+        height: SIZES.h1 * 1.7,
+        borderRadius: SIZES.h5,
         paddingHorizontal: SIZES.base,
-        marginBottom: SIZES.h1,
-        // borderColor: COLORS.brown,
+        marginBottom: SIZES.h1 * 0.9,
+        borderColor: COLORS.brown,
         backgroundColor: COLORS.grey2,
-        borderRadius: SIZES.h2,
         borderWidth: 1,
     },
     btnCtn: {

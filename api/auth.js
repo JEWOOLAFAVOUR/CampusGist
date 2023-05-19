@@ -48,6 +48,15 @@ export const registerUser = async (values) => {
     return response;
 };
 
+export const registerUserWithPhone = async (values) => {
+    console.log('djjjjjjjjjjjjj', values)
+    // console.log('passing otp', otp, userId)
+    //   const data = { firstName, lastName, username, email, password };
+    const data = values;
+    const response = await makeApiRequest('POST', '/user/create-user-with-phone', data);
+    return response;
+};
+
 export const loginUser = async (email, password) => {
     // console.log('passing otp', otp, userId)
     const data = { email, password }; // create an object with otp and userId

@@ -5,7 +5,7 @@ import { COLORS, FONTS, images, icons, SIZES } from '../../constants';
 import moment from 'moment';
 
 const MarketDetail = ({ route }) => {
-    const data = route.params?.response?.data;
+    const data = route.params?.response?.market;
     console.log('route coming', data)
 
     const navigation = useNavigation();

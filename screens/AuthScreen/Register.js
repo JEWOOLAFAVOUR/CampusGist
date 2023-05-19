@@ -7,6 +7,9 @@ import { Formik, Field } from 'formik';
 import { registerUser } from '../../api/auth';
 import Toast from '../../components/Toast';
 import Roller from '../../components/Roller';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import * as authActions from '../../redux/actions/authAction'
 
 const signUpValidationSchema = yup.object().shape({
     firstName: yup
@@ -36,7 +39,7 @@ const signUpValidationSchema = yup.object().shape({
         .required('Password is required'),
 })
 
-const Register = () => {
+const Register = ({ ...props }) => {
     const navigation = useNavigation();
 
     const [showSpinner, setShowSpinner] = useState(false);
@@ -237,7 +240,26 @@ const Register = () => {
     )
 }
 
-export default Register
+Register.propTypes = {
+    user: PropTypes.object.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    updateUserLogin: PropTypes.func.isRequired,
+    updateUserAccessToken: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    updateUserLogin: (user, isLoggedIn) => dispatch(authActions.updateUserLogin(user, isLoggedIn)),
+    updateUserAccessToken: (token) => dispatch(authActions.updateUserAccessToken(token))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
 
 const styles = StyleSheet.create({
     inputCtn: {

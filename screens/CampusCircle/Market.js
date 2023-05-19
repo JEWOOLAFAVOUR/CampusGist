@@ -3,34 +3,57 @@ import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { oldMarketData } from './CampusCircleData';
 import Modal from 'react-native-modal';
-import { getAllMarket } from '../../api/campuscircle';
+import { getAllMarket, getMarketById } from '../../api/campuscircle';
 import { useNavigation } from '@react-navigation/native';
+import MarketTemplate from './MarketTemplate';
+import Roller from '../../components/Roller';
 
 const Market = () => {
     const navigation = useNavigation();
     const categoryData = [
         { id: 1, title: 'Foods', },
         { id: 2, title: 'Fashion', },
-        { id: 3, title: 'Accomodation', },
+        { id: 3, title: 'Hostel', },
         { id: 4, title: 'Electronics', },
     ];
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
-    const [markets, setMarkets] = useState([])
+    const [markets, setMarkets] = useState([]);
+    const [load, setLoad] = useState(true)
 
     const fetchAllMarket = async () => {
-        const { market, error } = await getAllMarket();
+        const { markets, error } = await getAllMarket();
         if (error) return console.log('market-error', error)
-        console.log('markets data fetched', market)
+        console.log('markets data fetched', markets)
         setMarkets(markets)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoad(true)
+                await Promise.all([
+                    fetchAllMarket(),
+                ])
+                setLoad(false)
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+                setLoad(false)
+            }
+        }
+        fetchData()
+    }, [])
 
     const closeModal = () => {
         setIsModalVisible(false);
         clearInterval(intervalId);
     };
+
+    const handleRefresh = () => {
+        fetchAllMarket();
+    }
 
     const RenderHeader = () => {
         return (
@@ -63,18 +86,9 @@ const Market = () => {
                 <FlatList
                     numColumns={2}
                     columnWrapperStyle={{ justifyContent: 'space-between' }}
-                    data={oldMarketData.length > 0 ? oldMarketData.slice(0, 10) : []}
-                    renderItem={({ item }) => {
-                        return (
-                            <TouchableOpacity style={styles.container}>
-                                <Image source={item.marketImage} style={styles.marketImg} />
-                                <View style={{ marginLeft: SIZES.h5 }}>
-                                    <Text numberOfLines={1} style={{ ...FONTS.body2, color: COLORS.black, fontWeight: 'bold' }}>₦{item.price}</Text>
-                                    <Text numberOfLines={1} style={{ ...FONTS.body3b, color: COLORS.black }}>{item.marketTitle}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )
-                    }}
+                    // data={oldMarketData.length > 0 ? oldMarketData.slice(0, 10) : []}
+                    data={markets.length > 0 ? markets.slice(0, 10) : []}
+                    renderItem={({ item }) => <MarketTemplate item={item} />}
                 />
                 <View style={{ marginBottom: SIZES.h1 * 2.2 }} />
             </View>
@@ -82,6 +96,7 @@ const Market = () => {
     }
     return (
         <View style={styles.page}>
+            {load ? <Roller visible={true} /> : null}
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.width * 0.03, justifyContent: 'space-between', marginBottom: SIZES.base }}>
                 <Text style={{ ...FONTS.h1, color: COLORS.primary }}>Marketplace</Text>
                 <TouchableOpacity>
@@ -95,7 +110,7 @@ const Market = () => {
                     <RefreshControl
                         colors={[COLORS.primary, COLORS.blue]}
                         refreshing={refreshing}
-                    // onRefresh={handleRefresh}
+                        onRefresh={handleRefresh}
                     />
                 }
             />
@@ -139,25 +154,13 @@ const styles = StyleSheet.create({
         paddingTop: SIZES.base,
     },
     categoryCtn: {
-        height: SIZES.h1 * 3.1,
-        width: SIZES.h1 * 3.1,
+        height: SIZES.h1 * 2.8,
+        width: SIZES.h1 * 3.2,
         backgroundColor: COLORS.chocolate,
         borderRadius: SIZES.base,
         marginLeft: SIZES.h5,
         // marginLeft: SIZES.width * 0.03,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    container: {
-        height: SIZES.height * 0.3,
-        width: SIZES.width * 0.443,
-        // borderRadius: SIZES.h4,
-        backgroundColor: COLORS.grey2,
-        elevation: 3,
-        marginBottom: SIZES.h5
-    },
-    marketImg: {
-        height: SIZES.height * 0.23,
-        width: SIZES.width * 0.443,
     },
 })

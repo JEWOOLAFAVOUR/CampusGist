@@ -4,58 +4,72 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import { SIZES, COLORS, FONTS, icons } from '../../constants';
 import * as yup from 'yup';
 import { Formik, Field } from 'formik';
-import { registerUser } from '../../api/auth';
-import Toast from 'react-native-simple-toast';
-
-
+import { registerUser, registerUserWithPhone } from '../../api/auth';
+import Toast from '../../components/Toast';
+import Roller from '../../components/Roller';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import * as authActions from '../../redux/actions/authAction'
 
 const signUpValidationSchema = yup.object().shape({
     firstName: yup
         .string()
+        .trim()
         .required('Firstname is missing'),
     lastName: yup
         .string()
+        .trim()
         .required('Lastname is missing'),
     username: yup
         .string()
-        .required('Username is missing'),
+        .trim()
+        .required('Username is missing')
+        .min(5, ({ min }) => `Username must be at least ${min} characters`),
     phone: yup
         .number()
-        .required('Phone number is required'),
+        .required('Phone Number is required'),
     password: yup
         .string()
+        .trim()
         .matches(/\w*[a-z]\w*/, 'Password must have a small letter')
         .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
-        .matches(/\d/, 'Password must have a number')
+        // .matches(/\d/, 'Password must have a number')
         .min(8, ({ min }) => `Password must be at least ${min} characters`)
         .required('Password is required'),
 })
 
-const RegisterWithPhone = () => {
+const RegisterWithPhone = ({ ...props }) => {
     const navigation = useNavigation();
 
     const [showSpinner, setShowSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
+    const [showError, setShowError] = useState(false);
+    const [existUserName, setExistUserName] = useState(false);
+    const [msg, setMsg] = useState('');
+    const [vProfile, setVProfile] = useState(false)
+    const [press, setPress] = useState(true)
     const { colors: { background } } = useTheme();
+    const [toastMsg, setToastMsg] = useState('')
+    const [showToast, setShowToast] = useState(false)
 
-    const sub = () => {
-        Toast.show('Hello World', Toast.SHORT, ['RCTToast'], {
-            backgroundColor: '#999',
-            borderRadius: 10,
-            paddingTop: 8,
-            paddingBottom: 8,
-            paddingLeft: 12,
-            paddingRight: 12,
-            fontSize: 16,
-            color: '#fff',
-        });
-    };
-    // }
+
 
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white, paddingHorizontal: SIZES.width * 0.05 }}>
+            {
+                showError && (
+                    <Toast message="Please verify your email to proceed" type="fail" />
+                )
+            }
+            {
+                existUserName && (
+                    <Toast message={msg} type="fail" />
+                )
+            }
+            {vProfile && <Toast message={"Account Created, Please Verify!"} type="success" />}
+            {showToast && <Toast message={toastMsg} type="fail" />}
+
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCtn}>
                 <Image source={icons.arrowleft} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.primary }} />
             </TouchableOpacity>
@@ -75,29 +89,40 @@ const RegisterWithPhone = () => {
                         password: '',
                     }}
                     onSubmit={async (values) => {
-                        // setShowSpinner(true);
-                        // console.log('values', values);
-                        // registerUser(values).then(res => {
-                        //     console.log('response', res)
-                        //     setShowSpinner(false);
-                        // Alert.alert(
-                        //     ' ',
-                        //     res.status,
-                        //     [
-                        //         {
-                        //             text: 'Ok',
-                        //             onPress: () => {
-                        //                 navigation.navigate('Login')
-                        //             }
-                        //         }
-                        //     ]
-                        // )
-                        navigation.navigate('VerifyEmail')
-                        // }).catch(err => {
-                        //     console.log('signup error', err.response.data?.error)
-                        //     setShowSpinner(false);
-                        //     console.log('Error', err.response.data?.error)
-                        // })
+                        setShowSpinner(true);
+                        console.log('values', values);
+                        registerUserWithPhone(values).then(res => {
+                            console.log('responssse', res)
+                            setShowSpinner(false);
+                            setShowSpinner(true);
+                            if (res.error) {
+                                setToastMsg(res.error)
+                                // setToastMsg('Network Error')
+                                setShowToast(false)
+                                setShowToast(true)
+                            } else if (res.status === "Email not verified") {
+                                setShowError(false)
+
+                                setShowError(true)
+                                navigation.navigate('VerifyEmail', { item: res.userId, email: values.email })
+                            } else if (res?.data?.verified === false) {
+                                console.log('coolll', values)
+                                setVProfile(false)
+                                setVProfile(true)
+                                setTimeout(() => {
+                                    navigation.navigate('VerifyEmail', { item: res?.data?._id })
+                                }, 1000);
+                            }
+                        }).catch(err => {
+                            console.log('signup error', err)
+                            setShowSpinner(false);
+                            setMsg(err?.response.data?.error)
+                            setExistUserName(false)
+                            console.log('Error', err?.response?.data?.error)
+                            setExistUserName(true)
+                        })
+                        // navigation.navigate('VerifyEmail')
+
                     }}
                 >
                     {({ handleSubmit, isValid, values, errors, handleChange, touched }) => (
@@ -106,9 +131,10 @@ const RegisterWithPhone = () => {
                                 <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
                                     <TextInput
                                         placeholder='Enter Firstname'
+                                        placeholderTextColor={COLORS.chocolate}
                                         name='firstName'
                                         onChangeText={handleChange('firstName')}
-                                        style={{ ...FONTS.body4 }}
+                                        style={{ ...FONTS.body4, color: COLORS.black }}
                                     />
                                     {(errors.firstName && touched.firstName) &&
                                         <Text style={styles.errorText}>{errors.firstName}</Text>}
@@ -116,9 +142,10 @@ const RegisterWithPhone = () => {
                                 <View style={[styles.inputCtn, { width: SIZES.width * 0.42 }]}>
                                     <TextInput
                                         placeholder='Enter Lastname'
+                                        placeholderTextColor={COLORS.chocolate}
                                         name='lastName'
                                         onChangeText={handleChange('lastName')}
-                                        style={{ ...FONTS.body4 }}
+                                        style={{ ...FONTS.body4, color: COLORS.black }}
                                     />
                                     {(errors.lastName && touched.lastName) &&
                                         <Text style={styles.errorText}>{errors.lastName}</Text>}
@@ -130,9 +157,10 @@ const RegisterWithPhone = () => {
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.base }}>
                                     <TextInput
                                         placeholder='Enter Username'
+                                        placeholderTextColor={COLORS.chocolate}
                                         name='username'
                                         onChangeText={handleChange('username')}
-                                        style={{ ...FONTS.body4 }}
+                                        style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                     />
                                     <Image source={icons.person} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
                                 </View>
@@ -143,13 +171,14 @@ const RegisterWithPhone = () => {
                             <View style={styles.inputCtn}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.base }}>
                                     <TextInput
-                                        placeholder='Enter Phone number'
+                                        placeholder='Enter Phone Number'
+                                        placeholderTextColor={COLORS.chocolate}
                                         name='phone'
                                         onChangeText={handleChange('phone')}
                                         keyboardType='number-pad'
-                                        style={{ ...FONTS.body4, flex: 1 }}
+                                        style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                     />
-                                    <Image source={icons.mail} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.chocolate }} />
+                                    <Image source={icons.call} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: COLORS.chocolate }} />
                                 </View>
                                 {(errors.phone && touched.phone) &&
                                     <Text style={styles.errorText}>{errors.phone}</Text>}
@@ -160,14 +189,15 @@ const RegisterWithPhone = () => {
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.base }}>
                                         <TextInput
                                             placeholder='Enter Password'
+                                            placeholderTextColor={COLORS.chocolate}
                                             name='password'
                                             onChangeText={handleChange('password')}
-                                            secureTextEntry={showPassword}
+                                            secureTextEntry={true}
+                                            style={{ ...FONTS.body4, flex: 1, color: COLORS.black }}
                                             keyboardType='visible-password'
-                                            style={{ ...FONTS.body4, flex: 1 }}
                                         />
-                                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                            <Image source={icons.key} style={{ height: SIZES.h3, width: SIZES.h3, tintColor: COLORS.chocolate }} />
+                                        <TouchableOpacity onPress={() => setPress(!press)}>
+                                            <Image source={press ? icons.eyeclose : icons.eye} style={{ height: SIZES.h2, width: SIZES.h2, }} />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -178,21 +208,20 @@ const RegisterWithPhone = () => {
                                 // <Text>{err.response.data?.error}</Text>
                             }
                             {/* BUTTON  */}
-                            <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 2, flexDirection: 'row', alignItems: 'center' }]}>
+                            <TouchableOpacity onPress={handleSubmit} style={[styles.btnCtn, { marginTop: SIZES.h1 * 1.5, flexDirection: 'row', alignItems: 'center' }]}>
                                 <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Register</Text>
                                 {
-                                    showSpinner && (<ActivityIndicator color={COLORS.white} />)
+                                    // showSpinner && (<ActivityIndicator color={COLORS.white} />)
+                                    showSpinner && (<Roller visible={showSpinner} />)
                                 }
                                 <Image source={icons.arrowright} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.white }} />
                             </TouchableOpacity>
                         </>
                     )}
                 </Formik>
-
-
                 {/* BUTTON  */}
                 <View style={{}}>
-                    <View style={{ marginTop: SIZES.h1 * 1.3 }}>
+                    <View style={{ marginTop: SIZES.h1 * 1, marginBottom: SIZES.h5 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ ...FONTS.body3b, color: COLORS.primary }}>I am already a member,</Text>
                             <TouchableOpacity onPress={() => navigation.navigate('Login')} >
@@ -210,18 +239,35 @@ const RegisterWithPhone = () => {
     )
 }
 
-export default RegisterWithPhone
+RegisterWithPhone.propTypes = {
+    user: PropTypes.object.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    updateUserLogin: PropTypes.func.isRequired,
+    updateUserAccessToken: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        isLoggedIn: state.auth.isLoggedIn
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    updateUserLogin: (user, isLoggedIn) => dispatch(authActions.updateUserLogin(user, isLoggedIn)),
+    updateUserAccessToken: (token) => dispatch(authActions.updateUserAccessToken(token))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterWithPhone)
 
 const styles = StyleSheet.create({
     inputCtn: {
-        height: SIZES.h1 * 1.9,
-        // borderWidth: 1.5,
-        borderRadius: SIZES.radius,
+        height: SIZES.h1 * 1.7,
+        borderRadius: SIZES.h5,
         paddingHorizontal: SIZES.base,
-        marginBottom: SIZES.h1,
+        marginBottom: SIZES.h1 * 0.9,
         borderColor: COLORS.brown,
         backgroundColor: COLORS.grey2,
-        borderRadius: SIZES.h2,
         borderWidth: 1,
     },
     btnCtn: {
@@ -248,4 +294,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#f3f3f3',
         marginTop: SIZES.h3,
     },
-});
+})

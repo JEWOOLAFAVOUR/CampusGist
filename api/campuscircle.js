@@ -105,6 +105,7 @@ export const getMarketById = async (marketId) => {
 
 // NEW API's WORK
 export const getMarketByCategory = async (category) => {
-    const response = await makeApiRequest('GET', `/campus-circle/get-markets-category/${category}`);
+    console.log('ddddddd', category)
+    const response = await makeApiRequest('GET', `/campus-circle/get-markets-category/${category}?page=1`);
     return response;
 };
