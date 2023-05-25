@@ -6,10 +6,11 @@ import * as yup from 'yup';
 import { Formik, Field } from 'formik';
 import { registerUser, registerUserWithPhone } from '../../api/auth';
 import Toast from '../../components/Toast';
-import Roller from '../../components/Roller';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import * as authActions from '../../redux/actions/authAction'
+import Roller2 from '../../components/Roller2';
 
 const signUpValidationSchema = yup.object().shape({
     firstName: yup
@@ -27,7 +28,9 @@ const signUpValidationSchema = yup.object().shape({
         .min(5, ({ min }) => `Username must be at least ${min} characters`),
     phone: yup
         .number()
-        .required('Phone Number is required'),
+        .required('Phone Number is required')
+        .min(11, ({ min }) => `Phone must be at least ${min} digit`),
+    // .max(11, ({ max }) => `Phone must contain only ${max} digit`),
     password: yup
         .string()
         .trim()
@@ -39,6 +42,8 @@ const signUpValidationSchema = yup.object().shape({
 })
 
 const RegisterWithPhone = ({ ...props }) => {
+    const { updateUserLogin, updateUserAccessToken, user, isLoggedIn } = props
+
     const navigation = useNavigation();
 
     const [showSpinner, setShowSpinner] = useState(false);
@@ -94,24 +99,27 @@ const RegisterWithPhone = ({ ...props }) => {
                         registerUserWithPhone(values).then(res => {
                             console.log('responssse', res)
                             setShowSpinner(false);
-                            setShowSpinner(true);
+                            // setShowSpinner(true);
                             if (res.error) {
                                 setToastMsg(res.error)
                                 // setToastMsg('Network Error')
                                 setShowToast(false)
                                 setShowToast(true)
-                            } else if (res.status === "Email not verified") {
+                                setShowSpinner(false);
+                            } /* else if (res.status === "Email not verified") {
                                 setShowError(false)
-
                                 setShowError(true)
+                                setShowSpinner(false);
                                 navigation.navigate('VerifyEmail', { item: res.userId, email: values.email })
-                            } else if (res?.data?.verified === false) {
+                            }*/ else if (res?.created === true) {
                                 console.log('coolll', values)
                                 setVProfile(false)
                                 setVProfile(true)
                                 setTimeout(() => {
-                                    navigation.navigate('VerifyEmail', { item: res?.data?._id })
+                                    navigation.navigate("YourGender");
                                 }, 1000);
+                                updateUserLogin(res?.data, true)
+                                updateUserAccessToken(res?.accessToken)
                             }
                         }).catch(err => {
                             console.log('signup error', err)
@@ -212,7 +220,7 @@ const RegisterWithPhone = ({ ...props }) => {
                                 <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Register</Text>
                                 {
                                     // showSpinner && (<ActivityIndicator color={COLORS.white} />)
-                                    showSpinner && (<Roller visible={showSpinner} />)
+                                    showSpinner && (<Roller2 visible={showSpinner} />)
                                 }
                                 <Image source={icons.arrowright} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.white }} />
                             </TouchableOpacity>

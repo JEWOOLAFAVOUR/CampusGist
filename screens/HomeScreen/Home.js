@@ -9,25 +9,18 @@ import Campuses from './Campuses'
 import { connect } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import NetInfoProvider from '../../components/NetInfoProvider'
+import { appOpen } from '../../api/newfeatures/feature1'
 
 const { width, height } = Dimensions.get('window');
 
-const Home = ({ ...props }) => {
+const Home = () => {
     const navigation = useNavigation();
 
     const Tab = createMaterialTopTabNavigator();
-    const navigationRef = React.createRef();
-    // const backAction = () => {
-    //     const currentRoute = navigationRef.current.getCurrentRoute();
-    //     const isHomeTab = currentRoute.name === 'HomeP';
 
-    //     if (isHomeTab) {
-    //         BackHandler.exitApp();
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // };
+    useEffect(() => {
+        appOpen();
+    }, [])
 
     return (
         <View
@@ -52,9 +45,6 @@ const Home = ({ ...props }) => {
                         <View style={styles.notificationBell}>
                             <Text style={{ color: COLORS.white, ...FONTS.h5 }}>0</Text>
                         </View>
-                        {/* <TouchableOpacity>
-                        <Image source={images.profile4} style={{ height: SIZES.h1, width: SIZES.h1, borderRadius: 100 }} />
-                    </TouchableOpacity> */}
                     </TouchableOpacity>
                 </View>
             </View>
@@ -63,17 +53,7 @@ const Home = ({ ...props }) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user,
-        isLoggedIn: state.auth.isLoggedIn,
-        accessToken: state.auth.accessToken,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => { return {} }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home;
 
 const styles = StyleSheet.create({
     notificationBell: {

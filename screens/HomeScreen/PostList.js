@@ -26,7 +26,7 @@ const PostList = ({ data, ...props }) => {
 
     const [k, setK] = useState(false)
     const [commentErr, setCommentErr] = useState(false)
-
+    console.log('dataaaaaaaaaa', data)
 
     // access token
     const accessToken = props.accessToken
@@ -38,7 +38,6 @@ const PostList = ({ data, ...props }) => {
     }
 
     const handleToggle = async (postId, accessToken) => {
-        console.log('access token testing', accessToken)
         console.log('firstdddddddd', postId)
 
 
@@ -47,7 +46,7 @@ const PostList = ({ data, ...props }) => {
         setLiked(!liked)
         setLikeCount(liked ? likeCount - 1 : likeCount + 1)
 
-        console.log('erroe for toogle', data)
+        console.log('response from toogle', data)
         // console.log('data hhhh', message)
 
     }
@@ -147,7 +146,7 @@ const PostList = ({ data, ...props }) => {
                 {/* REACTION  */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: SIZES.base * 0.5 }}>
                     <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>{formattedTime}</Text>
-                    {/* <Text style={{ marginHorizontal: SIZES.base }}>-</Text>
+                    <Text style={{ marginHorizontal: SIZES.base }}>-</Text>
                     <TouchableOpacity onPress={() => setCommentRec(commentRec + 1)} style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.base * 1.5 }}>
                         <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{commentRec}</Text>
@@ -155,7 +154,7 @@ const PostList = ({ data, ...props }) => {
                     <TouchableOpacity onPress={() => handleToggle(data.id, accessToken)} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.base * 1.5 }}>
                         <Image source={liked ? icons.love1 : icons.love2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.orange }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{likeCount}</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={{ marginRight: SIZES.base }}>

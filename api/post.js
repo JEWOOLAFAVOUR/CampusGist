@@ -214,6 +214,7 @@ export const getBanner = async (limit, pageNo) => {
 
 export const handleLike = async (postId) => {
     try {
+        console.log('...........', postId)
         const { data } = await client.post(`/post/${postId}/toggle-like`)
 
         console.log('toggle', data);

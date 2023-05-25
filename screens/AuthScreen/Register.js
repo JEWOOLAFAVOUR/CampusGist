@@ -6,10 +6,10 @@ import * as yup from 'yup';
 import { Formik, Field } from 'formik';
 import { registerUser } from '../../api/auth';
 import Toast from '../../components/Toast';
-import Roller from '../../components/Roller';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import * as authActions from '../../redux/actions/authAction'
+import Roller2 from '../../components/Roller2';
 
 const signUpValidationSchema = yup.object().shape({
     firstName: yup
@@ -213,7 +213,7 @@ const Register = ({ ...props }) => {
                                 <Text style={{ ...FONTS.body3a, color: COLORS.white, marginRight: SIZES.h4 }}>Register</Text>
                                 {
                                     // showSpinner && (<ActivityIndicator color={COLORS.white} />)
-                                    showSpinner && (<Roller visible={showSpinner} />)
+                                    showSpinner && (<Roller2 visible={showSpinner} />)
                                 }
                                 <Image source={icons.arrowright} style={{ height: SIZES.h4, width: SIZES.h4, tintColor: COLORS.white }} />
                             </TouchableOpacity>
