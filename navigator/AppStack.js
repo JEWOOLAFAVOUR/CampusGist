@@ -12,6 +12,10 @@ import Onboarding from '../screens/AuthScreen/Onboarding';
 import MarketDetail from '../screens/CampusCircle/MarketDetail';
 import MarketMore from '../screens/CampusCircle/MarketMore';
 import MarketCategory from '../screens/CampusCircle/MarketCategory';
+import HotMore from '../screens/CampusCircle/HotMore';
+import RestaurantDetail from '../screens/CampusCircle/RestaurantDetail';
+import DiscussionDetail from '../screens/ForumScreen/DiscussionDetail';
+import CreateDiscussion from '../screens/ForumScreen/CreateDiscussion';
 
 const AppStack = () => {
     const Stack = createNativeStackNavigator();
@@ -31,8 +35,12 @@ const AppStack = () => {
             <Stack.Screen name="MarketDetail" component={MarketDetail} />
             <Stack.Screen name="MarketMore" component={MarketMore} />
             {/* MARKET BY CATEGORY */}
-            <Stack.Screen name='MarketCategory' component={MarketCategory}
-            />
+            <Stack.Screen name='MarketCategory' component={MarketCategory} />
+            <Stack.Screen name='HotMore' component={HotMore} />
+            <Stack.Screen name='RestaurantDetail' component={RestaurantDetail} />
+            {/* FORUM */}
+            <Stack.Screen name='DiscussionDetail' component={DiscussionDetail} />
+            <Stack.Screen name='CreateDiscussion' component={CreateDiscussion} />
 
         </Stack.Navigator>
     )

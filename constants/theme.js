@@ -47,8 +47,9 @@ export const SIZES = {
     body1: screenHeight * 0.0355,
     body2: screenHeight * 0.025,
     body3: screenHeight * 0.02,
-    body3a: screenHeight * 0.02,
+    body3a: screenHeight * 0.019,
     body3b: screenHeight * 0.022,
+    body3c: screenHeight * 0.0175,
     body4: screenHeight * 0.0175,
     body5: screenHeight * 0.015,
     intro: screenHeight * 0.04,
@@ -134,6 +135,10 @@ export const FONTS = {
     }, body3b: {
         fontFamily: 'Roboto-Regular',
         fontSize: SIZES.body3b,
+        lineHeight: 22,
+    }, body3c: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: SIZES.body3c,
         lineHeight: 22,
     },
     body4: {

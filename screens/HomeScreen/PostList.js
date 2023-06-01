@@ -15,21 +15,19 @@ import NetInfo from '@react-native-community/netinfo';
 
 
 
-const PostList = ({ data, ...props }) => {
+const PostList = ({ data }) => {
     const [commentRec, setCommentRec] = useState(data.comment)
     const [loveRec, setLoveRec] = useState(data.like)
     const [click, setClick] = useState(false)
     const navigation = useNavigation()
     const { thumbnail } = data;
-    const [liked, setLiked] = useState(data.like);
+    const [liked, setLiked] = useState(data.likedByCurrentUser);
     const [likeCount, setLikeCount] = useState(data.like);
 
     const [k, setK] = useState(false)
     const [commentErr, setCommentErr] = useState(false)
-    console.log('dataaaaaaaaaa', data)
+    // console.log('dataaaaaaaaaa', data)
 
-    // access token
-    const accessToken = props.accessToken
 
     const getThumbnail = (uri) => {
         if (uri) return { uri }
@@ -37,19 +35,23 @@ const PostList = ({ data, ...props }) => {
         return images.image6
     }
 
-    const handleToggle = async (postId, accessToken) => {
-        console.log('firstdddddddd', postId)
+    const handleToggle = async (postId) => {
+        // Check if the post is currently liked or not
+        if (liked) {
+            // Perform the unlike operation
+            const data = await handleUnlike(postId);
+            setLiked(false);
+            setLikeCount(likeCount - 1);
+            console.log('response from toggle', data);
+        } else {
+            // Perform the like operation
+            const data = await handleLike(postId);
+            setLiked(true);
+            setLikeCount(likeCount + 1);
+            console.log('response from toggle', data);
+        }
+    };
 
-
-        const data = await handleLike(postId, accessToken)
-        // setLiked(!liked + 1)
-        setLiked(!liked)
-        setLikeCount(liked ? likeCount - 1 : likeCount + 1)
-
-        console.log('response from toogle', data)
-        // console.log('data hhhh', message)
-
-    }
 
     const withNetworkCheck = (fn) => async (...args) => {
         try {
@@ -151,7 +153,7 @@ const PostList = ({ data, ...props }) => {
                         <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{commentRec}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleToggle(data.id, accessToken)} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.base * 1.5 }}>
+                    <TouchableOpacity onPress={() => handleToggle(data.id)} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.base * 1.5 }}>
                         <Image source={liked ? icons.love1 : icons.love2} style={{ height: SIZES.h2, width: SIZES.h2, tintColor: COLORS.orange }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{likeCount}</Text>
                     </TouchableOpacity>

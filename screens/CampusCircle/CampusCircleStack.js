@@ -36,10 +36,10 @@ const CampusCircleStack = () => {
                     name='Marketp'
                     component={Market}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='HotMore'
                     component={HotMore}
-                />
+                /> */}
                 <Stack.Screen
                     name='OldMarket'
                     component={OldMarket}
@@ -48,10 +48,10 @@ const CampusCircleStack = () => {
                     name='CircleListDetails'
                     component={CircleListDetails}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='RestaurantDetail'
                     component={RestaurantDetail}
-                />
+                /> */}
                 {/* <Stack.Screen
                     name='MarketCategory'
                     component={MarketCategory}

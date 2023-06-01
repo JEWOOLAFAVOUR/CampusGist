@@ -22,10 +22,6 @@ const RestaurantDetail = ({ route, ...props }) => {
     const navigation = useNavigation();
 
     const accessToken = props.accessToken
-    useEffect(() => {
-        navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
-        return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
-    }, [navigation]);
 
     const getImage = (uri) => {
         if (uri) return { uri };

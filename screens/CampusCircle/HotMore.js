@@ -1,21 +1,21 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, RefreshControl, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
-import { getPopularFood, getRecommendedFood } from '../../api/campuscircle';
+import { getPopularFood, getRecommendedFood, getRestaurantById } from '../../api/campuscircle';
 import Roller from '../../components/Roller';
 import RenderEmpty from '../../components/RenderEmpty';
+import { useNavigation } from '@react-navigation/native';
 
 
-const HotMore = ({ navigation }) => {
-    useEffect(() => {
-        navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
-        return () => navigation.getParent()?.setOptions({ tabBarStyle: undefined });
-    }, [navigation]);
+const HotMore = () => {
+    const navigation = useNavigation();
 
     const [recommend, setRecommend] = useState([])
     const [popular, setPopular] = useState([])
     const [load, setLoad] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
+    const [loader, setLoader] = useState(false)
+
 
 
     const [select, setSelect] = useState(true)
@@ -95,17 +95,29 @@ const HotMore = ({ navigation }) => {
 
         return images.profile2
     }
-    const _renderEmpty = () => {
-        return (
-            <View style={{}}>
-                <ActivityIndicator color={COLORS.orange} size={40} />
-                <Text style={{ ...FONTS.body3a, }}>Loading foods</Text>
-            </View>
-        )
-    }
+    const fetchRestaurantById = async (postId) => {
+        try {
+            console.log('.....', postId)
+            // setLoader(false); // Set the loader to be visible
+            setLoader(true); // Set the loader to be visible
+            const { error, restaurant, success } = await getRestaurantById(postId);
+            console.log('single-restaurant', restaurant);
+            if (success === true) {
+                navigation.navigate('RestaurantDetail', { restaurant });
+            } else {
+                ToastAndroid.show("Check Internet Connectivity!", ToastAndroid.SHORT);
+            }
+            setLoader(false)
+        } catch (error) {
+            console.error('Error fetching restaurant: ', error);
+            setLoader(false)
+        } finally {
+            setLoader(false); // Set the loader to be hidden
+        }
+    };
     const RenderTemplate = ({ item }) => {
         return (
-            <View style={{
+            <TouchableOpacity onPress={() => fetchRestaurantById(item.restaurantId)} style={{
                 marginRight: 10, borderColor: COLORS.chocolateBackground, borderWidth: 1, borderRadius: SIZES.base * 0.9,
                 width: SIZES.width * 0.805
             }}>
@@ -136,7 +148,7 @@ const HotMore = ({ navigation }) => {
                 </View>
                 {/* SECOND FLEX  */}
                 <Text style={{ color: COLORS.black, ...FONTS.body3a }}>{item.restaurant}</Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -196,6 +208,7 @@ const HotMore = ({ navigation }) => {
     return (
         <View style={styles.page}>
             {load ? <Roller visible={true} /> : null}
+            {loader ? <Roller visible={true} /> : null}
             {/* <Text style={{ ...FONTS.body2c, fontWeight: 'bold', color: COLORS.orange, marginBottom: SIZES.h2, marginHorizontal: SIZES.width * 0.03 }}>Campus Market</Text> */}
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.base, marginLeft: SIZES.base * 1.3 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={{ flex: 0.5 }}>

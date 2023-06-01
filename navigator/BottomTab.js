@@ -8,6 +8,7 @@ import HomeStack from '../screens/HomeScreen/HomeStack';
 import CampusCircleStack from '../screens/CampusCircle/CampusCircleStack';
 import SettingStack from '../screens/SettingScreen/SettingStack';
 import Home from '../screens/HomeScreen/Home';
+import Forum from '../screens/ForumScreen/Forum';
 
 const { width, height } = Dimensions.get('window');
 
@@ -35,6 +36,11 @@ const BottomTab = () => {
                         size = focused ? SIZES.h3 : SIZES.h3,
                             colour = focused ? COLORS.orange : COLORS.brown
                     }
+                    else if (route.name === 'Forum') {
+                        iconName = focused ? icons.about : icons.about
+                        size = focused ? SIZES.h3 : SIZES.h3,
+                            colour = focused ? COLORS.orange : COLORS.brown
+                    }
                     else if (route.name === 'Market') {
                         iconName = focused ? icons.cart2 : icons.cart1
                         size = focused ? SIZES.h3 : SIZES.h3,
@@ -51,6 +57,7 @@ const BottomTab = () => {
             })}
         >
             <Tab.Screen name='Home' component={Home} />
+            <Tab.Screen name='Forum' component={Forum} />
             <Tab.Screen name='Market' component={CampusCircleStack} />
             <Tab.Screen name='Account' component={SettingStack} />
         </Tab.Navigator>

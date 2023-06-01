@@ -34,28 +34,6 @@ const Onboarding = ({ ...props }) => {
 
     const _renderItem = ({ item }) => {
         return (
-            // <View style={styles.slide}>
-            //     {/* <View style={styles.titleContainer}>
-            //         <Text style={styles.title}>{item.title}</Text>
-            //     </View>
-
-            //     <View style={styles.imageContainer}>
-            //         <Image source={item.image} style={styles.image} />
-            //     </View>
-
-            //     <View style={styles.textContainer}>
-            //         <Text style={styles.text}>{item.text}</Text>
-            //     </View> */}
-            //     <View>
-            //         <Text style={{ fontSize: SIZES.body1 * 0.9, fontWeight: 'bold', color: COLORS.primary }}>CampusGist</Text>
-            //         <View style={{}}>
-            //             <Image source={item.image} style={styles.imageSlide} />
-            //             <View style={{ position: 'absolute', bottom: SIZES.h1 * 6, alignSelf: 'center', paddingHorizontal: SIZES.h2 }}>
-            //                 <Text style={styles.slideText}>{item.title}</Text>
-            //             </View>
-            //         </View>
-            //     </View>
-            // </View>
             <View
                 style={{
                     height: screenHeight,

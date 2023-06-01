@@ -70,9 +70,16 @@ const Market = () => {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('MarketCategory', { title: item.title })}>
-                                <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.title}</Text>
-                            </TouchableOpacity>
+                            <>{item.id === 1 ?
+                                <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('HotMore', { title: item.title, })}>
+                                    <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.title}</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('MarketCategory', { title: item.title })}>
+                                    <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.title}</Text>
+                                </TouchableOpacity>
+                            }
+                            </>
                         )
                     }}
                 />

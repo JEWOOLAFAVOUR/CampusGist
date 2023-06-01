@@ -228,14 +228,9 @@ export const handleLike = async (postId) => {
     }
 };
 
-export const handleUnlike = async (postId, token) => {
-    console.log(token, 'token at tis point')
+export const handleUnlike = async (postId) => {
     try {
-        const { data } = await client.delete(`/post/${postId}/toggle-like`, null, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
+        const { data } = await client.post(`/post/${postId}/delete-like`)
 
         console.log('delete', data);
         return data;
