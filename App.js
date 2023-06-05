@@ -12,6 +12,7 @@ import axios from 'axios';
 import { COLORS } from './constants';
 import AppStack from './navigator/AppStack';
 const { MyLightTheme, BASE_URL } = constants;
+import Toast from 'react-native-toast-message'
 
 export const reduxPersistStore = persistStore(reduxStore);
 
@@ -25,17 +26,20 @@ const App = () => {
     })
     const Stack = createNativeStackNavigator();
     return (
-        <Provider store={reduxStore}>
-            <PersistGate persistor={reduxPersistStore}>
-                <StatusBar backgroundColor={COLORS.primary} />
-                <NavigationContainer theme={MyLightTheme}>
-                    <Stack.Navigator initialRouteName='AuthStack' screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name='AuthStack' component={AuthStack} />
-                        <Stack.Screen name='Main' component={AppStack} />
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </PersistGate>
-        </Provider>
+        <>
+            <Provider store={reduxStore}>
+                <PersistGate persistor={reduxPersistStore}>
+                    <StatusBar backgroundColor={COLORS.primary} />
+                    <NavigationContainer theme={MyLightTheme}>
+                        <Stack.Navigator initialRouteName='AuthStack' screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name='AuthStack' component={AuthStack} />
+                            <Stack.Screen name='Main' component={AppStack} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </PersistGate>
+            </Provider>
+            <Toast />
+        </>
     )
 }
 

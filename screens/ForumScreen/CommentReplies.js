@@ -3,55 +3,34 @@ import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
-import { createDiscussionComment, getDiscussionComments } from '../../api/forum'
+import { createDiscussionCommentReplies } from '../../api/forum'
 import Toast from 'react-native-toast-message';
 
-const DiscussionDetail = ({ route }) => {
-    const navigation = useNavigation()
-    const data = route.params?.data;
-    const discussionId = data?.id;
-    const [forumComments, setForumComments] = useState([])
-    const commentData = [{ id: 1 }, { id: 2 }, { id: 3 }]
+
+
+const CommentReplies = ({ route }) => {
+    const data = route?.params?.item;
+    const discussionId = data?.forum_id?._id;
+    const commentId = data?.id;
+
+    // console.log('ddddddddddd', data)
     const [comment, setComment] = useState('')
-    console.log('lllllllll', comment)
+    console.log('cool', comment)
 
-    const fetchDiscussionComments = async () => {
-        const { comments, error } = await getDiscussionComments(data?.id);
-        if (error) return console.log('market-error', error)
-        setForumComments(comments)
-        console.log('forum comments fetched', comments)
-    }
-
-    useEffect(() => {
-        fetchDiscussionComments();
-    }, [])
-
-    const getImage = (uri) => {
-        if (uri) return { uri };
-        return images.avatar;
-    }
-
-    const handleSubmitComment = async (discussionId, comment) => {
-        if (comment.trim() === "") {
+    const handleSubmitComment = async (discussionId, commentId) => {
+        console.log('goof to know', discussionId, commentId)
+        const { data, message, error, status } = createDiscussionCommentReplies(discussionId, commentId.comment);
+        if (error) return console.log('Adding comment error', error)
+        if (status === true) {
             Toast.show({
-                type: 'error',
-                text1: 'Input a comment to continue!',
+                type: 'success',
+                text1: 'Comment Added 👋',
                 visibilityTime: 1000,
             });
-        } else {
-            console.log('kkkkkkkkkk', comment)
-            const { data, message, error, status } = await createDiscussionComment(discussionId, comment);
-            if (error) return console.log('Adding comment error', error)
-            if (status === true) {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Comment Added 👋',
-                    visibilityTime: 1000,
-                });
-                setComment('')
-            }
-            console.log('adding comment success', data, message)
+            setComment('')
         }
+        console.log('adding comment success', data, message)
+
     }
 
     const RenderHeader = () => {
@@ -117,65 +96,11 @@ const DiscussionDetail = ({ route }) => {
             </View>
         )
     }
-    const RenderFooter = () => {
-        return (
-            <View>
-                <FlatList
-                    data={forumComments}
-                    renderItem={({ item }) => {
-                        return (
-                            <View>
-                                <View style={[styles.commentCtn, { flex: 1 }]}>
-                                    <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.5, width: SIZES.h1 * 1.5, borderRadius: 100 }} />
-                                    <View style={{ marginLeft: SIZES.body4, flex: 1 }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text>{`${item?.user_id?.firstName} ${item?.user_id?.lastName}`}</Text>
-                                            <Text> - 4 hours ago</Text>
-                                        </View>
-                                        <Text style={{ ...FONTS.body4, color: COLORS.black }}>{item.comment}</Text>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: SIZES.base }}>
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Image source={icons.love} style={{ height: SIZES.h3, width: SIZES.h3, }} />
-                                                <Text>{item.reactions}</Text>
-                                            </View>
-                                            <TouchableOpacity onPress={() => navigation.navigate('CommentReplies', { item })} style={{ marginLeft: SIZES.h5 }}>
-                                                <Text style={{ borderRadius: SIZES.base * 0.6, ...FONTS.body4, paddingHorizontal: SIZES.base, paddingVertical: SIZES.base / 5, backgroundColor: COLORS.primary, color: COLORS.white }}>Reply</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                                {/* RULER  */}
-                                <View style={{ height: 1, backgroundColor: COLORS.chocolateBackground, marginBottom: SIZES.base, elevation: 0.5 }} />
-                            </View>
-                        )
-                    }}
-                />
-            </View>
-        )
-    }
     return (
         <View style={styles.page}>
-            <View style={{ paddingHorizontal: SIZES.width * 0.045, paddingTop: SIZES.base, flex: 1 }}>
-                <View style={{ marginBottom: SIZES.h3, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Image source={icons.arrowleft} style={{ height: SIZES.h2, width: SIZES.h2, }} />
-                    </TouchableOpacity>
-                    <Text style={{ ...FONTS.body1, color: COLORS.primary, fontWeight: 'bold', letterSpacing: 2 }}>DISCUSSIONS</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity>
-                            <Image source={icons.search} style={{ height: SIZES.h2, width: SIZES.h2, marginRight: SIZES.h2 }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Image source={icons.search} style={{ height: SIZES.h2, width: SIZES.h2, }} />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                {/* STARTING  */}
+            <View style={{ flex: 1, paddingHorizontal: SIZES.width * 0.05, }}>
                 <FlatList
-                    data={''}
                     ListHeaderComponent={RenderHeader}
-                    ListFooterComponent={RenderFooter}
                 />
             </View>
             {/* INPUT CTN */}
@@ -188,7 +113,7 @@ const DiscussionDetail = ({ route }) => {
                         onChangeText={(value) => setComment(value)}
                         style={{ ...FONTS.body3a, color: COLORS.black, flex: 1 }}
                     />
-                    <TouchableOpacity onPress={() => handleSubmitComment(discussionId, comment)}>
+                    <TouchableOpacity onPress={() => handleSubmitComment(discussionId, commentId)}>
                         <Image source={icons.send} style={{ height: SIZES.h3, width: SIZES.h3 }} />
                     </TouchableOpacity>
                 </View>
@@ -197,16 +122,13 @@ const DiscussionDetail = ({ route }) => {
     )
 }
 
-export default DiscussionDetail
+export default CommentReplies
 
 const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: COLORS.white,
-    },
-    commentCtn: {
-        flexDirection: 'row',
-        marginBottom: SIZES.h5,
+        paddingTop: SIZES.h4,
     },
     inputCtn: {
         height: SIZES.h1 * 2.5,

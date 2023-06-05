@@ -19,8 +19,8 @@ const makeApiRequest = async (method, endpoint, data) => {
 };
 
 // DISCUSSION
-export const createDiscussion = async () => {
-    const response = await makeApiRequest('POST', '/forum/create-discussion');
+export const createDiscussion = async (data) => {
+    const response = await makeApiRequest('POST', '/forum/create-discussion', data);
     return response;
 };
 
@@ -29,20 +29,29 @@ export const getAllDiscussion = async () => {
     return response;
 };
 
-// DISCUSSION COMMENT
-export const createDiscussionComment = async () => {
-    const response = await makeApiRequest('POST', '/forum/create-discussion-comment');
+// GET ALL CATEGORY
+export const getAllForumCategory = async () => {
+    const response = await makeApiRequest('GET', '/forum/get-all-forum-category');
     return response;
 };
 
-export const getDiscussionComments = async () => {
-    const response = await makeApiRequest('GET', '/forum/get-all-discussion-comment');
+// DISCUSSION COMMENT
+export const createDiscussionComment = async (discussionId, comment) => {
+    console.log('fffffffffffffffff', comment)
+    const data = { comment };
+    const response = await makeApiRequest('POST', `/forum/${discussionId}/create-discussion-comment`, data);
+    return response;
+};
+
+export const getDiscussionComments = async (discussionId) => {
+    const response = await makeApiRequest('GET', `/forum/${discussionId}/get-all-discussion-comment`);
     return response;
 };
 
 // DISCUSSION COMMENT REPLIES 
-export const createDiscussionCommentReplies = async () => {
-    const response = await makeApiRequest('POST', '/forum/create-discussion-comment-reply');
+export const createDiscussionCommentReplies = async (discussionId, commentId, comment) => {
+    const body = { comment }
+    const response = await makeApiRequest('POST', `/forum/${discussionId}/${commentId}/create-discussion-comment-reply`, body);
     return response;
 };
 
@@ -52,13 +61,13 @@ export const getDiscussionCommentsReplies = async () => {
 };
 
 // DISCUSSION TOOGLE
-export const forumToogleLike = async () => {
-    const response = await makeApiRequest('POST', '/forum/toogle-like');
+export const forumToogleLike = async (postId) => {
+    const response = await makeApiRequest('POST', `/forum/${postId}/toggle-like`);
     return response;
 };
 
-export const forumRemoveLike = async () => {
-    const response = await makeApiRequest('POST', '/forum/delete-like');
+export const forumRemoveLike = async (postId) => {
+    const response = await makeApiRequest('POST', `/forum/${postId}/delete-like`);
     return response;
 };
 

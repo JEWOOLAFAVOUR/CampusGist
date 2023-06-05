@@ -487,9 +487,9 @@ const AllGist = ({ ...props }) => {
   return (
     <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
       {/* <Slider /> */}
-      {load ? <Roller visible={true} /> : null}
+      {/* {load ? <Roller visible={true} /> : null}
       {loading && <Roller visible={true} />}
-      {k ? <Roller visible={true} /> : null}
+      {k ? <Roller visible={true} /> : null} */}
       {commentErr && <Toast message="Network Error" type="fail" />}
       <View style={{ paddingHorizontal: SIZES.width * 0.03, marginTop: SIZES.h4, marginBottom: SIZES.h1 * 2 }}>
         <FlatList
