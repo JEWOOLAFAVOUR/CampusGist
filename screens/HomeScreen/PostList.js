@@ -149,7 +149,7 @@ const PostList = ({ data }) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: SIZES.base * 0.5 }}>
                     <Text style={{ ...FONTS.body4, color: COLORS.chocolate }}>{formattedTime}</Text>
                     <Text style={{ marginHorizontal: SIZES.base }}>-</Text>
-                    <TouchableOpacity onPress={() => setCommentRec(commentRec + 1)} style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.base * 1.5 }}>
+                    <TouchableOpacity /* onPress={() => setCommentRec(commentRec + 1)} */ style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: SIZES.base * 1.5 }}>
                         <Image source={icons.comment2} style={{ height: SIZES.h4 * 1.2, width: SIZES.h4 * 1.2, }} />
                         <Text style={{ marginLeft: SIZES.base * 0.8 }}>{commentRec}</Text>
                     </TouchableOpacity>

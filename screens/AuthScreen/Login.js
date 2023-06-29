@@ -78,7 +78,7 @@ const Login = ({ ...props }) => {
             setShowToast2(false)
             setShowToast2(true)
             setTimeout(() => {
-                // navigation.replace('Main', { screen: 'Bottom' });
+                navigation.replace('Main', { screen: 'Bottom' });
             }, 1000);
             updateUserLogin(data.user, true)
 

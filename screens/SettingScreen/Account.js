@@ -141,15 +141,15 @@ const Account = ({ ...props }) => {
                     </View>
                     <View style={styles.highlightCtn}>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{data?.postCount}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>0</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}> Posts</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{data?.followers}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{data?.totalFollowers}</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Follower</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary }}>{data?.following}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary }}>{data?.totalFollowing}</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Following</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>

@@ -24,3 +24,15 @@ export const appOpen = async () => {
     console.log('app opens response', response)
     return response;
 };
+
+export const followUser = async (userId) => {
+    const response = await makeApiRequest('POST', `/user/follow-user/${userId}`);
+    console.log('following user', response)
+    return response;
+};
+
+export const unFollowUser = async (userId) => {
+    const response = await makeApiRequest('POST', `/user/unfollow-user/${userId}`);
+    console.log('unfollo user response', response)
+    return response;
+};

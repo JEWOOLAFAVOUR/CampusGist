@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 import { createDiscussionComment, getDiscussionComments } from '../../api/forum'
 import Toast from 'react-native-toast-message';
+import { getUserById } from '../../api/auth'
 
 const DiscussionDetail = ({ route }) => {
     const navigation = useNavigation()
@@ -13,6 +14,7 @@ const DiscussionDetail = ({ route }) => {
     const [forumComments, setForumComments] = useState([])
     const commentData = [{ id: 1 }, { id: 2 }, { id: 3 }]
     const [comment, setComment] = useState('')
+    const [userId, setUserId] = useState('')
     console.log('lllllllll', comment)
 
     const fetchDiscussionComments = async () => {
@@ -54,6 +56,17 @@ const DiscussionDetail = ({ route }) => {
         }
     }
 
+    const getUser = async () => {
+        if (userId === "") {
+            console.log('')
+        } else {
+            const response = await getUserById(userId);
+            console.log('resssssssss', response)
+            const data = response
+            navigation.navigate('ProfilePage', { data })
+        }
+    }
+
     const RenderHeader = () => {
         const getImage = (uri) => {
             if (uri) return { uri };
@@ -90,7 +103,9 @@ const DiscussionDetail = ({ route }) => {
         return (
             <View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SIZES.base * 1.4 }}>
-                    <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.9, width: SIZES.h1 * 1.9, borderRadius: 100, }} />
+                    <TouchableOpacity onPress={() => getUser(setUserId(data?.author?._id))}>
+                        <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.9, width: SIZES.h1 * 1.9, borderRadius: 100, }} />
+                    </TouchableOpacity>
                     <View style={{ marginLeft: SIZES.base, flex: 1 }}>
                         <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>{`${data?.author?.firstName} ${data?.author?.lastName}`}</Text>
                         <View style={{ marginTop: SIZES.base / 2, flexDirection: 'row', alignItems: 'center' }}>
@@ -126,7 +141,9 @@ const DiscussionDetail = ({ route }) => {
                         return (
                             <View>
                                 <View style={[styles.commentCtn, { flex: 1 }]}>
-                                    <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.5, width: SIZES.h1 * 1.5, borderRadius: 100 }} />
+                                    <TouchableOpacity onPress={() => getUser(setUserId(item?.user_id?._id))}>
+                                        <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.5, width: SIZES.h1 * 1.5, borderRadius: 100 }} />
+                                    </TouchableOpacity>
                                     <View style={{ marginLeft: SIZES.body4, flex: 1 }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <Text>{`${item?.user_id?.firstName} ${item?.user_id?.lastName}`}</Text>

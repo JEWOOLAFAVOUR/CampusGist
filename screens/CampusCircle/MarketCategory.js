@@ -8,20 +8,20 @@ import Roller from '../../components/Roller'
 
 const MarketCategory = ({ route }) => {
     const navigation = useNavigation();
+    const [categoryId, setCategoryId] = useState(route?.params?.id);
     const [title, setTitle] = useState(route?.params?.title);
     const [load, setLoad] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    console.log('title', title)
     const [categoryMarket, setCategoryMarket] = useState([]);
     console.log('lllllll', categoryMarket)
 
     const getMarkets = async () => {
-        const response = await getMarketByCategory(title)
+        const response = await getMarketByCategory(categoryId)
         const { markets, error } = response;
         if (error) return console.log('market-error', error)
 
-        console.log('market data', response)
-        setCategoryMarket(markets)
+        console.log('market data', markets)
+        setCategoryMarket(markets?.markets)
     }
 
     useEffect(() => {

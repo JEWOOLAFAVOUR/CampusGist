@@ -19,6 +19,7 @@ export const close = require('../assets/icons/close.png')
 export const comment = require('../assets/icons/comment.png')
 export const comment2 = require('../assets/icons/comment2.png')
 export const contact = require('../assets/icons/contact.png')
+export const create = require('../assets/icons/create.png')
 export const done = require('../assets/icons/done.png')
 export const entertainment = require('../assets/icons/entertainment.png')
 export const eye = require('../assets/icons/eye.png')
@@ -74,6 +75,7 @@ export default {
     comment,
     comment2,
     contact,
+    create,
     done,
     entertainment,
     eye,

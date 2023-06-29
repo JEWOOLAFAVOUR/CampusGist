@@ -6,6 +6,7 @@ import DiscussionTemplate from './DiscussionTemplate'
 import { useNavigation } from '@react-navigation/native'
 import { getAllDiscussion, getAllForumCategory } from '../../api/forum'
 import Toast from 'react-native-toast-message';
+import Ruler from '../../components/Ruler'
 
 const Forum = () => {
     const navigation = useNavigation()
@@ -33,14 +34,12 @@ const Forum = () => {
         console.log('get all categories', categories)
     }
 
-
     const handleRefresh = () => {
         setRefreshing(true);
         fetchAllDiscussion();
         fetchAllCategory();
         setRefreshing(false);
     };
-
 
     useEffect(() => {
         fetchAllDiscussion();
@@ -85,43 +84,49 @@ const Forum = () => {
 
         return (
             <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold' }}>Forum</Text>
-                    <TouchableOpacity>
-                        <Text style={{ ...FONTS.body3a, color: COLORS.primary }}>View All</Text>
-                    </TouchableOpacity>
+                <View style={{ paddingHorizontal: SIZES.width * 0.04, }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold' }}>Forum</Text>
+                        <TouchableOpacity>
+                            <Text style={{ ...FONTS.body3a, color: COLORS.primary }}>View All</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <FlatList
+                        data={categoryData.slice(0, 4)}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity onPress={() => navigation.navigate('DiscussionCategory', { forumName: item.name })} style={styles.forumCtn}>
+                                    <Text style={{ ...FONTS.body3a, color: COLORS.white }}>{item.name}</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                                        <Image source={icons.person} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: COLORS.white }} />
+                                        <Text style={{ ...FONTS.body4, color: COLORS.white, marginLeft: SIZES.base / 2 }}>{item.topics}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
+                    <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', marginTop: SIZES.h5, marginBottom: SIZES.base }}>Discussions</Text>
+                    {/* RULER  */}
                 </View>
-                <FlatList
-                    data={categoryData}
-                    numColumns={3}
-                    columnWrapperStyle={{ justifyContent: 'space-between' }}
-                    renderItem={({ item }) => {
-                        return (
-                            <TouchableOpacity style={styles.forumCtn}>
-                                <Text style={{ ...FONTS.body3, color: COLORS.white }}>{item.name}</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                                    <Image source={icons.person} style={{ height: SIZES.h2 * 0.8, width: SIZES.h2 * 0.8, tintColor: COLORS.white }} />
-                                    <Text style={{ ...FONTS.body4, color: COLORS.white, marginLeft: SIZES.base / 2 }}>{item.topics}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )
-                    }}
-                />
-                <Text style={{ ...FONTS.body2c, color: COLORS.black, fontWeight: 'bold', marginTop: SIZES.h5, marginBottom: SIZES.base }}>Discussions</Text>
+                <View style={{ height: 0.4, backgroundColor: COLORS.black }} />
             </View>
         )
     }
     return (
         <View style={styles.page}>
-            <View style={{ marginBottom: SIZES.base, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={{ marginBottom: SIZES.base, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: SIZES.width * 0.04, }}>
                 <Image source={icons.call} style={{ height: SIZES.h2, width: SIZES.h2, }} />
                 <Text style={{ ...FONTS.body1, color: COLORS.primary, fontWeight: 'bold', letterSpacing: 2 }}>DISCOVER</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity>
-                        <Image source={icons.search} style={{ height: SIZES.h2, width: SIZES.h2, marginRight: SIZES.h2 }} />
+                        <Image source={icons.search} style={{ height: SIZES.h2, width: SIZES.h2, marginRight: SIZES.h1 }} />
+                        <Text style={{ ...FONTS.body5, color: COLORS.black, }}>Search</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('CreateDiscussion')}>
-                        <Image source={icons.search} style={{ height: SIZES.h2, width: SIZES.h2, }} />
+                    <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate('CreateDiscussion')}>
+                        <Image source={icons.create} style={{ height: SIZES.h2, width: SIZES.h2, }} />
+                        <Text style={{ ...FONTS.body5, color: COLORS.black, }}>Add</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -148,8 +153,8 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         backgroundColor: COLORS.white,
-        paddingHorizontal: SIZES.width * 0.04,
         paddingTop: SIZES.base,
+        paddingBottom: SIZES.h4,
     },
     forumCtn: {
         height: SIZES.h1 * 3.3,
@@ -159,5 +164,6 @@ const styles = StyleSheet.create({
         paddingVertical: SIZES.base,
         borderRadius: SIZES.base / 1.5,
         marginTop: SIZES.base,
+        marginRight: SIZES.h5 * 0.7,
     },
 })

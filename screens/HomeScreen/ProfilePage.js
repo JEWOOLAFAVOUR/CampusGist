@@ -1,19 +1,25 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { COLORS, SIZES, FONTS, images, icons } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 // import Header from '../../components/Header'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LikeProduct from '../SettingScreen/LikeProduct';
+import { followUser, unFollowUser } from '../../api/newfeatures/feature1';
+import Toast from 'react-native-toast-message';
 
 const ProfilePage = ({ route }) => {
     // console.log('route comign', route)
     // console.log('This is the account props', props)
     const data = route.params?.data;
+    const [isFollow, setIsFollow] = useState(data?.isFollowing);
+    const userId = data?._id;
     console.log('data from route', data)
     const avatar = data?.avatar?.url
     const navigation = useNavigation()
+    const [totalFollowers, setTotalFollowers] = useState(data?.totalFollowers)
+
 
     const getImage = (uri) => {
         if (uri) return { uri };
@@ -21,25 +27,68 @@ const ProfilePage = ({ route }) => {
         return images.avatar;
     }
 
+    const handleToggleFollow = async (userId) => {
+        // Check if the post is currently liked or not
+        if (isFollow) {
+            // Perform the unlike operation
+            const data = await unFollowUser(userId);
+            setIsFollow(false)
+            Toast.show({
+                type: 'success',
+                text1: 'Successfully Unfollow',
+                visibilityTime: 1000,
+            });
+            // setLiked(false);
+            setTotalFollowers(totalFollowers - 1);
+            console.log('response from toggle', data);
+        } else {
+            // Perform the like operation
+            const data = await followUser(userId);
+            setTotalFollowers(totalFollowers + 1);
+            setIsFollow(!isFollow)
+            Toast.show({
+                type: 'success',
+                text1: 'Successfully Follow',
+                visibilityTime: 1000,
+            });
+            // setLiked(true);
+            // setLikeCount(likeCount + 1);
+            console.log('response from toggle', data);
+        }
+    };
+
+    // const handleFollow = async (userId) => {
+    //     const { status, error } = await followUser(userId);
+    //     // const { status, error } = await unFollowUser(userId);
+    //     if (error) return console.log('error while following', error)
+
+    //     console.log('kkkk', status)
+    // }
+
     return (
         <View style={styles.page}>
-            <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.h4 }}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: SIZES.h2, height: SIZES.h1 * 1.2, width: SIZES.h1 * 1.2, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ paddingHorizontal: SIZES.width * 0.05, paddingTop: SIZES.base, }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginBottom: SIZES.base * 0.1, height: SIZES.h1 * 1.2, width: SIZES.h1 * 1.2, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={icons.arrowleft2} style={{ height: SIZES.h1, width: SIZES.h1 }} />
                 </TouchableOpacity>
+                {/* NAME START */}
                 <View style={styles.container}>
                     <View style={styles.imageRadius}>
-                        <Image source={getImage(avatar)} style={{ height: SIZES.h1 * 3, width: SIZES.h1 * 3, borderRadius: 100 }} />
+                        <Image source={getImage(avatar)} style={{ height: SIZES.h1 * 2.55, width: SIZES.h1 * 2.55, borderRadius: 100 }} />
                     </View>
-                    <View style={{ marginLeft: SIZES.h3 }}>
+                    <View style={{ marginLeft: SIZES.h4, flex: 1 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ ...FONTS.h2, color: COLORS.black, textTransform: 'capitalize' }}>{`${data.firstName}`}</Text>
                             <Text style={{ ...FONTS.h2, color: COLORS.black, textTransform: 'capitalize' }}>{` ${data.lastName}`}</Text>
                         </View>
                         <Text style={{ ...FONTS.body4, color: COLORS.chocolate, textTransform: 'lowercase' }}>@{data?.username}</Text>
                     </View>
+                    {/* FOLLOW CTN */}
+                    <TouchableOpacity onPress={() => handleToggleFollow(userId)} style={styles.followCtn}>
+                        <Text style={{ ...FONTS.body3a, color: COLORS.white, }}>{isFollow ? "Following" : "Follow"}</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={{ marginTop: SIZES.h3, }}>
+                <View style={{ marginTop: SIZES.base, }}>
                     <Text style={{ ...FONTS.body3, color: COLORS.black, fontWeight: 'bold' }}>{data?.level} - {data?.gender}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         {/* <Text numberOfLines={2} style={{ ...FONTS.body4, color: COLORS.blue }}>Eyinjueledumare🤡 Style to apply to the view wrapping each screen. You can pass this to override some default styles such as overflow clipping.</Text> */}
@@ -54,11 +103,11 @@ const ProfilePage = ({ route }) => {
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}> Posts</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{data.followers}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary, }}>{totalFollowers}</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Follower</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ ...FONTS.h3, color: COLORS.primary }}>{data.following}</Text>
+                            <Text style={{ ...FONTS.h3, color: COLORS.primary }}>{data?.totalFollowing}</Text>
                             <Text style={{ color: COLORS.blue, ...FONTS.body4 }}>Following</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
@@ -98,8 +147,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     imageRadius: {
-        height: SIZES.h1 * 3.15,
-        width: SIZES.h1 * 3.15,
+        height: SIZES.h1 * 2.7,
+        width: SIZES.h1 * 2.7,
         borderRadius: 100,
         borderWidth: 4,
         justifyContent: 'center',
@@ -124,11 +173,19 @@ const styles = StyleSheet.create({
     highlightCtn: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: SIZES.h4,
-        height: SIZES.h1 * 2.5,
+        marginTop: SIZES.h5,
+        height: SIZES.h1 * 2.2,
         backgroundColor: COLORS.grey2,
         borderRadius: SIZES.h2,
         justifyContent: 'space-between',
         paddingHorizontal: SIZES.h4 * 1.4,
+    },
+    followCtn: {
+        height: SIZES.h1 * 1.1,
+        width: SIZES.h1 * 2.6,
+        backgroundColor: COLORS.primary,
+        borderRadius: SIZES.base,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

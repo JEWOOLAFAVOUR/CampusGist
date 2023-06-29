@@ -3,25 +3,33 @@ import React, { useState, useEffect } from 'react'
 import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { oldMarketData } from './CampusCircleData';
 import Modal from 'react-native-modal';
-import { getAllMarket, getMarketById } from '../../api/campuscircle';
+import { getAllCategory, getAllMarket, getMarketById } from '../../api/campuscircle';
 import { useNavigation } from '@react-navigation/native';
 import MarketTemplate from './MarketTemplate';
 import Roller from '../../components/Roller';
 
 const Market = () => {
     const navigation = useNavigation();
-    const categoryData = [
-        { id: 1, title: 'Foods', },
-        { id: 2, title: 'Fashion', },
-        { id: 3, title: 'Hostel', },
-        { id: 4, title: 'Electronics', },
-    ];
+    // const categoryData = [
+    //     { id: 1, title: 'Foods', },
+    //     { id: 2, title: 'Fashion', },
+    //     { id: 3, title: 'Hostel', },
+    //     { id: 4, title: 'Electronics', },
+    // ];
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
     const [markets, setMarkets] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
     const [load, setLoad] = useState(true)
+
+    const fetchAllMarketCategory = async () => {
+        const { categories, error } = await getAllCategory();
+        if (error) return console.log('error fetching markets category', error)
+        console.log('market category fetched', categories)
+        setCategoryData(categories)
+    }
 
     const fetchAllMarket = async () => {
         const { markets, error } = await getAllMarket();
@@ -36,6 +44,7 @@ const Market = () => {
                 setLoad(true)
                 await Promise.all([
                     fetchAllMarket(),
+                    fetchAllMarketCategory(),
                 ])
                 setLoad(false)
             } catch (error) {
@@ -70,16 +79,16 @@ const Market = () => {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => {
                         return (
-                            <>{item.id === 1 ?
-                                <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('HotMore', { title: item.title, })}>
-                                    <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.title}</Text>
-                                </TouchableOpacity>
-                                :
-                                <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('MarketCategory', { title: item.title })}>
-                                    <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.title}</Text>
-                                </TouchableOpacity>
-                            }
-                            </>
+                            // <>{item.id === 1 ?
+                            //     <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('HotMore', { title: item.name, })}>
+                            //         <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.name}</Text>
+                            //     </TouchableOpacity>
+                            //     :
+                            <TouchableOpacity style={styles.categoryCtn} onPress={() => navigation.navigate('MarketCategory', { title: item.name, id: item.id })}>
+                                <Text style={{ ...FONTS.body4, color: COLORS.white, }}>{item.name}</Text>
+                            </TouchableOpacity>
+                            // }
+                            // </>
                         )
                     }}
                 />
@@ -137,9 +146,9 @@ const Market = () => {
                         data={categoryData}
                         renderItem={({ item }) => {
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('MarketCategory', { title: item.title })}>
+                                <TouchableOpacity onPress={() => navigation.navigate('MarketCategory', { title: item.name, id: item.id })}>
                                     <View style={{ marginHorizontal: SIZES.h1 }}>
-                                        <Text style={{ ...FONTS.h3, color: COLORS.black, }}>{item.title}</Text>
+                                        <Text style={{ ...FONTS.h3, color: COLORS.black, }}>{item.name}</Text>
                                     </View>
                                     <View style={{ height: 1.4, backgroundColor: COLORS.chocolateBackground, marginVertical: SIZES.h4 * 1.1 }} />
                                 </TouchableOpacity>

@@ -4,12 +4,21 @@ import { COLORS, icons, SIZES, images, FONTS } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 import { forumRemoveLike, forumToogleLike } from '../../api/forum'
+import Ruler from '../../components/Ruler'
+import { getUserById } from '../../api/auth'
 
 const DiscussionTemplate = ({ data }) => {
     const postId = data?.id;
+    const getThumbnail = (uri) => {
+        if (uri) return { uri }
+
+        return null;
+    }
+    // console.log('llllllll', data?.author?._id)
     const navigation = useNavigation();
     const [liked, setLiked] = useState(data.likedByCurrentUser);
     const [likeCount, setLikeCount] = useState(data.reactions);
+    const userId = data?.author?._id;
 
     const handleToggle = async (postId) => {
         // Check if the post is currently liked or not
@@ -28,7 +37,12 @@ const DiscussionTemplate = ({ data }) => {
         }
     };
 
-
+    const getUser = async (userId) => {
+        const response = await getUserById(id = userId);
+        console.log('resssssssss', response)
+        const data = response
+        navigation.navigate('ProfilePage', { data })
+    }
 
     const getImage = (uri) => {
         if (uri) return { uri };
@@ -66,36 +80,53 @@ const DiscussionTemplate = ({ data }) => {
     // console.log(createdAt, 'llllllllllllll')
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('DiscussionDetail', { data })} style={[styles.container]}>
-            <View style={{}}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.8, width: SIZES.h1 * 1.8, borderRadius: 100, }} />
-                    <View style={{ marginLeft: SIZES.base, flex: 1 }}>
-                        <Text style={{ ...FONTS.body3, color: COLORS.primary, fontWeight: 'bold' }}>{data?.author?.username}</Text>
-                        <View style={{ marginTop: SIZES.base / 2, flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ paddingHorizontal: SIZES.base / 1.8, backgroundColor: 'red', borderRadius: SIZES.base / 2, ...FONTS.body5, color: COLORS.white, textTransform: 'uppercase' }}>{data?.category?.name}</Text>
-                            <Text style={{ ...FONTS.body5, marginLeft: SIZES.base, color: COLORS.black }}>{formattedTime}</Text>
+        <View>
+            <TouchableOpacity onPress={() => navigation.navigate('DiscussionDetail', { data })} style={[styles.container]}>
+                <View style={{}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity onPress={() => getUser(userId)}>
+                            <Image source={getImage(data?.author?.avatar)} style={{ height: SIZES.h1 * 1.4, width: SIZES.h1 * 1.4, borderRadius: 100, }} />
+                        </TouchableOpacity>
+                        <View style={{ marginLeft: SIZES.base, flex: 1 }}>
+                            <TouchableOpacity onPress={() => getUser(userId)}>
+                                <Text style={{ ...FONTS.body4, color: COLORS.primary, fontWeight: 'bold' }}>{data?.author?.username}</Text>
+                            </TouchableOpacity>
+                            <View style={{ marginTop: SIZES.base / 2, flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ paddingHorizontal: SIZES.base / 1.8, backgroundColor: 'red', borderRadius: SIZES.base / 2, ...FONTS.body5, color: COLORS.white, textTransform: 'uppercase' }}>{data?.category?.name}</Text>
+                                <Text style={{ ...FONTS.body5, marginLeft: SIZES.base, color: COLORS.black }}>{formattedTime}</Text>
+                            </View>
                         </View>
+                        {/* <Image source={icons.horizontalmenu} style={{ height: SIZES.base, }} /> */}
                     </View>
-                    {/* <Image source={icons.horizontalmenu} style={{ height: SIZES.base, }} /> */}
                 </View>
-            </View>
-            <Text numberOfLines={3} style={{/* flex: 1, */marginVertical: SIZES.h5, ...FONTS.body3a, color: COLORS.black, marginTop: SIZES.base * 0.8 }}>{data?.title}</Text>
-
-            {/* REACTION  */}
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => handleToggle(postId)}>
-                        <Image source={liked ? icons.love1 : icons.love2} style={{ height: SIZES.h3 * 1.1, width: SIZES.h3 * 1.1, marginRight: SIZES.base / 1.7 }} />
+                <Text numberOfLines={3} style={{/* flex: 1, */marginVertical: SIZES.h5, ...FONTS.body3a, color: COLORS.black, marginTop: SIZES.base * 0.8 }}>{data?.title}</Text>
+                {
+                    data?.thumbnail &&
+                    <TouchableOpacity onPress={() => { }} style={styles.contentImageCtn}>
+                        <Image source={getThumbnail(data?.thumbnail?.url)} style={{ height: SIZES.height * 0.3, width: SIZES.width * 0.6, borderRadius: SIZES.h5 }} />
                     </TouchableOpacity>
-                    <Text style={{ ...FONTS.body5, color: COLORS.black }}>{likeCount}</Text>
+                }
+                {/* REACTION  */}
+                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity onPress={() => handleToggle(postId)}>
+                            <Image source={liked ? icons.love1 : icons.love2}
+                                style={{
+                                    height: SIZES.h3 * 1.1, width: SIZES.h3 * 1.1,
+                                    marginRight: SIZES.base / 1.7, tintColor: liked ? COLORS.red : COLORS.red
+                                }} />
+                        </TouchableOpacity>
+                        <Text style={{ ...FONTS.body5, color: COLORS.black }}>{likeCount}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.h4, }}>
+                        <Image source={icons.comment} style={{ height: SIZES.h3 * 1.1, width: SIZES.h3 * 1.1, marginRight: SIZES.base / 1.7 }} />
+                        <Text style={{ ...FONTS.body5, color: COLORS.black }}>{data.comments} Comments</Text>
+                    </View>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: SIZES.h4, }}>
-                    <Image source={icons.comment} style={{ height: SIZES.h3 * 1.1, width: SIZES.h3 * 1.1, marginRight: SIZES.base / 1.7 }} />
-                    <Text style={{ ...FONTS.body5, color: COLORS.black }}>{data.comments} Comments</Text>
-                </View>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+
+            <View style={{ height: 0.5, backgroundColor: COLORS.black }} />
+        </View>
     )
 }
 
@@ -103,15 +134,23 @@ export default DiscussionTemplate
 
 const styles = StyleSheet.create({
     container: {
-        // height: SIZES.height * 0.25,
         borderRadius: SIZES.h5,
-        borderWidth: 1,
+        paddingHorizontal: SIZES.width * 0.04,
+        // borderWidth: 1,
         borderColor: COLORS.chocolateBackground,
         paddingHorizontal: SIZES.h3 * 1.3,
-        paddingVertical: SIZES.h4,
+        paddingVertical: SIZES.base,
         justifyContent: 'center',
-        marginBottom: SIZES.h4,
+        marginBottom: SIZES.base * 0.5,
         // backgroundColor: COLORS.grey2,
         // alignItems: 'center'
+    },
+    contentImageCtn: {
+        height: SIZES.height * 0.3,
+        width: SIZES.width * 0.6,
+        borderWidth: 1,
+        alignSelf: 'center',
+        borderRadius: SIZES.h5,
+        marginBottom: SIZES.h4,
     },
 })

@@ -17,6 +17,7 @@ import RestaurantDetail from '../screens/CampusCircle/RestaurantDetail';
 import DiscussionDetail from '../screens/ForumScreen/DiscussionDetail';
 import CreateDiscussion from '../screens/ForumScreen/CreateDiscussion';
 import CommentReplies from '../screens/ForumScreen/CommentReplies';
+import DiscussionCategory from '../screens/ForumScreen/DiscussionCategory';
 
 const AppStack = () => {
     const Stack = createNativeStackNavigator();
@@ -43,6 +44,7 @@ const AppStack = () => {
             <Stack.Screen name='DiscussionDetail' component={DiscussionDetail} />
             <Stack.Screen name='CreateDiscussion' component={CreateDiscussion} />
             <Stack.Screen name='CommentReplies' component={CommentReplies} />
+            <Stack.Screen name='DiscussionCategory' component={DiscussionCategory} />
 
         </Stack.Navigator>
     )

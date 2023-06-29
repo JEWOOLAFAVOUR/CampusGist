@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { createDiscussion, getAllForumCategory } from '../../api/forum'
 import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-message';
+import io from 'socket.io-client';
 
 const CreateDiscussion = () => {
     const navigation = useNavigation();
@@ -17,7 +18,43 @@ const CreateDiscussion = () => {
     const [title, setTitle] = useState('')
     const [modalVisible, setModalVisible] = useState(false);
 
+    // START 
 
+    const [socket, setSocket] = useState(null);
+    const [discussions, setDiscussions] = useState([]);
+
+    useEffect(() => {
+        console.log('socket fetching')
+        // Connect to the Socket.IO server
+        const socket = io('http://192.168.43.192:4000/api/v1/');
+        // console.log('real socket', socket)
+        setSocket(socket);
+
+
+        // Listen for the newDiscussion event
+        // socket.on('newDiscussion', (newDiscussion) => {
+        //     // Handle the new discussion
+        // setDiscussions((prevDiscussions) => [...prevDiscussions, newDiscussion]);
+        // });
+
+        console.log('Listening for newDiscussion event...');
+        socket.on('newDiscussion', (newDiscussion) => {
+            console.log('New discussion received:', newDiscussion);
+            setDiscussions((prevDiscussions) => [...prevDiscussions, newDiscussion]);
+        });
+
+
+
+        // Clean up the socket connection when unmounting the component
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
+
+
+
+    // END 
     const handleConfirm = () => {
         setModalVisible(false);
         navigation.goBack()
@@ -71,6 +108,7 @@ const CreateDiscussion = () => {
             const data = { title, category: selectedCategoryId }
             console.log('...........', data)
             const { discussion, error, status } = await createDiscussion(data)
+            socket.emit('createDiscussion', data);
             if (error) return console.log('creating discussion error', error)
             console.log(discussion)
             if (status === true) {
